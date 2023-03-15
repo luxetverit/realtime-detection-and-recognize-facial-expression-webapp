@@ -21,10 +21,10 @@
   - 
   
 ### 기술스택
-front : React.js (정제경, 주한솔)
-backend : Django (이재영, 전현준)
-machine learning : python, pytorch, yolo v5, mobilenet v2 (남정우, 최세현)
-architecture : aws ec2, s3, mysql, docker
+front : React.js (정제경, 주한솔)  
+backend : Django (이재영, 전현준)  
+machine learning : python, pytorch, yolo v5, mobilenet v2 (남정우, 최세현)  
+architecture : aws ec2, s3, mysql, docker  
 
 # 팀원
 - 남정우, 이재영, 정제경, 전현준, 주한솔, 최세현
