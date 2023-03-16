@@ -1,0 +1,15 @@
+__pycache__/
+.ipynb_checkpoints/
+checkpoint/
+emo/
+face/
+fer2013/
+model/
+runs/
+*.py
+*.yaml
+*.zip
+*.pt
+*.jpeg
+Untitled?.ipynb
+Untitled.ipynb
