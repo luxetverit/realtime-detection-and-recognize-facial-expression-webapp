@@ -21,8 +21,8 @@
   - 
   
 ### Dataset Google Drive
-https://drive.google.com/drive/folders/1heKfk2ZYwuIufBKBLUPeWKkb6RhMJmGi?usp=share_link
-img_resize_labeling/facedata.yaml for training yolo
+- https://drive.google.com/drive/folders/1heKfk2ZYwuIufBKBLUPeWKkb6RhMJmGi?usp=share_link
+- img_resize_labeling/facedata.yaml for training yolo
   
 ### 기술스택
   - front : React.js (정제경, 주한솔)  
