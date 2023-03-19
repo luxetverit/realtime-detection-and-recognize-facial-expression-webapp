@@ -6,11 +6,10 @@ face/
 fer2013/
 model/
 runs/
-*.yaml
 *.zip
 *.pt
 *.jpeg
 Untitled?.ipynb
 Untitled.ipynb
 webapp/.idea/
-img_resize_labeling/
+
