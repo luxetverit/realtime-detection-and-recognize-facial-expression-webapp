@@ -35,6 +35,7 @@ def question_insert(request):
         'userId': 'dooho',
         'name': '함두호'
     }
+
     return JsonResponse(data)
 
 
