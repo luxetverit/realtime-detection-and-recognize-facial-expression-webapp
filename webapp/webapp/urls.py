@@ -16,11 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from app.test_view import TestView
 from app.views import index, question_insert
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('index', index, name='index'),
-    path('question_insert', question_insert, name='qustion_insert')
+    path('question_insert', question_insert, name='qustion_insert'),
+    path('test', TestView.as_view(), name='test')
+
 ]
