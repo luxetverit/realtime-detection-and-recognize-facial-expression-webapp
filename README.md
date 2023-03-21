@@ -25,7 +25,7 @@
 - img_resize_labeling/facedata.yaml for training yolo
   
 ### 기술스택
-  - front : React.js (정제경, 주한솔)  
+  - front : Django.js (정제경, 주한솔)  
   - backend : Django (이재영, 전현준)  
   - machine learning : python, pytorch, yolo v5, mobilenet v2 (남정우, 최세현)  
   - architecture : aws ec2, s3, mysql, docker  
