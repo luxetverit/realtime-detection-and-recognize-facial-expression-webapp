@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section style="background-color: #ffffff;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">John Smith</h5>
+            <p class="text-muted mb-1">아이디</p>
+            <p class="text-muted mb-4"></p>
+            <div class="d-flex justify-content-center mb-2">
+              <a class="btn btn-primary" href="{% url 'app:userinfo' %}" role="button">회원정보 수정</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 pt-">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">이름</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">Johnatan Smith</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">비밀번호</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">ooooooo</p>
+                  <!-- <button type="button" class="btn btn-light" class="btn float-right" >비밀번호 변경</button> 회원수정페이지에 넣을 기능--> 
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">이메일</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">example@example.com</p>
+              </div>
+            </div>
+            <hr>
+            <!-- <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">업종</p>
+              </div>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      업종
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><button class="dropdown-item" type="button">병원/의원</button></li>
+                      <li><button class="dropdown-item" type="button">Another action</button></li>
+                      <li><button class="dropdown-item" type="button">Something else here</button></li>
+                    </ul>
+                  </div> 회원수정페이지에 넣을 기능
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">(097) 234-5678</p>
+              </div>
+            </div>
+            <hr>   업종이 필요할까요? -->
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">전화번호</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">(098) 765-4321</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+modal
+<div class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

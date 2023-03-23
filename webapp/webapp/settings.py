@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< Updated upstream
+=======
+    'app.apps.AppConfig',
+    'chartjs', #pip install django-chardjs
+>>>>>>> Stashed changes
 ]
 
 MIDDLEWARE = [
@@ -116,7 +121,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+<<<<<<< Updated upstream
 STATIC_URL = 'static/'
+=======
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+>>>>>>> Stashed changes
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
