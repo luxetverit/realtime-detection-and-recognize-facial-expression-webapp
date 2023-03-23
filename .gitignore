@@ -6,17 +6,18 @@ face/
 fer2013/
 model/
 runs/
-*.zip
 *.pt
 *.jpeg
 *.mp4
+*.zip
+*.z01
+*.z02
 Untitled?.ipynb
 Untitled.ipynb
 webapp/.idea/
 migrations/
 ./migrations
-
-
+.vs/*
 ./.idea
 
 
