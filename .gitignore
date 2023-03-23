@@ -9,7 +9,8 @@ runs/
 *.zip
 *.pt
 *.jpeg
+*.mp4
 Untitled?.ipynb
 Untitled.ipynb
 webapp/.idea/
-
+./migrations
