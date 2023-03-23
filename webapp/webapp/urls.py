@@ -18,13 +18,14 @@ from django.urls import path,include
 
 from app.test_view import TestView
 from app.views import index, question_insert
+from django.urls import path, include
 
+from app.test_view import TestView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('index', index, name='index'),
-    path('question_insert', question_insert, name='qustion_insert'),
-    path('test', TestView.as_view(), name='test')
-
-    path('cam/',include('webcam_app.urls'))
+    path('', include('app.urls')),
+    path('cam/',include('webcam_app.urls')),
 ]
+# from app.views import index, question_insert
+
+
