@@ -8,28 +8,6 @@ from django.views.decorators import gzip
 
 def close(request):
     return render(request, 'webcam/camerapage.html')
-
-
-
-@csrf_exempt
-def process_frame(request):
-    logs = []
-    if request.method == 'POST':
-        try:
-            logs.append({'method': request.method, 'path': request.path, 'data': request.POST.dict()})
-            print(logs)
-            
-            print(request.FILES)
-            print(request.POST)
-            
-            frame = request.FILES['frame'].read()
-            # process the frame as needed
-            return HttpResponse(status=204)
-        except KeyError:
-            return HttpResponseBadRequest('Missing frame field')
-        
-        
-        
         
 
 CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
@@ -147,3 +125,19 @@ def webcam_feed(request):
 
 
 
+# @csrf_exempt
+# def process_frame(request):
+#     logs = []
+#     if request.method == 'POST':
+#         try:
+#             logs.append({'method': request.method, 'path': request.path, 'data': request.POST.dict()})
+#             print(logs)
+#
+#             print(request.FILES)
+#             print(request.POST)
+#
+#             frame = request.FILES['frame'].read()
+#             # process the frame as needed
+#             return HttpResponse(status=204)
+#         except KeyError:
+#             return HttpResponseBadRequest('Missing frame field')
