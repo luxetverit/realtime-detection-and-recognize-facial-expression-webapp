@@ -12,7 +12,7 @@
   - 실시간 데이터 적재 뿐만 아니라 저장된 영상에 대해서도 활용 가능
 
 > 특정 목표
-  - fer2013, ck+ 등의 공개 데이터 세트를 활용하여 detection 및 recognition 모델 학습
+  - AI HUB 한국인 감정인식을 위한 복합 영상의 사진 공개 데이터 세트를 활용하여 face recognition detection 모델 학습
   - Django를 활용한 백엔드 개발
   - AWS를 통한 배포 및 운영
   - 실시간 서비스를 위한 모델 최적화
@@ -27,7 +27,7 @@
 ### 기술스택
   - front : Django.js (정제경, 주한솔)  
   - backend : Django (이재영, 전현준)  
-  - machine learning : python, pytorch, yolo v5, mobilenet v2 (남정우, 최세현)  
+  - machine learning : python, pytorch, yolov8, opencv-dnn (남정우, 최세현)  
   - architecture : aws ec2, s3, mysql, docker  
 
 # 팀원

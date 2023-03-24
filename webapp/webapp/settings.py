@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'webcam_app',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
-    'webcam_app',
     'chartjs', #pip install django-chardjs
 ]
 
@@ -70,6 +71,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'webapp.wsgi.application'
+ASGI_APPLICATION = "webapp.asgi.application" # 비동기 인터페이스 WEBSOCKET 통신을 위해 추가
+
+
+
+# WEBSOCKET 통신을 위해 추가
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

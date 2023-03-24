@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
     path('cam/',include('webcam_app.urls')),
+  
 ]
 # from app.views import index, question_insert
 
