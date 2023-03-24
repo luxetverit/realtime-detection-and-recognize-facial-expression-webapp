@@ -5,6 +5,10 @@ from django.http import HttpResponseBadRequest
 import cv2
 import numpy as np
 from django.views.decorators import gzip
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent
 
 def close(request):
     return render(request, 'webcam/camerapage.html')
@@ -24,8 +28,8 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     
 
 # 모델 불러오기 
-model = cv2.dnn.readNet('best.onnx')
-
+# model = cv2.dnn.readNet('best.onnx')
+model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 # 비디오 캡처 파트
 @gzip.gzip_page
 def webcam_feed(request):
@@ -141,3 +145,7 @@ def webcam_feed(request):
 #             return HttpResponse(status=204)
 #         except KeyError:
 #             return HttpResponseBadRequest('Missing frame field')
+
+
+def socket(request):
+    return render(request, 'webcam/socket.html')

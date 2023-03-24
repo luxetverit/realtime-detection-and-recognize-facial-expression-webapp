@@ -33,7 +33,13 @@ train: # train image path를 넣자
   - train/sad4/images
 
 val: # val image path를 넣자
-  - vaild/images
+  - train/anger/images #anger
+  - train/anxiety/images #anxiety
+  - train/embarrassed/images #embarrassed
+  - train/hurt/images  # hurt
+  - train/neutral/images # neutral
+  - train/pleasure/images #pleasure
+  - vaild/sad/images #sad
 
 
 # number of classes
