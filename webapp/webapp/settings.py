@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 <<<<<<< Updated upstream
 =======
-    'app.apps.AppConfig',
+    # 'app.apps.AppConfig'
+    'app',
+    'webcam_app',
     'chartjs', #pip install django-chardjs
->>>>>>> Stashed changes
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'app.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

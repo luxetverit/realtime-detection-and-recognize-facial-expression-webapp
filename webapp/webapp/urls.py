@@ -27,9 +27,6 @@ from app.test_view import TestView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
-    # path('',     index, name='index'),
-    # path('index', index, name='index'),
-    # path('question_insert', question_insert, name='question_insert'),
-    # path('test', TestView.as_view(), name='test'),
->>>>>>> Stashed changes
+    path('cam/',include('webcam_app.urls')),
+  
 ]
