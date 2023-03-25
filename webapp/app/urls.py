@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'app'
+app_name = "app"
 
 urlpatterns = [
     path('',views.index, name='index'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile/userinfo/', views.userinfo, name="userinfo"),
     path('login/', views.login, name='login'),
     path('password/', views.password, name='password'),
-    path('register/', views.register, name='register'),
+    path('chart', views.line_chart, name='line_chart'),
+    path('chartJSON', views.line_chart_json, name='line_chart_json'),
 ]

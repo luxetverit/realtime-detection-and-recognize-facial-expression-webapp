@@ -68,9 +68,9 @@
                             <button type="button" class="btn btn-warning">실시간 웹캠 시작</button>
                     </div>
                     <div class="col-4">
-                        <div class="mb-3">
-                            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile02">
+                            <label class="input-group-text" for="inputGroupFile02">Upload</label>
                           </div>
                     </div>
                 </div>
@@ -82,14 +82,14 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <!-- <h1>Some Line Charts loaded in Ajax!</h1>
+                <h1>Some Line Charts loaded in Ajax!</h1>
 
                 <canvas id="myChart" width="500" height="200"></canvas>
         
                 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
                 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
                 <script type="text/javascript">
-                    $.get('{% url "app:line_chart_json" %}', function(data) {
+                    $.get("{% url 'app:line_chart_json' %}", function(data) {
                         var ctx = $("#myChart").get(0).getContext("2d");
                         new Chart(ctx, {
                             type: 'line', data: data
@@ -102,7 +102,7 @@
                 <div class="col">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae voluptates rerum quis! Voluptatibus, quod fugit tenetur et, in magnam tempore quas reprehenderit voluptas illum adipisci blanditiis? Beatae placeat facilis ipsa.
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos sequi incidunt aliquam nostrum excepturi eveniet debitis placeat ipsa consequuntur rerum! Dolore id distinctio, autem neque non facere natus ut soluta!
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, cum eius, neque, sapiente magni architecto delectus sint odio ullam repudiandae hic commodi. Ducimus saepe vero accusamus sint beatae explicabo adipisci. -->
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus, cum eius, neque, sapiente magni architecto delectus sint odio ullam repudiandae hic commodi. Ducimus saepe vero accusamus sint beatae explicabo adipisci.
                 </div>
             </div>
         </div>
