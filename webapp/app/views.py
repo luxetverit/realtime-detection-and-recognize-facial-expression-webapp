@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Posts, Comments
@@ -11,6 +12,17 @@ from django.contrib.auth import logout,login
 from django.contrib.auth.models import User
 
 # from chartjs.views.lines import BaseLineChartView
+=======
+from django.db import connection
+from django.shortcuts import render
+import datetime
+from datetime import timedelta
+from django.http import HttpResponse, JsonResponse
+from django.utils.timezone import now
+from app.models import Question
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
+>>>>>>> 26c6c5a4d908d799be8873c82a7746e7e62734df
 
 
 # def login(request):
@@ -150,29 +162,29 @@ def userinfo(request):
 def password(request):
     return render(request, 'password.html')
 
-def register(request):
-    return render(request, 'register.html')
+def signup(request):
+    return render(request, 'signup.html')
 
 
 
 # chartjs
-# class LineChartJSONView(BaseLineChartView):
-#     def get_labels(self):
-#         """Return 7 labels for the x-axis."""
-#         return ["January", "February", "March", "April", "May", "June", "July"]
+class LineChartJSONView(BaseLineChartView):
+    def get_labels(self):
+        """Return 7 labels for the x-axis."""
+        return ["January", "February", "March", "April", "May", "June", "July"]
 
-#     def get_providers(self):
-#         """Return names of datasets."""
-#         return ["Central", "Eastside", "Westside"]
+    def get_providers(self):
+        """Return names of datasets."""
+        return ["Central", "Eastside", "Westside"]
 
-#     def get_data(self):
-#         """Return 3 datasets to plot."""
+    def get_data(self):
+        """Return 3 datasets to plot."""
 
-#         return [[75, 44, 92, 11, 44, 95, 35],
-#                 [41, 92, 18, 3, 73, 87, 92],
-#                 [87, 21, 94, 3, 90, 13, 65]]
+        return [[75, 44, 92, 11, 44, 95, 35],
+                [41, 92, 18, 3, 73, 87, 92],
+                [87, 21, 94, 3, 90, 13, 65]]
 
 
-# line_chart = TemplateView.as_view(template_name='line_chart.html')
-# line_chart_json = LineChartJSONView.as_view()
+line_chart = TemplateView.as_view(template_name='line_chart.html')
+line_chart_json = LineChartJSONView.as_view()
 
