@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from account.models import User
 from django.db import models
 
@@ -6,13 +5,6 @@ from django.db import models
 class Posts(models.Model):
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-=======
-# Create your models here.
-from django.db import models
-
-class Question(models.Model):
-    subject = models.CharField(max_length=200)
->>>>>>> 26c6c5a4d908d799be8873c82a7746e7e62734df
     content = models.TextField()
     create_at = models.DateTimeField()
     updated_at = models.DateTimeField(null=True, blank=True)
