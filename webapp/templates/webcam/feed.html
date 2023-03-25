@@ -1,0 +1,67 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#  <head>#}
+{#    <meta charset="utf-8">#}
+{#    <title>Webcam Feed with Object Detection</title>#}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+{#  </head>#}
+{#  <body>#}
+{#    <h1>Webcam Feed with Object Detection</h1>#}
+{#    <div class="video-container">#}
+{#      {%csrf_token%}#}
+{#      <video id="webcam-feed" autoplay playsinline></video>#}
+{#      <canvas id="detection-canvas"></canvas>#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#      $(document).ready(function() {#}
+{##}
+{##}
+{#        var csrf_token = $('[name="csrfmiddlewaretoken"]').val();#}
+{##}
+{##}
+{#        // Set the URL of the webcam feed#}
+{#        var webcam_feed_url = "{% url 'feed' %}";#}
+{##}
+{#        // Set up the video element#}
+{#        var video = document.getElementById('webcam-feed');#}
+{#        navigator.mediaDevices.getUserMedia({ video: true })#}
+{#          .then(function(stream) {#}
+{#            video.srcObject = stream;#}
+{#            video.play();#}
+{#          });#}
+{##}
+{#        // Set up the detection canvas#}
+{#        var detection_canvas = document.getElementById('detection-canvas');#}
+{#        detection_canvas.width = 640;#}
+{#        detection_canvas.height = 480;#}
+{#        var ctx = detection_canvas.getContext('2d');#}
+{##}
+{#        // Set the interval for running object detection#}
+{#        var detection_interval_ms = 50;#}
+{##}
+{#        // Run object detection periodically#}
+{#        setInterval(function() {#}
+{#          // Draw the video frame onto the canvas#}
+{#          ctx.drawImage(video, 0, 0, detection_canvas.width, detection_canvas.height);#}
+{##}
+{#          // Call the object detection API#}
+{#          $.ajax({#}
+{#            url: webcam_feed_url,#}
+{#            type: 'POST',#}
+{#            headers: { 'X-CSRFToken': csrf_token },#}
+{#            data: { image_data: detection_canvas.toDataURL('image/jpeg') },#}
+{#            success: function(data) {#}
+{#            // Draw the bounding boxes onto the canvas#}
+{#            for (var i = 0; i < data.bboxes.length; i++) {#}
+{#              var bbox = data.bboxes[i];#}
+{#              ctx.strokeStyle = '#ff0000';#}
+{#              ctx.lineWidth = 2;#}
+{#              ctx.strokeRect(bbox[0], bbox[1], bbox[2], bbox[3]);#}
+{#            }#}
+{#          });#}
+{#        }, detection_interval_ms);#}
+{#      });#}
+{#    </script>#}
+{#  </body>#}
+{#</html>#}

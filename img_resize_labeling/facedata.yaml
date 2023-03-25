@@ -1,0 +1,49 @@
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+
+path: ../datasets/FaceHub
+
+train: # train image path를 넣자
+  - train/anger1/images #anger
+  - train/anger2/images
+  - train/anger3/images
+  - train/anger4/images
+  - train/anxiety1/images #anxiety
+  - train/anxiety2/images
+  - train/anxiety3/images
+  - train/anxiety4/images
+  - train/embarrassed1/images #embarrassed
+  - train/embarrassed2/images
+  - train/embarrassed3/images
+  - train/embarrassed4/images
+  - train/hurt1/images  # hurt
+  - train/hurt2/images
+  - train/hurt3/images
+  - train/hurt4/images
+  - train/neutral1/images # neutral
+  - train/neutral2/images
+  - train/neutral3/images
+  - train/neutral4/images
+  - train/pleasure1/images #pleasure
+  - train/pleasure2/images
+  - train/pleasure3/images
+  - train/pleasure4/images
+  - train/sad1/images    #sad
+  - train/sad2/images
+  - train/sad3/images
+  - train/sad4/images
+
+val: # val image path를 넣자
+  - train/anger/images #anger
+  - train/anxiety/images #anxiety
+  - train/embarrassed/images #embarrassed
+  - train/hurt/images  # hurt
+  - train/neutral/images # neutral
+  - train/pleasure/images #pleasure
+  - vaild/sad/images #sad
+
+
+# number of classes
+nc: 7
+
+# class names
+names: ["anger","anxiety","embarrassed","hurt","neutral","pleasure","sad"]

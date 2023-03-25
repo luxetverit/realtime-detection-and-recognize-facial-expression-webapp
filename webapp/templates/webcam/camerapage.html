@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static%}
+<html>
+  <head>
+    <title>Webcam Page</title>
+  </head>
+  <body>
+    <h1>Webcam Page</h1>
+    <div>
+      {% csrf_token %}
+      <video id="videoElement"></video>
+      <canvas id="canvasElement"></canvas>
+
+    </div>
+
+    <button id="startButton">Start Webcam</button>
+    <button id="stopButton">Stop Webcam</button>
+    <script src="{% static 'webcam_app/js/webcam.js' %}"></script>
+
+
+
+
+
+    <button onclick="location.href='webcam_feed/'">파이썬만으로 돌리기 종료버튼 q</button>
+  </body>
+</html>
