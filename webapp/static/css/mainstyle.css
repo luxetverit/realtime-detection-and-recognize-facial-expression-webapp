@@ -585,7 +585,6 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
-input[type="username"],
 textarea {
     -webkit-appearance : none;
     -moz-appearance    : none;
@@ -1969,10 +1968,6 @@ fieldset {
     padding : 0;
 }
 
-input[type="file"] {
-    size: 100%;
-}
-
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -1980,7 +1975,6 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
-input[type="username"],
 textarea,
 select {
     --input-height      : var(--vspace-2);
@@ -2054,7 +2048,6 @@ input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="password"]:focus,
-input[type="username"]:focus,
 textarea:focus,
 select:focus {
     color            : var(--color-black);
