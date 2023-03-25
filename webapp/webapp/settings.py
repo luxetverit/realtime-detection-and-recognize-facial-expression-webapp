@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app.apps.AppConfig',
+    # 'app.apps.AppConfig'
+    'app',
+    'webcam_app',
     'chartjs', #pip install django-chardjs
 ]
 
