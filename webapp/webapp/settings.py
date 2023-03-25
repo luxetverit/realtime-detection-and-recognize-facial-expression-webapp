@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
+    'webcam_app',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,11 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'app.apps.AppConfig'
-    'app',
-    'webcam_app',
-    'chartjs', #pip install django-chartjs
-    'account',
+    'app.apps.AppConfig',
+    'chartjs', #pip install django-chardjs
 ]
 
 MIDDLEWARE = [
@@ -101,7 +99,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'app.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
