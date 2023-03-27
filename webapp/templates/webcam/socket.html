@@ -1,54 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<
+
     <h1>Realtime Detection</h1>
-    <img id="stream" src="">
 
-    <button id="start"> 시작 </button>
-    <!-- 버튼 클릭시 웹소켓 disconnect 함수 추가 필요 -->
-    <!-- 해당 함수는 detector\consumers.py\VideoConsumer.disconnect 호출해야 함 -->
-    <button id="close"> 종료 </button>
+
+    
+    <img id="video" src="" alt="Video streaming">
+    <br>
+    <button id="start-btn">Start</button>
+    <button id="stop-btn">Stop</button>
     <script>
-        const start_btn = document.getElementById("start")
-        const close_btn = document.getElementById("close")
+        const video = document.getElementById('video');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+      
+        let socket;
+      
+        function createWebSocket() {
+          socket = new WebSocket('ws://' + window.location.host + '/ws/video/');
+      
+          socket.onopen = function(event) {
+            console.log('WebSocket opened:', event);
+          };
+      
+          socket.onmessage = function(event) {
+            const imageBase64 = event.data;
+            video.src = 'data:image/jpeg;base64,' + imageBase64;
+          };
+      
+          socket.onclose = function(event) {
+            console.log('WebSocket closed:', event);
+            if (!event.wasClean) {
+              setTimeout(createWebSocket, 3000);
+            }
+          };
+        }
+      
+        createWebSocket();
+      
+        startBtn.addEventListener('click', () => {
+
+        if (!socket || socket.readyState === WebSocket.CLOSED) {
+            createWebSocket();
+              }
 
 
 
+          socket.send('start');
+    
 
-        let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-        let ws_path = ws_scheme + "://" + window.location.host + "/video/";
-
-
-
-
-        const socket = new WebSocket(ws_path);
-
-        socket.onmessage = function(e) {
-            let data= JSON.parse(e.data);
-            let image= data.image;
-            const img = document.getElementById("stream");
-            img.src = "data:image/jpeg;base64," + image;
-          
+        });
+      
+        stopBtn.addEventListener('click', () => {
+          socket.send('stop');
+          socket.close(3000, 'Stop button clicked');
+        });
+      
+        window.onbeforeunload = function() {
+          socket.send('stop');
+          socket.close();
         };
-        
-        
-
-        start_btn.addEventListener('click',(e)=>{
-            socket.send(JSON.stringify({
-                'type':"control",
-                'message':'start'
-            }))
-        })
-
-        close_btn.addEventListener('click',(e)=>{
-            console.log("close")
-            socket.send(JSON.stringify({
-                'type': "control",
-                'message':'close'
-            }))
-        })
-
+      
     </script>
         
 {% endblock %}

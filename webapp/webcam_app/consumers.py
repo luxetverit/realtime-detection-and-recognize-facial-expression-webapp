@@ -49,55 +49,42 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
     
 #     def disconnect(self, code):
 #         return super().disconnect(code)
-    
 
 
 
-
-cap= cv2.VideoCapture(cv2.CAP_DSHOW+0)
 
 class VideoConsumer(AsyncWebsocketConsumer):
     
     async def connect(self):
-        # 연결만 해줍니다. 그 이후에는 프론트단에서 동작이 있으면 receive 함수로 연결이 되게 됩니다.
         await self.accept()
-
-
-
+        self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+        self.is_streaming = False
+        self.stopped = False
 
     async def disconnect(self, close_code):
-        self.cap.release()
-        raise StopConsumer
-
-
-
-
-    async def receive(self, text_data):
-        data=json.loads(text_data)
+        super()
+        self.is_streaming = False
+        self.stopped = True
+        self.video_capture.release()
+        await self.close()
         
-        if data['type']=="control" and data['message']=="close":
-            self.disconnect()
+        
+    
             
-        if data['type']=="control" and data['message']=="start":
-             
-            # 비디오의 각 속성 받기 
-            frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-            frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            fps = cap.get(cv2.CAP_PROP_FPS)
-
-            # mp4 output 파일 내보내기 => 파일명 변경 고객명 날짜 받아서 변수로 취급후 변경
+    async def receive(self, text_data):
+        message = text_data
+        if message == 'start':
+            self.is_streaming = True
+            self.stopped = False
             fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-            out = cv2.VideoWriter('output.mp4', fourcc, fps, (frame_width, frame_height))
-            
-            all_feeling=[]
-            while True:
-                ret, frame = cap.read()
-
+            out = cv2.VideoWriter('output.mp4', fourcc, 30, (self.frame_width, self.frame_height))
+            while self.is_streaming and not self.stopped:
+                ret, frame = self.video_capture.read()
                 if not ret:
                     break
-
-                # Perform any OpenCV operations on the frame here
-                # 화면 길이 input 640에 맞게 변경     
                 [height, width, _] = frame.shape
                 length = max((height, width))
                 image = np.zeros((length, length, 3), np.uint8)
@@ -114,7 +101,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
                 boxes = []
                 scores = []
                 class_ids = []
-                    
+                
+                
             # 한장의 사진에 각 x,y, confidence 받음 
 
                 for i in range(rows):
@@ -129,7 +117,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
                         class_ids.append(maxClassIndex)
 
                 result_boxes = cv2.dnn.NMSBoxes(boxes, scores, 0.25, 0.45, 0.5)
-                
+
                 detections = []
                 for i in range(len(result_boxes)):
                     index = result_boxes[i]
@@ -142,38 +130,33 @@ class VideoConsumer(AsyncWebsocketConsumer):
                         'scale': scale}
                     # ditections 내부에 dections 정보 다 포함되어 있음
                     
-                    detections.append(detection)
-                    all_feeling.append(detection['class_name'])
+                    # detections.append(detection)
+                    
                     #박스 작업 
                     draw_bounding_box(frame, class_ids[index], scores[index], round(box[0] * scale), round(box[1] * scale),
                                     round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
 
                     # output 저장
                     out.write(frame)
+            
 
-                    # Encode the frame as a JPEG image
-                    success, image = cv2.imencode('.jpg', frame)
-                    img_bytes = image.tobytes()
+                # Encode the frame as a JPEG image and send it to the client
+                success, image = cv2.imencode('.jpg', frame)
+                if not success:
+                    break
 
-                    if not success:
-                        break
-                    
-                    img_base64 = base64.b64encode(img_bytes)
-                    
-                    # Send the processed image back to the client
+                image_bytes = image.tobytes()
+                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                await self.send(image_base64)
+
+                await asyncio.sleep(0.01)
+
+        elif message == 'stop':
+            self.stopped = True
+            self.is_streaming = False
+            self.video_capture.release()
+        #         feeling_counter=Counter(all_feeling)
+            
 
 
-                    await self.send(json.dumps({
-                        "image":img_base64.decode("utf-8"),
-                        
-                        
-                        
-                    }))
-                    
-                    # print(detections)
-                    await asyncio.sleep(0.05)
-                feeling_counter=Counter(all_feeling)
-                # await self.send(json.dumps({
-                #     "feelings": feeling_counter
-                # }))
       
