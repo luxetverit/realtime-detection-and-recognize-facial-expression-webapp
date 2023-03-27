@@ -30,6 +30,12 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 class VideoConsumer(AsyncWebsocketConsumer):
     
+    async def stop_streaming(self):
+        self.stopped = True
+        self.is_streaming = False
+        self.video_capture.release()
+
+    
     async def connect(self):
         await self.accept()
         self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
@@ -40,21 +46,11 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.stopped = False
 
     async def disconnect(self,close_code):
-        self.is_streaming = False
-        self.stopped = True
+            self.is_streaming = False
+            self.stopped = True
         
     
-    async def receive(self, text_data):
-        message = text_data
-        if message == 'start':
-            self.is_streaming = True
-            self.stopped = False
-            await self.stream_video()
-        elif message == 'stop':
-            self.stopped = True
-            self.is_streaming = False
-            self.video_capture=self.video_capture.release()
-            self.close(code=4123)
+  
             
     async def stream_video(self):
         feelings=[]
@@ -133,9 +129,15 @@ class VideoConsumer(AsyncWebsocketConsumer):
             }))
 
             await asyncio.sleep(0.05)
-            print(feelcount)
 
 
 
 
-      
+    async def receive(self, text_data):
+        message = text_data
+        if message == 'start':
+            self.is_streaming = True
+            self.stopped = False
+            asyncio.create_task(self.stream_video())
+        elif message == 'stop':
+            await self.stop_streaming()

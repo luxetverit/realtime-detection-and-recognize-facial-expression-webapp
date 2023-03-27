@@ -131,16 +131,16 @@
       
         stopBtn.addEventListener('click', () => {
           if (socket && socket.readyState === WebSocket.OPEN) {
+            console.log(socket.readyState)
             socket.send('stop');
-            console.log('stop');
-            
+            socket.close(1000);
+          
           }
         });
       
         window.onbeforeunload = function() {
           if (socket && socket.readyState === WebSocket.OPEN) {
             socket.send('stop');
-            socket.close();
           }
         };
     </script>
