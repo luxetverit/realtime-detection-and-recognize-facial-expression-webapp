@@ -4,17 +4,84 @@
 
     <h1>Realtime Detection</h1>
 
-
-    
     <img id="video" src="" alt="Video streaming">
     <br>
     <button id="start-btn">Start</button>
     <button id="stop-btn">Stop</button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Feelings</th>
+          <th scope="col">Count</th>
+          <th scope="col">ETC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>anger</td>
+          <td id="anger">0</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>anxiety</td>
+          <td id="anxiety">0</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>embarrassed</td>
+          <td id="embarrassed"></td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td>hurt</td>
+          <td id="hurt">0</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td>neutral</td>
+          <td id="neutral">0</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">6</th>
+          <td>pleasure</td>
+          <td id="pleasure">0</td>
+          <td>@twitter</td>
+        </tr>
+        <tr>
+          <th scope="row">7</th>
+          <td>sad</td>
+          <td id="sad">0</td>
+          <td>@twitter</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+
+
     <script>
         const video = document.getElementById('video');
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
-      
+        const anger= document.getElementById('anger')
+        const anxiety= document.getElementById('anxiety')
+        const embarrassed= document.getElementById('embarrassed')
+        const hurt= document.getElementById('hurt')
+        const neutral= document.getElementById('neutral')
+        const pleasure= document.getElementById('pleasure')
+        const sad= document.getElementById('sad')
+
+
+
+
         let socket;
       
         function createWebSocket() {
@@ -25,14 +92,28 @@
           };
       
           socket.onmessage = function(event) {
-            const imageBase64 = event.data;
+            data=JSON.parse(event.data)
+            const imageBase64 = data['image'];
+            const feelings = data['feelings'];
+            
+            anger.innerText= feelings['anger'];
+            anxiety.innerText= feelings['anxiety'];
+            embarrassed.innerText= feelings['embarrassed'];
+            hurt.innerText= feelings['hurt'];
+            neutral.innerText= feelings['neutral'];
+            pleasure.innerText= feelings['pleasure'];
+            sad.innerText= feelings['sad'];
+
+
+
+
             video.src = 'data:image/jpeg;base64,' + imageBase64;
           };
       
           socket.onclose = function(event) {
             console.log('WebSocket closed:', event);
             if (!event.wasClean) {
-              setTimeout(createWebSocket, 3000);
+              setTimeout(createWebSocket, 1000);
             }
           };
         }
@@ -40,28 +121,28 @@
         createWebSocket();
       
         startBtn.addEventListener('click', () => {
-
-        if (!socket || socket.readyState === WebSocket.CLOSED) {
+          if (!socket || socket.readyState === WebSocket.CLOSED) {
             createWebSocket();
-              }
-
-
-
-          socket.send('start');
-    
-
+          }
+          setTimeout(() => {
+            socket.send('start');
+          }, 500);
         });
       
         stopBtn.addEventListener('click', () => {
-          socket.send('stop');
-          socket.close(3000, 'Stop button clicked');
+          if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send('stop');
+            console.log('stop');
+            
+          }
         });
       
         window.onbeforeunload = function() {
-          socket.send('stop');
-          socket.close();
+          if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send('stop');
+            socket.close();
+          }
         };
-      
     </script>
         
 {% endblock %}
