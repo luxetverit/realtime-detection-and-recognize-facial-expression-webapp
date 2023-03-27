@@ -36,7 +36,7 @@ def signup(request):
     data = {}
     if request.method == 'GET':
         data['page'] = '회원가입'
-        return render(request, 'password.html', data)
+        return render(request, 'signup.html', data)
     elif request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']

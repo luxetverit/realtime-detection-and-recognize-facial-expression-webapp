@@ -17,8 +17,8 @@ from django.contrib.auth.models import User
 
 
 # 게시판 페이지 설정
-# def index(request):
-#     return render(request, 'index.html')
+def index(request):
+    return render(request, 'index.html')
 
 def qna(request):
     page = request.GET.get('page', '1')  # 페이지

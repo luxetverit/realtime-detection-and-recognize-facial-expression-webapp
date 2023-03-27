@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
     path('cam/',include('webcam_app.urls')),
-    path('', include('account.urls')),
+    path('accounts/', include('account.urls')),
 ]
 # from app.views import index, question_insert
 

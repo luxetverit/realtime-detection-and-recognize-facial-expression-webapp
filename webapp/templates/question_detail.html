@@ -29,7 +29,7 @@
             </div>
             <div class="my-3">
                 {% if request.user == question.author %}
-                <a href="{% url 'QnA:question_modify' question.id  %}" 
+                <a href="{% url 'app:question_modify' question.id  %}" 
                    class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
                    data-uri="{% url 'QnA:question_delete' question.id  %}">삭제</a>    
