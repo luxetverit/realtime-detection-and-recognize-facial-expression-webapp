@@ -9,14 +9,14 @@
         <li><a href="/#about" class="nav-link px-2 link-dark">About</a></li>
         <li><a href="{% url 'app:demo' %}" class="nav-link px-2 link-dark">Demo</a></li>
         <li><a href="{% url 'app:service' %}" class="nav-link px-2 link-dark">Service</a></li>
-        <li><a href="{% url 'app:question_list' %}" class="nav-link px-2 link-dark">QnA</a></li>
+        {% comment %} <li><a href="{% url 'app:question_list' %}" class="nav-link px-2 link-dark">QnA</a></li> {% endcomment %}
         <li><a href="/#contact_us" class="nav-link px-2 link-dark">Contact</a></li>
       </ul>
       <div class="d-flex col-md-3">
         {% if user.is_authenticated %}
         <a class=" btn-outline-primary me-2" href="{% url 'app:index' %}" role="button">Logout</a>
         {% else %}
-        <a class="btn btn-outline-primary me-2" href="{% url 'app:login' %}" role="button">Login</a>
+        {% comment %} <a class="btn btn-outline-primary me-2" href="{% url 'app:login' %}" role="button">Login</a> {% endcomment %}
         {% endif %}
         <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
         <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
