@@ -151,7 +151,7 @@
 
 
 
-      {% comment %} var context = document
+     var context = document
           .getElementById('myChart')
           .getContext('2d');
       var myChart = new Chart(context, {
@@ -166,7 +166,7 @@
                       label: '감정차트', //차트 제목
                       fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
                       data: [
-                      parseInt(anger.innerText),anxiety.innerText,embarrassed.innerText,
+                      parseInt(anger.innerText),parseInt(anxiety.innerText),parseInt(embarrassed.innerText),
                       hurt.innerText,neutral.innerText,pleasure.innerText,sad.innerText //x축 label에 대응되는 데이터 값
                       ],
                       backgroundColor: [
@@ -211,7 +211,7 @@
                   ]
               }
           }
-      }); {% endcomment %}
+      }); 
   </script>
         
 {% endblock %}

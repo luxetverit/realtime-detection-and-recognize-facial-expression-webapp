@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+
+
+
+<h1>Counseling List</h1>
+
+{% if counseling %}
+ 
+{% for counseling in counselings %}
+    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">{{ counseling.customername }} - {{ counseling.counsel_subject }}</a>
+{% empty %}
+    <p>No counseling sessions available.</p>
+{% endfor %}
+
+{% endif%}
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
