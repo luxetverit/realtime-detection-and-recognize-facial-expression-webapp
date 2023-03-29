@@ -8,14 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
-<<<<<<< Updated upstream
-
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
-=======
-from chartjs.views.lines import BaseLineChartView
-from django.views.generic import TemplateView
->>>>>>> Stashed changes
 
 
 # def login(request):
@@ -155,10 +149,6 @@ class LineChartJSONView(BaseLineChartView):
                 [87, 21, 94, 3, 90, 13, 65]]
 
 
-<<<<<<< Updated upstream
 line_chart = TemplateView.as_view(template_name='../demo.html')
-=======
-line_chart = TemplateView.as_view(template_name='line_chart.html')
->>>>>>> Stashed changes
 line_chart_json = LineChartJSONView.as_view()
 
