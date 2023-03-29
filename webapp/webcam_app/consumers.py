@@ -10,9 +10,11 @@ import base64
 from collections import Counter
 from asgiref.sync import async_to_sync
 from channels.exceptions import StopConsumer
+
 from datetime import datetime
 from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
+
 
 
 
