@@ -11,15 +11,22 @@
 
 <h1>Counseling List</h1>
 
-{% if counseling %}
+
  
-{% for counseling in counselings %}
-    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">{{ counseling.customername }} - {{ counseling.counsel_subject }}</a>
+{% for counseling in counseling_list %}
+    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">
+        <p>상담사:{{counseling.userid}} 상담자: {{counseling.customername}} 상담주제: {{counseling.counsel_subject}} </p>
+        <p> 상담내용: {{counseling.content}} </p>
+
+    </a>
+
+
+
+
 {% empty %}
     <p>No counseling sessions available.</p>
 {% endfor %}
 
-{% endif%}
 
 
 

@@ -11,6 +11,19 @@ from collections import Counter
 from asgiref.sync import async_to_sync
 from channels.exceptions import StopConsumer
 
+from datetime import datetime
+from .models import Counseling, DetectedEmotions
+from channels.db import database_sync_to_async
+
+
+
+
+
+
+
+
+
+
 BASE_DIR = Path(__file__).resolve().parent
 CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
 # 색상 랜덤하게 뽑아서 적용 다 다르게 
@@ -30,6 +43,7 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 class VideoConsumer(AsyncWebsocketConsumer):
     
+
     async def stop_streaming(self):
         self.stopped = True
         self.is_streaming = False
