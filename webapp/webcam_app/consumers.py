@@ -28,15 +28,19 @@ def get_detectdedemotions_object_or_404(pk):
 
 @database_sync_to_async
 def set_detectdedemotions(detected_emotions,feelcount):
-    detected_emotions.anger=feelcount['anger']
-    detected_emotions.anxiety=feelcount['anxiety']
-    detected_emotions.embarrassed=feelcount['embarrassed']
-    detected_emotions.hurt=feelcount['hurt']
-    detected_emotions.neutral=feelcount['neutral']
-    detected_emotions.pleasure=feelcount['pleasure']
-    detected_emotions.sad=feelcount['sad']
-    detected_emotions.save(update_fields=['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'])
-    
+    if feelcount :
+        print('onepiece')
+        detected_emotions.anger=feelcount['anger']
+        detected_emotions.anxiety=feelcount['anxiety']
+        detected_emotions.embarrassed=feelcount['embarrassed']
+        detected_emotions.hurt=feelcount['hurt']
+        detected_emotions.neutral=feelcount['neutral']
+        detected_emotions.pleasure=feelcount['pleasure']
+        detected_emotions.sad=feelcount['sad']
+        detected_emotions.save(update_fields=['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'])
+    else: print('hello')
+   
+        
 
 
 
@@ -69,8 +73,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
     
     async def connect(self):
         self.pk = self.scope['url_route']['kwargs']['counseling_id']
-        counseling = await get_counseling_object_or_404(self.pk)
-        detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
+        self.feelcount=False
+        self.task=''
+        self.counseling = await get_counseling_object_or_404(self.pk)
+        self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
         # print(detected_emotions)
         await self.accept()
         self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
@@ -162,7 +168,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
                 'image':image_base64,
                 'feelings':feelcount
             }))
-
+            self.feelcount=feelcount
             await asyncio.sleep(0.05)
 
 
@@ -173,6 +179,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
         if message == 'start':
             self.is_streaming = True
             self.stopped = False
-            asyncio.create_task(self.stream_video())
+            self.task=asyncio.create_task(self.stream_video())
         elif message == 'stop':
+            if hasattr(self.task,'cancel') :
+                self.task.cancel()
+                print("task cancel")
             await self.stop_streaming()
+            await set_detectdedemotions(self.detected_emotions,self.feelcount)

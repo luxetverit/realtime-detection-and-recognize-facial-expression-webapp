@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Counseling(models.Model):
-    userid =models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True,to_field='userid') #상담자
+    user =models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True) #상담자
     customername =models.CharField(max_length=20) # 상담받는 고객
     counsel_subject=models.CharField(max_length=50) # 상담주제 
     content=models.TextField() # 상담내용 

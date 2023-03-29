@@ -50,7 +50,7 @@ def counseling_add(request):
         form = CounselingForm(request.POST, request.FILES)
         if form.is_valid():
             counseling = form.save(commit=False)
-            counseling.user_id = request.user.id
+            counseling.user  = request.user
             counseling.save()
 
             if request.POST.get('realtime_true_false') == 'on':
@@ -70,7 +70,7 @@ def counseling_edit(request, pk):
         form = CounselingForm(request.POST, request.FILES, instance=counseling)
         if form.is_valid():
             updated_counseling = form.save(commit=False)
-            updated_counseling.user_id = request.user.id
+            updated_counseling.user = request.user
             updated_counseling.save()
             messages.success(request, '상담 세션 업데이트 완료.')
             return redirect('webcam:counseling_detail', pk=counseling.pk)

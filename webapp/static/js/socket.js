@@ -126,7 +126,7 @@ startBtn.addEventListener('click', () => {
     createWebSocket(counselingId);
     setTimeout(() => {
       socket.send('start');
-    }, 500);
+    }, 1000);
   }
   else{
     setTimeout(() => {
