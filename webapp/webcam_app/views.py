@@ -32,7 +32,19 @@ class CounselingListView(generic.ListView):
 class CounselingDetailView(generic.DetailView):
     model = Counseling
     template_name = 'webcam/counseling_detail.html'
-    context_object_name = 'counseling'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        counseling = self.get_object()
+        context["counseling"] = counseling
+        try:
+            context["detectedemotion"] = DetectedEmotions.objects.get(pk=counseling.pk)
+        except DetectedEmotions.DoesNotExist:
+            context["detectedemotion"] = None
+        return context 
+        
+
+
+    
 
 
 def counseling_add(request):
@@ -41,7 +53,7 @@ def counseling_add(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Counseling session added successfully.')
-            return redirect('counseling_list')
+            return redirect('webcam:counseling_list')
     else:
         form = CounselingForm()
     return render(request, 'webcam/counseling_form.html', {'form': form})
@@ -55,7 +67,7 @@ def counseling_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Counseling session updated successfully.')
-            return redirect('counseling_detail', pk=counseling.pk)
+            return redirect('webcam:counseling_detail', pk=counseling.pk)
     else:
         form = CounselingForm(instance=counseling)
     return render(request, 'webcam/counseling_form.html', {'form': form})
@@ -66,7 +78,7 @@ def counseling_delete(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
     counseling.delete()
     messages.success(request, 'Counseling session deleted successfully.')
-    return redirect('counseling_list')
+    return redirect('webcam:counseling_list')
 
 
 

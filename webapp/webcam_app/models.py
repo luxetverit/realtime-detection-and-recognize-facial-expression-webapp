@@ -13,11 +13,20 @@ class Counseling(models.Model):
     storage_data = models.FileField(upload_to="cam/", blank=True)  
     download_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  
+    updated_at = models.DateTimeField(auto_now=True)
+    
     
     
     def __str__(self): #상담자 
-        return self.customername
+        return self.userid.userid+'의고객'+self.customername+'pk'+str(self.pk)
     
+    
+    def save(self, *args, **kwargs):
+        # 첫 번째로 Counseling 모델을 저장합니다.
+        super(Counseling, self).save(*args, **kwargs)
+        if not hasattr(self, 'detectedemotions'):
+            detected_emotions = DetectedEmotions(counseling_id=self.pk)
+            detected_emotions.save()
 
     
     class Meta:
@@ -39,17 +48,17 @@ class Videos(models.Model):
     
 class DetectedEmotions(models.Model):
     counseling = models.OneToOneField(Counseling, on_delete=models.CASCADE, primary_key=True)
-    anger = models.IntegerField()
-    anxiety = models.IntegerField()
-    embarrassed = models.IntegerField()
-    hurt = models.IntegerField()
-    neutral = models.IntegerField()
-    pleasure = models.IntegerField()
-    sad = models.IntegerField()
+    anger = models.IntegerField(blank=True, null=True)
+    anxiety = models.IntegerField(blank=True, null=True)
+    embarrassed = models.IntegerField(blank=True, null=True)
+    hurt = models.IntegerField(blank=True, null=True)
+    neutral = models.IntegerField(blank=True, null=True)
+    pleasure = models.IntegerField(blank=True, null=True)
+    sad = models.IntegerField(blank=True, null=True)
     
     
-    def __str__(self) -> str:
-        return self.counseling.customername
+    def __str__(self):
+        return 'pk:'+str(self.pk)+'와'+self.counseling.customername
 
     class Meta:
         db_table = 'detected_emotions'
