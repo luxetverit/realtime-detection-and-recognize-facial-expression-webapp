@@ -10,8 +10,12 @@ from .models import Counseling
 from django.contrib import messages
 from .forms import CounselingForm
 
+
+def index(request):
+    return render(request, 'webcam/camindex.html')
+
+
 def socket(request):
-    model= Counseling
     return render(request, 'webcam/socket.html')
 
 

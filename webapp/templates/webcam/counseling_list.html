@@ -14,7 +14,7 @@
 {% if counseling %}
  
 {% for counseling in counselings %}
-    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">{{ counseling.customername }} - {{ counseling.counsel_subject }}</a>
+    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}"></a>
 {% empty %}
     <p>No counseling sessions available.</p>
 {% endfor %}

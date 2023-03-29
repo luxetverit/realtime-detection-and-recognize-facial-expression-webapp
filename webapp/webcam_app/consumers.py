@@ -34,12 +34,6 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 class VideoConsumer(AsyncWebsocketConsumer):
     
 
-    
-    
-    
-    
-    
-    
     async def stop_streaming(self):
         self.stopped = True
         self.is_streaming = False

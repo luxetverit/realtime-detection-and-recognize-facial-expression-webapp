@@ -94,6 +94,9 @@ DATABASES = {
         'PASSWORD': 'vmfhwprxm2xla!',
         'HOST': 'finalteam-db1.cwkyk5bf3ql5.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'STRICT_ALL_TABLES',
+        }
     }
 }
 
