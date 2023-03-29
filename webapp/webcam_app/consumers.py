@@ -14,12 +14,29 @@ from channels.exceptions import StopConsumer
 from datetime import datetime
 from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
+from django.shortcuts import get_object_or_404
 
 
 
+@database_sync_to_async
+def get_counseling_object_or_404(pk):
+    return get_object_or_404(Counseling, pk=pk)
 
+@database_sync_to_async
+def get_detectdedemotions_object_or_404(pk):
+    return get_object_or_404(DetectedEmotions, pk=pk)
 
-
+@database_sync_to_async
+def set_detectdedemotions(detected_emotions,feelcount):
+    detected_emotions.anger=feelcount['anger']
+    detected_emotions.anxiety=feelcount['anxiety']
+    detected_emotions.embarrassed=feelcount['embarrassed']
+    detected_emotions.hurt=feelcount['hurt']
+    detected_emotions.neutral=feelcount['neutral']
+    detected_emotions.pleasure=feelcount['pleasure']
+    detected_emotions.sad=feelcount['sad']
+    detected_emotions.save(update_fields=['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'])
+    
 
 
 
@@ -51,6 +68,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
 
     
     async def connect(self):
+        self.pk = self.scope['url_route']['kwargs']['counseling_id']
+        counseling = await get_counseling_object_or_404(self.pk)
+        detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
+        # print(detected_emotions)
         await self.accept()
         self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))

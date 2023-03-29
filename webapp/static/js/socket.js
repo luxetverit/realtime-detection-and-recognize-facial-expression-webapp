@@ -72,8 +72,10 @@ options: {
 
 let socket;
 
-function createWebSocket() {
-  socket = new WebSocket('ws://' + window.location.host + '/ws/video/');
+function createWebSocket(counselingId) {
+  let socketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+  let socketUrl = socketProtocol + window.location.host + '/ws/video/' + counselingId + '/';
+  socket = new WebSocket(socketUrl);
 
   socket.onopen = function(event) {
     console.log('WebSocket opened:', event);
@@ -112,25 +114,30 @@ function createWebSocket() {
   socket.onclose = function(event) {
     console.log('WebSocket closed:', event);
     if (!event.wasClean) {
-      setTimeout(createWebSocket, 1000);
+      setTimeout(createWebSocket(counselingId), 1000);
     }
   };
 }
 
-createWebSocket();
+// createWebSocket();
 
 startBtn.addEventListener('click', () => {
   if (!socket || socket.readyState === WebSocket.CLOSED) {
-    createWebSocket();
+    createWebSocket(counselingId);
+    setTimeout(() => {
+      socket.send('start');
+    }, 500);
   }
-  setTimeout(() => {
-    socket.send('start');
-  }, 500);
+  else{
+    setTimeout(() => {
+      socket.send('start');
+    }, 500);
+  }
+  
 });
 
 stopBtn.addEventListener('click', () => {
   if (socket && socket.readyState === WebSocket.OPEN) {
-    console.log(socket.readyState)
     socket.send('stop');
     socket.close(1000);
   
@@ -140,6 +147,7 @@ stopBtn.addEventListener('click', () => {
 window.onbeforeunload = function() {
   if (socket && socket.readyState === WebSocket.OPEN) {
     socket.send('stop');
+    socket.close(1000);
   }
 };
 

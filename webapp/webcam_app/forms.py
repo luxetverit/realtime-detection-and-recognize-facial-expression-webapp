@@ -5,7 +5,7 @@ class CounselingForm(forms.ModelForm):
     class Meta:
         model = Counseling
 
-        fields = ['customername', 'counsel_subject', 'content', 'storage_data']
+        fields = ['customername', 'counsel_subject', 'content', 'storage_data','realtime_true_false']
 
 
         widgets = {

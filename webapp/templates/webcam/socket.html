@@ -63,10 +63,15 @@
       </tbody>
     </table>
   </div>
-
-<script src="{% static 'js/socket.js' %}"></script>
  
+ <script src="{% static 'js/socket.js' %}"></script>
 
+ <script>
+    let counselingId = "{{ counseling.pk }}";
+    console.log(counselingId)
+
+    createWebSocket(counselingId);
+ </script>
 
 
 {% endblock %}

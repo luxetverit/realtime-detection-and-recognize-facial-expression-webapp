@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from django.views.decorators import gzip
 from pathlib import Path
-from .models import Counseling
+from .models import Counseling,DetectedEmotions
 from django.contrib import messages
 from .forms import CounselingForm
 from django.views import generic
@@ -45,15 +45,19 @@ class CounselingDetailView(generic.DetailView):
 
 
     
-
-
 def counseling_add(request):
     if request.method == 'POST':
         form = CounselingForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Counseling session added successfully.')
-            return redirect('webcam:counseling_list')
+            counseling = form.save(commit=False)
+            counseling.user_id = request.user.id
+            counseling.save()
+
+            if request.POST.get('realtime_true_false') == 'on':
+                return redirect('webcam:realtime', pk=counseling.pk)
+            else:
+                messages.success(request, '상담 세션 추가 완료.')
+                return redirect('webcam:counseling_list')
     else:
         form = CounselingForm()
     return render(request, 'webcam/counseling_form.html', {'form': form})
@@ -65,8 +69,10 @@ def counseling_edit(request, pk):
     if request.method == 'POST':
         form = CounselingForm(request.POST, request.FILES, instance=counseling)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Counseling session updated successfully.')
+            updated_counseling = form.save(commit=False)
+            updated_counseling.user_id = request.user.id
+            updated_counseling.save()
+            messages.success(request, '상담 세션 업데이트 완료.')
             return redirect('webcam:counseling_detail', pk=counseling.pk)
     else:
         form = CounselingForm(instance=counseling)
@@ -77,7 +83,7 @@ def counseling_edit(request, pk):
 def counseling_delete(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
     counseling.delete()
-    messages.success(request, 'Counseling session deleted successfully.')
+    messages.success(request, '상담 세션 제거 완료.')
     return redirect('webcam:counseling_list')
 
 
@@ -86,7 +92,14 @@ def counseling_delete(request, pk):
 
 
 
-
+def socket(request, pk):
+    counseling = get_object_or_404(Counseling, pk=pk)
+    detected_emotions = counseling.detectedemotions
+    context = {
+        'counseling': counseling,
+        'detected_emotions': detected_emotions,
+    }
+    return render(request, 'webcam/socket.html', context)
 
 
 
