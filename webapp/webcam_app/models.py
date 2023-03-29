@@ -22,7 +22,7 @@ class Counseling(models.Model):
     
     
     def __str__(self): #상담자 
-        return self.userid.userid+'의고객'+self.customername+'pk'+str(self.pk)
+        return '비워둠'+'의고객'+self.customername+'pk'+str(self.pk)
     
 
     

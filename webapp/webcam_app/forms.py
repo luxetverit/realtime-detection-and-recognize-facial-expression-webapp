@@ -9,5 +9,7 @@ class CounselingForm(forms.ModelForm):
 
 
         widgets = {
-            'content': forms.Textarea(attrs={'placeholder': '상담내역입력'}),
+            'customername': forms.TextInput(attrs={'placeholder': '고객 이름', 'class': 'form-control d-grid'}),
+            'counsel_subject': forms.TextInput(attrs={'placeholder': '고객 이름', 'class': 'form-control d-grid'}),
+            'content': forms.Textarea(attrs={'placeholder': '상담내역입력',}),
         }
