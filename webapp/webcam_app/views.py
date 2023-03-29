@@ -11,7 +11,6 @@ from django.contrib import messages
 from .forms import CounselingForm
 
 def socket(request):
-    model= Counseling
     return render(request, 'webcam/socket.html')
 
 

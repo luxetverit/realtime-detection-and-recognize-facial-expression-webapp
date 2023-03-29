@@ -130,14 +130,14 @@
             createWebSocket();
           }
           setTimeout(() => {
-            socket.send(JSON.stringify({message: 'start', counseling_id: 1}));
+            socket.send('start');
           }, 500);
         });
       
         stopBtn.addEventListener('click', () => {
           if (socket && socket.readyState === WebSocket.OPEN) {
             console.log(socket.readyState)
-            socket.send(JSON.stringify({message: 'stop', counseling_id: 1}));
+            socket.send('stop');
             socket.close(1000);
           
           }
@@ -145,7 +145,7 @@
       
         window.onbeforeunload = function() {
           if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({message: 'stop'}));
+            socket.send('stop');
           }
         };
 
