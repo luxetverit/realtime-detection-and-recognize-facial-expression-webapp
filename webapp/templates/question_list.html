@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load qna_filter %}
 {% block content %}
 <div class="container my-3">
     <div class="table-responsive col-md-10 offset-md-1"> 
@@ -21,7 +21,7 @@
                 {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
             <td class="text-start">
-                <a href="{% url 'QnA:detail' question.id %}">{{ question.subject }}</a>
+                <a href="{% url 'app:posts_create' question.id %}">{{ question.subject }}</a>
                 {% if question.answer_set.count > 0 %}
                 <span class="text-danger small mx-2">{{ question.answer_set.count }}</span>
                 {% endif %} 
@@ -75,6 +75,6 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-    <a href="{% url 'QnA:question_create' %}" class="btn btn-primary">질문 등록하기</a>
+    <a href="{% url 'app:posts_create' %}" class="btn btn-primary">질문 등록하기</a>
 </div>
 {% endblock %}

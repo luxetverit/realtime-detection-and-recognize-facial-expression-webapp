@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% load static %}
 
 <header class="s-header">
@@ -32,5 +33,31 @@
             <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
             </div>
         </nav> <!-- end s-header__nav -->
+=======
+<div class="b-example-divider"></div>
+<div class="container">
+<nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+      </a>
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="/#about" class="nav-link px-2 link-dark">About</a></li>
+        <li><a href="{% url 'app:demo' %}" class="nav-link px-2 link-dark">Demo</a></li>
+        <li><a href="{% url 'app:service' %}" class="nav-link px-2 link-dark">Service</a></li>
+        <li><a href="{% url 'app:qna' %}" class="nav-link px-2 link-dark">QnA</a></li>
+        <li><a href="/#contact_us" class="nav-link px-2 link-dark">Contact</a></li>
+      </ul>
+      <div class="d-flex col-md-3">
+        {% if user.is_authenticated %}
+        {{ user.userid }}님
+        <a class=" btn-outline-primary me-2" href="{% url 'account:logout' %}" role="button">Logout</a>
+        {% else %}
+        <a class="btn btn-outline-primary me-2" href="{% url 'account:login' %}" role="button">Login</a>
+        <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
+        {% endif %}
+        <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
+      </div>
+>>>>>>> Stashed changes
     </header>
   </div>
