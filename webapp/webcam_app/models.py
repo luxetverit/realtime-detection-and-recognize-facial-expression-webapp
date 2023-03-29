@@ -16,7 +16,7 @@ class Counseling(models.Model):
     
     
     def __str__(self): #상담자 
-        return self.user.userid
+        return self.customername
     
 
     

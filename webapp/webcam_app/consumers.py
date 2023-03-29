@@ -14,6 +14,14 @@ from datetime import datetime
 from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
 
+
+
+
+
+
+
+
+
 BASE_DIR = Path(__file__).resolve().parent
 CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
 # 색상 랜덤하게 뽑아서 적용 다 다르게 

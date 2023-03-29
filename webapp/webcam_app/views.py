@@ -9,6 +9,8 @@ from pathlib import Path
 from .models import Counseling
 from django.contrib import messages
 from .forms import CounselingForm
+from django.views import generic
+from .models import Counseling, DetectedEmotions
 
 
 def index(request):
@@ -20,26 +22,17 @@ def socket(request):
 
 
 
-def counseling_list(request):
-    userid = request.GET.get('username')
-
-    counselings = Counseling.objects.all()
-
-    if userid:
-        counselings = counselings.filter(userid=userid)
 
 
+class CounselingListView(generic.ListView):
+    model = Counseling
+    template_name = 'webcam/counseling_list.html'
+    context_object_name = 'counseling_list'
 
-    return render(request, 'webcam/counseling_list.html', {'counselings': counselings})
-
-
-
-def counseling_detail(request, pk):
-    counseling = get_object_or_404(Counseling, pk=pk)
-    return render(request, 'counseling/counseling_detail.html', {'counseling': counseling})
-
-
-
+class CounselingDetailView(generic.DetailView):
+    model = Counseling
+    template_name = 'webcam/counseling_detail.html'
+    context_object_name = 'counseling'
 
 
 def counseling_add(request):
@@ -74,3 +67,56 @@ def counseling_delete(request, pk):
     counseling.delete()
     messages.success(request, 'Counseling session deleted successfully.')
     return redirect('counseling_list')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def counseling_list(request):
+#     userid = request.GET.get('username')
+
+#     counselings = Counseling.objects.all()
+
+#     if userid:
+#         counselings = counselings.filter(userid=userid)
+
+
+
+#     return render(request, 'webcam/counseling_list.html', {'counselings': counselings})
+
+
+
+# def counseling_detail(request, pk):
+#     counseling = get_object_or_404(Counseling, pk=pk)
+#     return render(request, 'counseling/counseling_detail.html', {'counseling': counseling})
+
+
+
+
+
