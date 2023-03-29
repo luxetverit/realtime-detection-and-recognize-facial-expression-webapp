@@ -18,15 +18,13 @@ def socket(request):
 
 def counseling_list(request):
     userid = request.GET.get('username')
-    customername = request.GET.get('customername')
 
     counselings = Counseling.objects.all()
 
     if userid:
         counselings = counselings.filter(userid=userid)
 
-    if customername:
-        counselings = counselings.filter(customername=customername)
+
 
     return render(request, 'webcam/counseling_list.html', {'counselings': counselings})
 

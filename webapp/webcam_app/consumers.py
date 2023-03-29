@@ -11,7 +11,7 @@ from collections import Counter
 from asgiref.sync import async_to_sync
 from channels.exceptions import StopConsumer
 from datetime import datetime
-from .models import Counseling, Detected
+from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -33,23 +33,7 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 class VideoConsumer(AsyncWebsocketConsumer):
     
-    @database_sync_to_async
-    def save_detected_data(self, cost, feelings):
-        now = datetime.now()
-        name = f'{now.year}/{now.month}/{now.day}/{now.hour}/{cost.customername}'
 
-        detected_data = Detected(
-            cost=cost,
-            name=name,
-            anger=feelings.get('anger', 0),
-            anxiety=feelings.get('anxiety', 0),
-            embarrassed=feelings.get('embarrassed', 0),
-            hurt=feelings.get('hurt', 0),
-            neutral=feelings.get('neutral', 0),
-            pleasure=feelings.get('pleasure', 0),
-            sad=feelings.get('sad', 0)
-        )
-        detected_data.save()
     
     
     
@@ -78,7 +62,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
     
   
             
-    async def stream_video(self,cost):
+    async def stream_video(self):
         feelings=[]
         
         # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -160,21 +144,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
 
 
     async def receive(self, text_data):
-        data = json.loads(text_data)
-        message = data.get('message')
-        counseling_id = data.get('counseling_id')
-        try:
-            cost = Counseling.objects.get(pk=counseling_id)
-        except Counseling.DoesNotExist:
-            cost = None
+        message = text_data
         if message == 'start':
             self.is_streaming = True
             self.stopped = False
-            asyncio.create_task(self.stream_video(cost))
+            asyncio.create_task(self.stream_video())
         elif message == 'stop':
             await self.stop_streaming()
-            
-            
-            if cost is not None:
-                feelcount=await self.stream_video(cost)
-                await self.save_detected_data(cost, feelcount) 

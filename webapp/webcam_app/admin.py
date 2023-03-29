@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Counseling,Detected
+from .models import Counseling,DetectedEmotions
 
 # Register your models here.
 admin.site.register(Counseling)
-admin.site.register(Detected)
+admin.site.register(DetectedEmotions)
