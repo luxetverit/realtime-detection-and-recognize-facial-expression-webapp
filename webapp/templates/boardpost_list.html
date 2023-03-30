@@ -21,12 +21,12 @@
                 {{ posts_list.paginator.count|sub:posts_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
             <td class="text-start">
-                <a href="{% url 'app:detail' posts.board_id %}">{{ posts.title }}</a>
-                {% if posts.comment.count  > 0 %}
-                <span class="text-danger small mx-2">{{ posts.comment.count }}</span>
+                <a href="{% url 'app:detail' posts.pk %}">{{ posts.title }}</a>
+                {% if posts.boardcomment.count  > 0 %}
+                <span class="text-danger small mx-2">{{ posts.boardcomment.count }}</span>
                 {% endif %} 
             </td>
-            <td>{{ posts.user_id }}</td>  <!-- 글쓴이 추가 -->
+            <td>{{ posts.user.userid }}</td>  <!-- 글쓴이 추가 -->
             <td>{{ posts.create_at }}</td>
         </tr>
         {% endfor %}

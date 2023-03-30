@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
     'webcam_app',
     'chartjs', #pip install django-chartjs
     'account',
+    'post_comment',
 ]
 
 MIDDLEWARE = [
