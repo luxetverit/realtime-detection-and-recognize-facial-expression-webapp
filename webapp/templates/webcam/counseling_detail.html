@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+
+<h1> Counseling Detail </h1>
+<p>pk확인용:{{ counseling.pk }}</p>
+
+<p>상담사:{{ counseling.user.userid }}</p>
+<p>상담자:{{ counseling.customername }}</p>
+{% if counseling.realtime_true_false %}
+<p>실시간 여부:YES</p>
+{% else %}
+<p>실시간 여부:No</p>
+{% endif %}
+<p>상담 일시:{{ counseling.created_at }}</p>
+<p>상담 주제:{{ counseling.counsel_subject }}</p>
+<p>상담 내용:{{ counseling.content }}</p>
+<p>내용 변경일:{{ counseling.updated_at }}</p>
+
+<hr>
+
+
+<p> detect pk확인용: {{detectedemotion.pk}}</p>
+<p>pk와 customername: {{detectedemotion}}</p>
+<p>anger : {{detectedemotion.anger}}</p>
+<p>anxiety : {{detectedemotion.anxiety}}</p>
+<p>embarrassed : {{detectedemotion.embarrassed}}</p>
+<p>hurt : {{detectedemotion.hurt}}</p>
+<p>neutral : {{detectedemotion.neutral}}</p>
+<p>pleasure : {{detectedemotion.pleasure}}</p>
+<p>sad : {{detectedemotion.sad}}</p>
+
+<a href="{% url 'webcam:counseling_edit' counseling.pk %}">
+    <button onclick="return confirm('정말로 수정하시겠습니까?')">수정</button>
+  </a>
+  <a href="{% url 'webcam:counseling_delete' counseling.pk %}">
+    <button onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+</a>
+
+
+{% endblock %}

@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
-from chartjs.views.lines import BaseLineChartView
 from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
 
 
 # def login(request):
@@ -77,7 +77,6 @@ def Posts_create(request):
         form = PostsForm()
     context = {'form': form}
     return render(request, '../templates/question_form.html', context)
-
 @login_required(login_url='account:login_view')
 def Posts_modify(request, Posts_id):
     Posts = get_object_or_404(Posts, pk=Posts_id)
@@ -95,7 +94,6 @@ def Posts_modify(request, Posts_id):
         form = PostsForm(instance=Posts)
     context = {'form': form}
     return render(request, 'app/Posts_form.html', context)
-
 @login_required(login_url='account:login_view')
 def Posts_delete(request, Posts_id):
     Posts = get_object_or_404(Posts, pk=Posts_id)
@@ -104,7 +102,6 @@ def Posts_delete(request, Posts_id):
         return redirect('app:detail', Posts_id=Posts.board_id)
     Posts.delete()
     return redirect('app:index')
-
 @login_required(login_url='account:login_view')
 def Comments_modify(request, Comments_id):
     Comments = get_object_or_404(Comments, pk=Comments_id)
@@ -122,7 +119,6 @@ def Comments_modify(request, Comments_id):
         form = CommentsForm(instance=Comments)
     context = {'Comments': Comments, 'form': form}
     return render(request, 'app/Comments_form.html', context)
-
 @login_required(login_url='account:login_view')
 def Comments_delete(request, Comments_id):
     Comments = get_object_or_404(Comments, pk=Comments_id)
@@ -135,10 +131,8 @@ def Comments_delete(request, Comments_id):
 
 def demo(request):
     return render(request, 'demo.html')
-
 def service(request):
     return render(request, 'service.html')
-
 
 
 
@@ -160,6 +154,6 @@ class LineChartJSONView(BaseLineChartView):
                 [87, 21, 94, 3, 90, 13, 65]]
 
 
-line_chart = TemplateView.as_view(template_name='line_chart.html')
+line_chart = TemplateView.as_view(template_name='../demo.html')
 line_chart_json = LineChartJSONView.as_view()
 

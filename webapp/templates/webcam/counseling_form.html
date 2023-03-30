@@ -1,0 +1,74 @@
+{% load static %}
+
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.1/dist/lux/bootstrap.min.css" rel="stylesheet" crossorigin="anoymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vendor.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/mainstyle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/counseling.css' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+      
+
+{% include 'navbar.html' %}
+
+
+<div class="container">
+    <h1>Counseling Form</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+        <label for="{{ form.customername.id_for_label }}">고객 이름:</label>
+        {{ form.customername }}
+        </div>
+        <div class="form-group">
+        <label for="{{ form.counsel_subject.id_for_label }}">상담 주제:</label>
+        {{ form.counsel_subject }}
+        </div>
+        <div class="form-group">
+        <label for="{{ form.content.id_for_label }}">상담 내용:</label>
+        {{ form.content }}
+        </div>
+        <div class="form-group">
+        <label for="{{ form.storage_data.id_for_label }}">저장 데이터:</label>
+        {{ form.storage_data }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.realtime_true_false.id_for_label }}">실시간여부:</label>
+            {{ form.realtime_true_false }}
+            </div>
+        <button id="submitbtn" type="submit">제출하기</button>
+    </form>
+
+</div> 
+
+
+{% include 'footer.html' %}
+
+ 
+
+<script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

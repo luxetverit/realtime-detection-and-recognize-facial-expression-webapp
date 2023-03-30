@@ -30,7 +30,7 @@ class User(AbstractUser):
     # DB 테이블 이름
     class Meta:
         db_table = 'user'
-    USERNAME_FIELD = 'userid' # userid를 username로 사용
+    USERNAME_FIELD = 'userid' # userid를 아이디로 사용
     REQUIRED_FIELDS = ['email', 'username']
 
 

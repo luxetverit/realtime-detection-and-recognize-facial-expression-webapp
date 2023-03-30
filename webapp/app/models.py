@@ -10,11 +10,9 @@ class Posts(models.Model):
     content = models.TextField()
     create_at = models.DateTimeField()
     update_at = models.DateTimeField(null=True, blank=True)
-    
     # 작성한 질문이 제목으로 보여지게 함
     def __str__(self):
         return self.title
-
     class Meta:
         db_table = 'posts'
         verbose_name_plural = "posts"

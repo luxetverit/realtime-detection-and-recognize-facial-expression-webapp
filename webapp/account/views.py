@@ -5,46 +5,55 @@ from account.models import User
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
 from django.contrib.auth import logout, login, authenticate, get_user_model
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
 
 # 로그인
 def login_view(request):
-    if request.method == 'POST':
+    # 주소를 입력해서 들어오는 경우
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    
+    elif request.method == 'POST':
         userid = request.POST['userid']
         password = request.POST['password']
         user = authenticate(request, userid=userid, password=password)
+
         if user is not None:
             login(request, user)
             return redirect('/')
             # Redirect to a success page.
         else:
             # Return an 'invalid login' error message.
-            return render(request, 'login.html', {'error':'userid or password is incorrect'})
-    else:
-        return render(request, 'login.html')   
+            return render(request, 'login.html', {'message': '아이디 혹은 비밀번호가 틀렸습니다.'})
+  
     
 # 로그아웃
 def logout_view(request):
     logout(request)
     return redirect('/')
-
-
-# 회원가입
+  
+# 회원가입  
 def signup(request):
-    data = {}
+    # 주소를 입력해서 들어오는 경우
     if request.method == 'GET':
-        data['page'] = '회원가입'
-        return render(request, 'signup.html', data)
+        return render(request, 'signup.html')
+    
     elif request.method == 'POST':
         userid = request.POST['userid']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-       
+
+        if request.POST['password'] != request.POST['password2']:
+            return render(request, 'signup.html')
+
         user = User()
         user.new_user(userid, username, email, password)
-        return render(request, 'login.html', data)
-    
+        
+        return render(request, 'login.html')
+
+
 @login_required
 def index(request):
     if request.user.is_superuser:
