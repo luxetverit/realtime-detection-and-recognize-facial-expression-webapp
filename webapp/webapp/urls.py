@@ -18,9 +18,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app.urls')),
+    path('app/', include('app.urls')),
     path('cam/',include('webcam_app.urls')),
     path('accounts/', include('account.urls')),
+    path('', include('django.contrib.auth.urls')),
 ]
 # from app.views import index, question_insert
 
