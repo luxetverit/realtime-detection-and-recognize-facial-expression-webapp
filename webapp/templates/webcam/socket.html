@@ -1,29 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WebSocket Image Streaming</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<
     <h1>Realtime Detection</h1>
     <img id="stream" src="">
+
+    <button id="start"> 시작 </button>
     <!-- 버튼 클릭시 웹소켓 disconnect 함수 추가 필요 -->
     <!-- 해당 함수는 detector\consumers.py\VideoConsumer.disconnect 호출해야 함 -->
-    <button id="disconnect"> 종료 </button>
+    <button id="close"> 종료 </button>
     <script>
-        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-        var ws_path = ws_scheme + "://" + window.location.host + "/video/";
+        const start_btn = document.getElementById("start")
+        const close_btn = document.getElementById("close")
 
-        var socket = new WebSocket(ws_path);
 
-        socket.onmessage = function(event) {
-            var img = document.getElementById("stream");
-            img.src = "data:image/jpeg;base64," + event.data;
+
+
+        let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+        let ws_path = ws_scheme + "://" + window.location.host + "/video/";
+
+
+
+
+        const socket = new WebSocket(ws_path);
+
+        socket.onmessage = function(e) {
+            let data= JSON.parse(e.data);
+            let image= data.image;
+            const img = document.getElementById("stream");
+            img.src = "data:image/jpeg;base64," + image;
+          
         };
+        
+        
 
-        disconnect.addEventListener('click', function() {
-        socket.send(JSON.stringify({type: 'stop'}));
-    });
+        start_btn.addEventListener('click',(e)=>{
+            socket.send(JSON.stringify({
+                'type':"control",
+                'message':'start'
+            }))
+        })
+
+        close_btn.addEventListener('click',(e)=>{
+            console.log("close")
+            socket.send(JSON.stringify({
+                'type': "control",
+                'message':'close'
+            }))
+        })
+
     </script>
-</body>
-</html>
+        
+{% endblock %}

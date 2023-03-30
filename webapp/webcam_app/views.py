@@ -10,9 +10,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
-def close(request):
-    return render(request, 'webcam/camerapage.html')
-        
+
 
 CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
 
