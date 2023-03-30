@@ -15,10 +15,10 @@
       <div class="d-flex col-md-3">
         {% if user.is_authenticated %}
         {{ user.userid }}님
-        <a class=" btn-outline-primary me-2" href="{% url 'account:logout' %}" role="button">Logout</a>
+        <a class=" btn-outline-primary me-2" href="{% url 'logout' %}" role="button">Logout</a>
         {% else %}
-        <a class="btn btn-outline-primary me-2" href="{% url 'account:login' %}" role="button">Login</a>
-        <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
+        <a class="btn btn-outline-primary me-2" href="{% url 'login' %}" role="button">Login</a>
+        <a class="btn btn-primary" href="{% url 'signup' %}" role="button">sign-up</a>
         {% endif %}
         <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
       </div>
