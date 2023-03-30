@@ -8,17 +8,14 @@ from django.views.decorators import gzip
 from pathlib import Path
 from .models import Counseling,DetectedEmotions
 from django.contrib import messages
-from .forms import CounselingForm
+from .forms import CounselingForm,CounselingEditForm
 from django.views import generic
-from .models import Counseling, DetectedEmotions
 
 
 def index(request):
     return render(request, 'webcam/camindex.html')
 
 
-def socket(request):
-    return render(request, 'webcam/socket.html')
 
 
 
@@ -67,7 +64,7 @@ def counseling_add(request):
 def counseling_edit(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
     if request.method == 'POST':
-        form = CounselingForm(request.POST, request.FILES, instance=counseling)
+        form = CounselingEditForm(request.POST, request.FILES, instance=counseling)
         if form.is_valid():
             updated_counseling = form.save(commit=False)
             updated_counseling.user = request.user
@@ -75,7 +72,7 @@ def counseling_edit(request, pk):
             messages.success(request, '상담 세션 업데이트 완료.')
             return redirect('webcam:counseling_detail', pk=counseling.pk)
     else:
-        form = CounselingForm(instance=counseling)
+        form = CounselingEditForm(instance=counseling)
     return render(request, 'webcam/counseling_form.html', {'form': form})
 
 
