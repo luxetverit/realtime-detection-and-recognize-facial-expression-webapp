@@ -18,8 +18,8 @@ class CounselingEditForm(forms.ModelForm):
     class Meta:
         model = Counseling
 
-        fields = ['customername', 'counsel_subject', 'content', 'storage_data']
-        exclude = ['realtime_true_false']
+        fields = ['customername', 'counsel_subject', 'content', ]
+        exclude = ['realtime_true_false','storage_data']
 
         widgets = {
             'customername': forms.TextInput(attrs={'placeholder': '고객 이름', 'class': 'form-control d-grid'}),
