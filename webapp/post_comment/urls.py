@@ -10,7 +10,6 @@ urlpatterns = [
     path('chart', views.line_chart, name='line_chart'),
     path('chartJSON', views.line_chart_json, name='line_chart_json'),
     path('qna/', views.post_list, name='qna'),
-    # path('detail/', views.detail, name='detail'),
     path('qna/<int:pk>/', views.detail, name='detail'),
     path('answer/create/<int:pk>/', views.comments_create, name='comments_create'),
     path('post/create/', views.posts_create, name='posts_create'),

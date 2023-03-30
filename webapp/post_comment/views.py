@@ -53,9 +53,8 @@ def posts_create(request):
         if form.is_valid():
             posts = form.save(commit=False)
             posts.user = request.user  # user 속성에 로그인 계정 저장 
-            posts.create_at = timezone.now()
             posts.save()
-            return redirect('app:detail')
+            return redirect('app:detail',posts.pk)
     else:
         form = BoardPostForm()
     context = {'form': form}
