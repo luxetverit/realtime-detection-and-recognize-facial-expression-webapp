@@ -263,7 +263,7 @@
 
     /* default button height
      */
-    --vspace-btn       : var(--vspace-2);
+    --vspace-btn       : var(--vspace-1_25);
 }
 
 /* on mobile devices below 600px, change the value of '--multiplier' 
