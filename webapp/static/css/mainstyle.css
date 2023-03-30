@@ -1414,19 +1414,24 @@ h1,
         line-height : calc(1.875 * var(--space));
     }
 }
-
+/*
 h2,
 .h2 {
     font-size      : var(--text-xxl);
     line-height    : calc(1.375 * var(--space));
     letter-spacing : -.015em;
 }
+*/
 
+/* h3 margin-left, bottom 추가 */
 h3,
 .h3 {
     font-size   : var(--text-xl);
     line-height : calc(1.125 * var(--space));
+    margin-left : var(--vspace-1);
+    margin-bottom : var(--vspace-1);
 }
+
 
 h4,
 .h4 {
@@ -4017,3 +4022,19 @@ img.u-pull-left {
     width: 300vw;
     height: 200vw;
 }
+
+/* dropdown menu */
+.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+.input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.input-group.has-validation > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+.input-group.has-validation > .dropdown-toggle:nth-last-child(n + 4) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
