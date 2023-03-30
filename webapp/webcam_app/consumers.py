@@ -62,34 +62,6 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 # 모델 불러오기 
 model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
-
-# class chatCosnumer(WebsocketConsumer) :
-#     def connect(self):
-#         self.accept()
-        
-        
-#         self.send(text_data=json.dumps({
-#             'type':'connection_established',
-#             'message':'you are now connected'
-#         }))
-        
-#     def receive(self, text_data, bytes_data=None):
-#         text_data_json=json.loads(text_data)
-#         message=text_data_json['message']
-        
-        
-    
-    
-    
-#     def disconnect(self, code):
-#         return super().disconnect(code)
-    
-
-
-
-
-cap= cv2.VideoCapture(cv2.CAP_DSHOW+0)
-
 class VideoConsumer(AsyncWebsocketConsumer):
     
 
@@ -136,20 +108,19 @@ class VideoConsumer(AsyncWebsocketConsumer):
             image[0:height, 0:width] = frame
             scale = length / 640
             
-        if data['type']=="control" and data['message']=="start":
-             
-            # 비디오의 각 속성 받기 
-            frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-            frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            fps = cap.get(cv2.CAP_PROP_FPS)
-
-            # mp4 output 파일 내보내기 => 파일명 변경 고객명 날짜 받아서 변수로 취급후 변경
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-            out = cv2.VideoWriter('output.mp4', fourcc, fps, (frame_width, frame_height))
+        #  Yolov8 모델은 전치해줘야 하나봄 
+            blob = cv2.dnn.blobFromImage(image, scalefactor=1 / 255, size=(640, 640))
+            model.setInput(blob)
+            outputs = model.forward()
+            outputs = np.array([cv2.transpose(outputs[0])])
+            rows = outputs.shape[1]
             
-            all_feeling=[]
-            while True:
-                ret, frame = cap.read()
+            boxes = []
+            scores = []
+            class_ids = []
+            
+            
+        # 한장의 사진에 각 x,y, confidence 받음 
 
             for i in range(rows):
                 classes_scores = outputs[0][i][4:]
