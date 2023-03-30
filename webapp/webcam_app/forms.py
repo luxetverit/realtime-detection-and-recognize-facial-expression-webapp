@@ -4,8 +4,12 @@ from .models import Counseling
 class CounselingForm(forms.ModelForm):
     class Meta:
         model = Counseling
-        fields = ['userid', 'customername', 'counsel_subject', 'content', 'raw_data', 'stroage_data', 'legacy_data']
+
+        fields = ['customername', 'counsel_subject', 'content', 'storage_data','realtime_true_false']
+
+
         widgets = {
-            'counsel_subject' : forms.Textarea(attrs={'placeholder': '상담주제입력'}),
-            'content': forms.Textarea(attrs={'placeholder': '상담내역입력'}),
+            'customername': forms.TextInput(attrs={'placeholder': '고객 이름', 'class': 'form-control d-grid'}),
+            'counsel_subject': forms.TextInput(attrs={'placeholder': '고객 이름', 'class': 'form-control d-grid'}),
+            'content': forms.Textarea(attrs={'placeholder': '상담내역입력',}),
         }
