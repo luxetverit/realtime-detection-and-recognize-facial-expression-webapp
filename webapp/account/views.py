@@ -1,51 +1,78 @@
-from django.shortcuts import render
 from django.contrib import auth
 from django.db import connection
-from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from account.models import User
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
+from django.contrib.auth import logout, login, authenticate, get_user_model
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth import logout,login
-
-# 로그인 기능 구현
-def login(request):
+# 로그인
+def login_view(request):
+    # 주소를 입력해서 들어오는 경우
     if request.method == 'GET':
         return render(request, 'login.html')
-    elif request.method == "POST":
-        email = request.POST['email']
+    
+    elif request.method == 'POST':
+        userid = request.POST['userid']
         password = request.POST['password']
-
-        user = User.auth(email, password)
+        user = authenticate(request, userid=userid, password=password)
 
         if user is not None:
-            print("인증성공")
-            login(request,user)
+            login(request, user)
+            return redirect('/')
+            # Redirect to a success page.
         else:
-            print("인증실패") 
-        
-        return render(request, 'login.html')
-
-def Logout(request):
+            # Return an 'invalid login' error message.
+            return render(request, 'login.html', {'message': '아이디 혹은 비밀번호가 틀렸습니다.'})
+  
+    
+# 로그아웃
+def logout_view(request):
     logout(request)
-    return render(request, 'login.html')
-
-# 회원 가입 기능 구현
+    return redirect('/')
+  
+# 회원가입  
 def signup(request):
-    data = {}
+    # 주소를 입력해서 들어오는 경우
     if request.method == 'GET':
-        data['page'] = '회원가입'
-        return render(request, 'signup.html', data)
+        return render(request, 'signup.html')
+    
     elif request.method == 'POST':
+        userid = request.POST['userid']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
 
-        print(f'{username} {email} {password}')
+        if request.POST['password'] != request.POST['password2']:
+            return render(request, 'signup.html')
 
         user = User()
-        user.new_user(username, email, password)
-        return render(request, 'login.html', data)
+        user.new_user(userid, username, email, password)
+        
+        return render(request, 'login.html')
 
+
+@login_required
+def index(request):
+    if request.user.is_superuser:
+        users = get_user_model().objects.all()
+        context = {
+            'users':users,
+        }
+        return render(request, 'accounts/index.html', context)
+    else:
+        return redirect('articles:index')
+
+
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def userinfo(request):
+    return render(request, 'userinfo.html')
+
+def password(request):
+    return render(request, 'password.html')
 
