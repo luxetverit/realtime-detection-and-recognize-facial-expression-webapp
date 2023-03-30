@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-        <!-- # site-content================================================== -->
+        <!-- # site-content
+        ================================================== -->
         <section id="content" class="s-content">
-            <!-- intro----------------------------------------------- -->
+            <!-- intro
+            ----------------------------------------------- -->
             <section id="intro" class="s-intro target-section">
                 <div class="s-intro__content"><!-- hero.jpg 들어감 -->
                     <!--<img class = "backimg" src="{% static 'img/hero-bg.jpg' %}"></img>-->
@@ -13,7 +15,25 @@
                 </div> <!-- intro.jpg들어감 -->
 
             </section> <!-- end s-intro -->
-            <!-- /#about----------------------------------------------- -->
+            <section id="about" class="s-about target-section">
+                <div class="row section-header" data-num="01">
+                    <h3 class="column lg-12 section-header__pretitle pretitle text-pretitle">Who We Are</h3>
+                    <div class="column lg-6 stack-on-1100 section-header__primary">
+                        <h2 class="title text-display-1">
+                        EmoAI는 감정분석에 특화된 웹서비스를 제공하는 회사입니다. 
+                        </h2>
+                    </div>
+                    <div class="column lg-6 stack-on-1100 section-header__secondary">
+                        <p class="desc">
+                        저희의 목표는 고객이 제공한 발화를 분석하여 발화자의 감정 상태를 정확하게 
+                        파악하여, 보다 효과적인 커뮤니케이션과 의사결정을 돕는 것입니다.
+                        </p>
+                    </div>
+                </div> <!-- end section-header -->
+            </section>
+
+            <!-- /#about
+            ----------------------------------------------- -->
             <section id="about" class="s-about target-section">
                 <div class="row section-header" data-num="01">
                     <h3 class="column lg-12 section-header__pretitle pretitle text-pretitle">Who We Are</h3>
@@ -204,7 +224,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: 0; msFilter: 0;"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path></svg>
                 </a>
             </div> <!-- end ss-go-top -->
-        </section>    
 
 {% endblock %}
 

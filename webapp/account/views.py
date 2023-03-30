@@ -1,10 +1,10 @@
+from django.contrib import auth
 from django.db import connection
 from django.shortcuts import render, redirect
 from account.models import User
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
 from django.contrib.auth import logout, login, authenticate, get_user_model
-
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
 
@@ -54,9 +54,16 @@ def signup(request):
         return render(request, 'login.html')
 
 
-# @login_required(login_url='login')
-# def profile(request):
-    
+@login_required
+def index(request):
+    if request.user.is_superuser:
+        users = get_user_model().objects.all()
+        context = {
+            'users':users,
+        }
+        return render(request, 'accounts/index.html', context)
+    else:
+        return redirect('articles:index')
 
 
 
