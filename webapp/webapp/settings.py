@@ -94,6 +94,9 @@ DATABASES = {
         'PASSWORD': 'vmfhwprxm2xla!',
         'HOST': 'finalteam-db1.cwkyk5bf3ql5.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'STRICT_ALL_TABLES',
+        }
     }
 }
 
@@ -101,6 +104,16 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'account.User'
+
+# AUTHENTICATION_BACKENDS = [
+
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+
+# ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -140,5 +153,4 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
