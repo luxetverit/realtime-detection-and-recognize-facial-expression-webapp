@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 
+{% block content %}
+<div class='container'>
     <h1>Realtime Detection</h1>
 
-    <img id="video" src="" alt="Video streaming">
+    <img id="video" width="640px" height="480px"  src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIHBg8SBw4PEhATDg0PFRAPEA8ODQ0RFREWFhURExYYKCggGBslHRUfITEhJSkrLi4uFx8zODMtNyg5OisBCgoKDg0OFw8QGjIlHSItNy0tKy4tKzctLy0tKzgtLS0tLSstLi0rNy0tLC0tKy0rOC0tKy03LS0rLTctKy0rN//AABEIAOAA4QMBIgACEQEDEQH/xAAaAAEAAgMBAAAAAAAAAAAAAAAABAUCAwYB/8QANhABAAECAgYIBAUFAQAAAAAAAAECAwQRBSExUWFxEhMiMkGRocEzcoGxNFJiotEUQoLh8SP/xAAZAQEBAQEBAQAAAAAAAAAAAAAAAwIBBAX/xAAdEQEBAQEAAgMBAAAAAAAAAAAAAQIRAzESIUET/9oADAMBAAIRAxEAPwDrAH0XzQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe00zVPZiZ5a26nB3KtlE/XKHOu8aBInBXI/s8piWmuiaJ7cTHOMjsOViA64AAAAAAAAAAAAAAAAAAAAAAJ+F0f0ozv6v0+P1Z6OwuURXcjX4Ru4rBLW/yK5x+1jbtxbjKiIjkyBNQeVUxVGVURMcXoCBidHRMZ2NU/l8J5KyqOjOVW10SHj8L1tHSojtR+6FM7/KnrH7FSAqkAAAAAAAAAAAAAAAAAANuEtddfiPDbPKGpYaIo7VU8oZ1eRrM7VlGqNQCC4AAAAACm0hZ6rETlsnXHujLTS1Gdqmd1WXnCrXzexDU5QBpkAAAAAAAAAAAAAAAAWeiPhVfNH2VifomvK5VG+Iny/wCs79N49rMBBYAAAAABE0p+F/ypVCz0tX2KaeOfkrFsekd+wBtgAAAAAAAAAAAAAAAAZ2LnU3YqjwnzhgDroaKorpiadkxm9VOAxfUz0bnd3/l/0tonONSGpxfN7ABl0AAJnKNYrdIYzOJotTzn2h2TrlvEXGXuvvzMbNkcmkF4hQB1wAAAAAAAAAAAAAAAAAASMNjKrGqNdO6fZHHLOuy8XNrHUXNs5Tun+UiKoq2TDniJy2MXxtzyOimctrRdxdFrbVE8I1ypJnPaH8y+RLxOOqvRlR2afWUQG5OMW9AHXAAAAAAAAAAAAAAAAAAAZ2bNV6rK3H8Qs8Po+m3rudqf2s3UjUzarLdmq7P/AJ0zP2Srejaqu/MR6ytYjKNQnd1SYiDToymO9VVPLKGcaOo/V5pY58q18YiTo6jj5sKtGUz3aqo55SnB8qfGKq5oyqO5MT6Si3bNVr4lMx9l+TGca3Zus3Ec6Le/o+m58Pszw2eSsv2KrFWVyPr4SpNSp3NjWA0yAAAAAAAAAAAAAAJGDwk4ic51U79/CHmDw/8AUXOEbZ9l1RTFFMRTGUQxrXPpTOe/by3bi1RlbjKGQIqgAAAAAAADG5RFynKuM4ZAKfGYObE5066fWOaK6GqOlTlVsU2Nw39PX2e7OzhwVzrv1UtZ59xHAUTAAAAAAAAAACmOlVEU7Z1Cbou10rs1TsjZzly3kdk7eLDDWYsWoiPrO+W0HnegAAAAAAAAAAAAYX7UXrUxV4+k72YDnrlE265irbE5PFhpWzlMVRyn2V70S9iFnKAOsgAAAAAAAC60fb6GFp46/NS7XQ0R0aIiPCIhPyVTxx6AkqAAAAAAAAAAAAAA1Yu31uHqjhn9YULo3P3aehdqjdVMeqvjqfkjEBRIAAAAAAABlajO7T80fd0Cgs/Gp+an7r9LyK+MATUAAAAAAAAAAAAAAFHjIyxVfzLxR438XXz9lPH7Y8nppAVRAAAAf//Z" alt="Video streaming">
     <br>
     <button id="start-btn">Start</button>
     <button id="stop-btn">Stop</button>
-    <div style="width: 900px; height: 900px;">
-      <!--차트가 그려질 부분-->
+    <button type="button" onclick="location.href='{%url 'webcam:index'  %}'" id="to_main">메인으로</button>
+
+    <div style="width: 900px; height: 400px;" >
+   
       <canvas id="myChart"></canvas>
     </div>
-
+    <div style="width: 600px; height: 400px;">
     <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Feelings</th>
           <th scope="col">Count</th>
-          <th scope="col">ETC</th>
         </tr>
       </thead>
       <tbody>
@@ -27,191 +29,50 @@
           <th scope="row">1</th>
           <td>anger</td>
           <td id="anger">0</td>
-          <td>@mdo</td>
         </tr>
         <tr>
           <th scope="row">2</th>
           <td>anxiety</td>
           <td id="anxiety">0</td>
-          <td>@fat</td>
         </tr>
         <tr>
           <th scope="row">3</th>
           <td>embarrassed</td>
-          <td id="embarrassed"></td>
-          <td>@twitter</td>
+          <td id="embarrassed">0</td>
         </tr>
         <tr>
           <th scope="row">4</th>
           <td>hurt</td>
           <td id="hurt">0</td>
-          <td>@twitter</td>
         </tr>
         <tr>
           <th scope="row">5</th>
           <td>neutral</td>
           <td id="neutral">0</td>
-          <td>@twitter</td>
         </tr>
         <tr>
           <th scope="row">6</th>
           <td>pleasure</td>
           <td id="pleasure">0</td>
-          <td>@twitter</td>
         </tr>
         <tr>
           <th scope="row">7</th>
           <td>sad</td>
           <td id="sad">0</td>
-          <td>@twitter</td>
         </tr>
 
       </tbody>
     </table>
+  </div>
+ 
+ <script src="{% static 'js/socket.js' %}"></script>
+
+ <script>
+    let counselingId = "{{ counseling.pk }}";
+    console.log(counselingId)
+
+    createWebSocket(counselingId);
+ </script>
 
 
-
-
-    <script>
-        const video = document.getElementById('video');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const anger= document.getElementById('anger')
-        const anxiety= document.getElementById('anxiety')
-        const embarrassed= document.getElementById('embarrassed')
-        const hurt= document.getElementById('hurt')
-        const neutral= document.getElementById('neutral')
-        const pleasure= document.getElementById('pleasure')
-        const sad= document.getElementById('sad')
-
-
-
-
-        let socket;
-      
-        function createWebSocket() {
-          socket = new WebSocket('ws://' + window.location.host + '/ws/video/');
-      
-          socket.onopen = function(event) {
-            console.log('WebSocket opened:', event);
-          };
-      
-          socket.onmessage = function(event) {
-            data=JSON.parse(event.data)
-            const imageBase64 = data['image'];
-            const feelings = data['feelings'];
-            
-            anger.innerText= feelings['anger'];
-            anxiety.innerText= feelings['anxiety'];
-            embarrassed.innerText= feelings['embarrassed'];
-            hurt.innerText= feelings['hurt'];
-            neutral.innerText= feelings['neutral'];
-            pleasure.innerText= feelings['pleasure'];
-            sad.innerText= feelings['sad'];
-
-        
-
-
-            video.src = 'data:image/jpeg;base64,' + imageBase64;
-          };
-      
-          socket.onclose = function(event) {
-            console.log('WebSocket closed:', event);
-            if (!event.wasClean) {
-              setTimeout(createWebSocket, 1000);
-            }
-          };
-        }
-      
-        createWebSocket();
-      
-        startBtn.addEventListener('click', () => {
-          if (!socket || socket.readyState === WebSocket.CLOSED) {
-            createWebSocket();
-          }
-          setTimeout(() => {
-            socket.send('start');
-          }, 500);
-        });
-      
-        stopBtn.addEventListener('click', () => {
-          if (socket && socket.readyState === WebSocket.OPEN) {
-            console.log(socket.readyState)
-            socket.send('stop');
-            socket.close(1000);
-          
-          }
-        });
-      
-        window.onbeforeunload = function() {
-          if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send('stop');
-          }
-        };
-
-
-
-     var context = document
-          .getElementById('myChart')
-          .getContext('2d');
-      var myChart = new Chart(context, {
-          type: 'bar', // 차트의 형태
-          data: { // 차트에 들어갈 데이터
-              labels: [
-                  //x 축
-                  'anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'
-              ],
-              datasets: [
-                  { //데이터
-                      label: '감정차트', //차트 제목
-                      fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-                      data: [
-                      parseInt(anger.innerText),parseInt(anxiety.innerText),parseInt(embarrassed.innerText),
-                      hurt.innerText,neutral.innerText,pleasure.innerText,sad.innerText //x축 label에 대응되는 데이터 값
-                      ],
-                      backgroundColor: [
-                          //색상
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          //경계선 색상
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1 //경계선 굵기
-                  }/* ,
-                  {
-                      label: 'test2',
-                      fill: false,
-                      data: [
-                          8, 34, 12, 24
-                      ],
-                      backgroundColor: 'rgb(157, 109, 12)',
-                      borderColor: 'rgb(157, 109, 12)'
-                  } */
-              ]
-          },
-          options: {
-              scales: {
-                  yAxes: [
-                      {
-                          ticks: {
-                              beginAtZero: true
-                          }
-                      }
-                  ]
-              }
-          }
-      }); 
-  </script>
-        
 {% endblock %}
