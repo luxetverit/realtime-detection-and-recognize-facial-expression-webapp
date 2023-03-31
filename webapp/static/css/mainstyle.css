@@ -3155,33 +3155,6 @@ img.u-pull-left {
 
 }
 
-/* --------------------------------------------------------------------
- * ## header social
- * -------------------------------------------------------------------- */
-.s-header__social {
-    list-style  : none;
-    display     : flex;
-    line-height : 1;
-    margin      : 0;
-}
-
-.s-header__social li {
-    padding-left : 0;
-    margin-right : .8rem;
-}
-
-.s-header__social a {
-    display : block;
-}
-
-.s-header__social svg {
-    height : var(--vspace-0_75);
-    width  : var(--vspace-0_75);
-}
-
-.s-header__social svg path {
-    fill : white;
-}
 
 /* --------------------------------------------------------------------
  * ## mobile menu toggle
