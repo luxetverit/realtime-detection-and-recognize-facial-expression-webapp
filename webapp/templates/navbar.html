@@ -1,4 +1,7 @@
 {% load static %}
+
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}"> 
+
 <div class="b-example-divider"></div>
 <div class="container">
 <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -14,30 +17,25 @@
         <li><a href="/#contact_us" class="nav-link px-2 link-dark">Contact</a></li>
       </ul>
       <div class="d-flex col-md-3">
-        {% if user.is_authenticated %}
-        {{ user.userid }}님
-        <li class="has-children">
-            <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
-                <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid">
-            </a>
-            <a href="#">Dropdown</a>
-            <ul class="dropdown">
-                <li><a href="{% url 'account:profile' %}">profile</a></li>
-                <li><a href="{% url 'account:userinfo' %}">settings</a></li>
-                <li><a href="{% url 'account:logout' %}">Log out</a></li>
-            </ul>
-        </li>
-        {% else %}
-        <a class="btn btn-outline-primary me-2" href="{% url 'account:login' %}" role="button">Login</a>
-        <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
-        {% endif %}
-        <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
-      </div>
-    </header>
-  </div>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            {{ user.userid }}님
+            <li class="nav-item">
+                <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                    <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
+                    <ul class="dropdown">
+                        <li><a href="{% url 'account:profile' %}">Profile</a></li>
+                        <li><a href="{% url 'account:userinfo' %}">Settings</a></li>
+                        <li><a href="{% url 'account:logout' %}">Log out</a></li>
+                    </ul>
+            </li>
+        </ul>
 
-<script>
-$(document).ready(function() {
-    $('.dropdown-toggle').dropdown();
-    });
-</script>
+            {% else %}
+            <a class="btn btn-outline-primary me-2" href="{% url 'account:login' %}" role="button">Login</a>
+            <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
+            {% endif %}
+            <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
+      </div>
+    </nav>
+  </div>
