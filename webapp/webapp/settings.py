@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from .db_settings import DEV_SECRET, DEV_DATABASES
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z)jm_*ue@qu&u*2n04@tefi3fo_)_*4d_^=9o)f3t*k)z^dn^6'
+SECRET_KEY = DEV_SECRET['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,19 +88,7 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'realtime_detection',
-        'USER': 'admin',
-        'PASSWORD': 'vmfhwprxm2xla!',
-        'HOST': 'finalteam-db1.cwkyk5bf3ql5.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_ALL_TABLES',
-        }
-    }
-}
+DATABASES = DEV_DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -143,11 +133,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+    STATIC_DIR,
+    ]
+
+STATIC_ROOT = os.path.join(ROOT_DIR,'.static_root')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
