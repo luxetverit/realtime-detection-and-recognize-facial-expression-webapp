@@ -46,7 +46,7 @@ def detail(request, pk):
 
 
 
-@login_required(login_url='account:login_view')
+@login_required(login_url='account:login')
 def posts_create(request):
     if request.method == 'POST':
         form = BoardPostForm(request.POST)
@@ -63,7 +63,7 @@ def posts_create(request):
 
 
 
-@login_required(login_url='account:login_view')
+@login_required(login_url='account:login')
 def posts_modify(request, pk):
     posts = get_object_or_404(BoardPost, pk=pk)
     if request.user != posts.user:
@@ -83,19 +83,20 @@ def posts_modify(request, pk):
 
 
 
-@login_required(login_url='account:login_view')
+@login_required(login_url='account:login')
 def posts_delete(request, pk):
     posts = get_object_or_404(BoardPost, pk=pk)
     if request.user != posts.user:
         messages.error(request, '삭제권한이 없습니다')
         return redirect('app:detail', pk=posts.pk)
-    posts.delete()
+    else: 
+        posts.delete()
     return redirect('app:index')
 
 
 
 # required 로그인하지 않을시 로그인 화면으로 이동하게 됨
-@login_required(login_url='account:login_view') # 당사자만 접근 가능하게 설정
+@login_required(login_url='account:login') # 당사자만 접근 가능하게 설정
 def comments_create(request, pk):
     """
     QnA 답변등록
