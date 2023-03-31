@@ -72,7 +72,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.is_streaming = False
         self.video_capture.release()
         self.out.release()
-        with open(str(BASE_DIR)+"/output.mp4", 'rb') as f:
+        with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
              await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
         await sync_to_async(self.counseling.save)()
     
@@ -91,8 +91,9 @@ class VideoConsumer(AsyncWebsocketConsumer):
             self.fps=10
         self.is_streaming = False
         self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
+        self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
         self.stopped = False
-        self.out=cv2.VideoWriter(self.filepath_to, fourcc, self.fps, (self.frame_width, self.frame_height))
+        self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
     async def disconnect(self,close_code):
             self.is_streaming = False
             self.stopped = True

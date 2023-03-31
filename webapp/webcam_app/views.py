@@ -58,9 +58,9 @@ def counseling_add(request):
             if request.FILES :
                 file = request.FILES['storage_data']
                 file_name = file.name
-                with open('media/cam'+file_name, 'wb+') as destination:
+                with open('media/cam'+file_name, 'wb+') as f:
                     for chunk in file.chunks():
-                        destination.write(chunk)
+                        f.write(chunk)
                 counseling.storage_data = file_name
             counseling.save()
 
