@@ -2,6 +2,8 @@
 
 ###   🗓️ 기간 : 23.03.13~23.04.07
 
+## 서비스 : [https://emo-ai.com](https://emo-ai.com)
+
 ## 주제 : 실시간으로 대상자의 안면 감정을 인식하고 해당 정보를 저장하는 웹 프로젝트
 
 ### 프로젝트 개요 
@@ -28,7 +30,7 @@
   - front : Django.js (정제경, 주한솔)  
   - backend : Django (이재영, 전현준)  
   - machine learning : python, pytorch, yolov8, opencv-dnn (남정우, 최세현)  
-  - architecture : aws ec2, s3, mysql, docker  
+  - architecture : aws ec2, aws elb, aws rds, aws acm, aws route53, mysql, docker, ubuntu
 
 # 팀원
 - 남정우, 이재영, 정제경, 전현준, 주한솔, 최세현

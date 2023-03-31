@@ -10,12 +10,10 @@ import base64
 from collections import Counter
 from asgiref.sync import async_to_sync
 from channels.exceptions import StopConsumer
-
-from datetime import datetime
 from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
 from django.shortcuts import get_object_or_404
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 @database_sync_to_async
@@ -62,6 +60,9 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 # 모델 불러오기 
 model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
+
+
+# @csrf_exempt
 class VideoConsumer(AsyncWebsocketConsumer):
     
 

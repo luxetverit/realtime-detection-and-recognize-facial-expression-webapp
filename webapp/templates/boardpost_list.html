@@ -13,21 +13,21 @@
         </tr>
         </thead>
         <tbody>
-        {% if question_list %}
-        {% for question in question_list %}
+        {% if posts_list %}
+        {% for posts in posts_list %}
         <tr class="text-center">
             <td>
                 <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
-                {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
+                {{ posts_list.paginator.count|sub:posts_list.start_index|sub:forloop.counter0|add:1 }}
             </td>
             <td class="text-start">
-                <a href="{% url 'app:posts_create' question.id %}">{{ question.subject }}</a>
-                {% if question.answer_set.count > 0 %}
-                <span class="text-danger small mx-2">{{ question.answer_set.count }}</span>
+                <a href="{% url 'app:detail' posts.pk %}">{{ posts.title }}</a>
+                {% if posts.boardcomment.count  > 0 %}
+                <span class="text-danger small mx-2">{{ posts.boardcomment.count }}</span>
                 {% endif %} 
             </td>
-            <td>{{ question.author.username }}</td>  <!-- 글쓴이 추가 -->
-            <td>{{ question.create_date }}</td>
+            <td>{{ posts.user.userid }}</td>  <!-- 글쓴이 추가 -->
+            <td>{{ posts.create_at }}</td>
         </tr>
         {% endfor %}
         {% else %}

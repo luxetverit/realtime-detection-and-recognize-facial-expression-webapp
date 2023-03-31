@@ -8,28 +8,31 @@ from django.views.decorators import gzip
 from pathlib import Path
 from .models import Counseling,DetectedEmotions
 from django.contrib import messages
-from .forms import CounselingForm
+from .forms import CounselingForm,CounselingEditForm
 from django.views import generic
-from .models import Counseling, DetectedEmotions
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'webcam/camindex.html')
 
 
-def socket(request):
-    return render(request, 'webcam/socket.html')
 
 
 
 
 
-class CounselingListView(generic.ListView):
+class CounselingListView(LoginRequiredMixin,generic.ListView):
     model = Counseling
     template_name = 'webcam/counseling_list.html'
     context_object_name = 'counseling_list'
+    
+    def get_queryset(self):
+        return Counseling.objects.filter(user=self.request.user)
+    
+    
 
-class CounselingDetailView(generic.DetailView):
+class CounselingDetailView(LoginRequiredMixin,generic.DetailView):
     model = Counseling
     template_name = 'webcam/counseling_detail.html'
     def get_context_data(self, **kwargs):
@@ -44,7 +47,7 @@ class CounselingDetailView(generic.DetailView):
         
 
 
-    
+@login_required(login_url='account:login')   
 def counseling_add(request):
     if request.method == 'POST':
         form = CounselingForm(request.POST, request.FILES)
@@ -63,11 +66,15 @@ def counseling_add(request):
     return render(request, 'webcam/counseling_form.html', {'form': form})
 
 
-
+@login_required(login_url='account:login')
 def counseling_edit(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
+    if request.user != counseling.user:
+        messages.error(request, '수정권한이 없습니다')
+        return redirect('webcam:counseling_list', pk=counseling.pk)
+    
     if request.method == 'POST':
-        form = CounselingForm(request.POST, request.FILES, instance=counseling)
+        form = CounselingEditForm(request.POST, request.FILES, instance=counseling)
         if form.is_valid():
             updated_counseling = form.save(commit=False)
             updated_counseling.user = request.user
@@ -75,15 +82,19 @@ def counseling_edit(request, pk):
             messages.success(request, '상담 세션 업데이트 완료.')
             return redirect('webcam:counseling_detail', pk=counseling.pk)
     else:
-        form = CounselingForm(instance=counseling)
+        form = CounselingEditForm(instance=counseling)
     return render(request, 'webcam/counseling_form.html', {'form': form})
 
 
-
+@login_required(login_url='account:login')
 def counseling_delete(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
-    counseling.delete()
-    messages.success(request, '상담 세션 제거 완료.')
+    if request.user != counseling.user:
+        messages.error(request, '삭제권한이 없습니다')
+        return redirect('webcam:counseling_detail', pk=counseling.pk)
+    else: 
+        counseling.delete()
+        messages.success(request, '상담 세션 제거 완료.')
     return redirect('webcam:counseling_list')
 
 
@@ -91,7 +102,7 @@ def counseling_delete(request, pk):
 
 
 
-
+@login_required(login_url='account:login')
 def socket(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
     detected_emotions = counseling.detectedemotions
