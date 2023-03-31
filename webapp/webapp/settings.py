@@ -26,7 +26,7 @@ SECRET_KEY = DEV_SECRET['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245']
+ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245', '127.0.0.1']
 
 # Application definition
 
@@ -142,7 +142,7 @@ STATICFILES_DIRS = [
     STATIC_DIR,
     ]
 
-STATIC_ROOT = os.path.join(ROOT_DIR,'.static_root')
+STATIC_ROOT = os.path.join(ROOT_DIR,'_static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
