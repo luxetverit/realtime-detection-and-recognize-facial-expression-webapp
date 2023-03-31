@@ -28,7 +28,7 @@
   - front : Django.js (정제경, 주한솔)  
   - backend : Django (이재영, 전현준)  
   - machine learning : python, pytorch, yolov8, opencv-dnn (남정우, 최세현)  
-  - architecture : aws ec2, s3, mysql, docker  
+  - architecture : aws ec2, aws elb, aws rds, aws acm, aws route53, mysql, docker, ubuntu
 
 # 팀원
 - 남정우, 이재영, 정제경, 전현준, 주한솔, 최세현
