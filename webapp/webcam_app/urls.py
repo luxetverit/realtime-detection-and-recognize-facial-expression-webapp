@@ -13,5 +13,6 @@ urlpatterns = [
     path('list/edit/<int:pk>/', views.counseling_edit, name='counseling_edit'),
     path('list/delete/<int:pk>/', views.counseling_delete, name='counseling_delete'),
     path('realtime/<int:pk>', views.socket, name='realtime'),
+    # path('video/<int:pk>',views.counseling_video,name='video'),
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
