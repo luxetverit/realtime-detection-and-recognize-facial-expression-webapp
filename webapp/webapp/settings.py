@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from .db_settings import DEV_SECRET, DEV_DATABASES
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,18 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z)jm_*ue@qu&u*2n04@tefi3fo_)_*4d_^=9o)f3t*k)z^dn^6'
+SECRET_KEY = DEV_SECRET['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://emo-ai.com', 'https://www.emo-ai.com']
 # Application definition
 
 INSTALLED_APPS = [
     'daphne',
-    'webcam_app',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'app.apps.AppConfig'
-    'app',
     'webcam_app',
-    'chartjs', #pip install django-chardjs
+    'chartjs', #pip install django-chartjs
+    'account',
+    'post_comment',
 ]
 
 MIDDLEWARE = [
@@ -87,21 +88,22 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'realtime_detection',
-        'USER': 'admin',
-        'PASSWORD': 'vmfhwprxm2xla!',
-        'HOST': 'finalteam-db1.cwkyk5bf3ql5.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '3306',
-    }
-}
+DATABASES = DEV_DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = 'account.User'
+
+# AUTHENTICATION_BACKENDS = [
+
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+
+# ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -131,16 +133,28 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 STATIC_URL = '/static/'
-STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+    STATIC_DIR,
+    ]
+
+
+STATIC_ROOT = os.path.join(BASE_DIR,'_static')
+
+
+
+
+#MEDIA 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-

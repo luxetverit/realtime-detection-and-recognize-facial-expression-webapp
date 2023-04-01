@@ -1,42 +1,78 @@
-from django.shortcuts import render
 from django.contrib import auth
 from django.db import connection
-from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from account.models import User
 from django.http import HttpResponse, JsonResponse
 from django.utils.timezone import now
+from django.contrib.auth import logout, login, authenticate, get_user_model
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.decorators import login_required
 
-# 회원가입
+# 로그인
+def login_view(request):
+    # 주소를 입력해서 들어오는 경우
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    
+    elif request.method == 'POST':
+        userid = request.POST['userid']
+        password = request.POST['password']
+        user = authenticate(request, userid=userid, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+            # Redirect to a success page.
+        else:
+            # Return an 'invalid login' error message.
+            return render(request, 'login.html', {'message': '아이디 혹은 비밀번호가 틀렸습니다.'})
+  
+    
+# 로그아웃
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+  
+# 회원가입  
 def signup(request):
-    if request.method == 'POST':
-        if request.POST['password1'] == request.POST['password2']:
-            userid = request.POST['userid'],
-            username = request.POST['username'],
-            password = request.POST['password1'],
-            email = request.POST['email'],
-
-            string = "INSERT INTO user(is_superuser, email, is_staff, is_active, date_joined, userid, username, password) VALUES (0, %s, 0, 1, NOW(), %s, %s, %s)"
-            return HttpResponse(string)
-            cursor = connection.cursor()
-            user = cursor.execute(string, [email, userid, username, password])
-            
-            
-            auth.login(request, user)
-            return redirect('/')
+    # 주소를 입력해서 들어오는 경우
+    if request.method == 'GET':
         return render(request, 'signup.html')
-    return render(request, 'signup.html')
+    
+    elif request.method == 'POST':
+        userid = request.POST['userid']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        if request.POST['password'] != request.POST['password2']:
+            return render(request, 'signup.html')
+
+        user = User()
+        user.new_user(userid, username, email, password)
+        
+        return render(request, 'login.html')
 
 
-def signup_orm(request):
-    if request.method == 'POST':
-        if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(
-                                            userid = request.POST['userid'],
-                                            username = request.POST['username'],
-                                            password = request.POST['password1'],
-                                            email = request.POST['email'],)
-            auth.login(request, user)
-            return redirect('/')
-        return render(request, 'signup.html')
-    return render(request, 'signup.html')
+@login_required
+def index(request):
+    if request.user.is_superuser:
+        users = get_user_model().objects.all()
+        context = {
+            'users':users,
+        }
+        return render(request, 'accounts/index.html', context)
+    else:
+        return redirect('articles:index')
+
+
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def userinfo(request):
+    return render(request, 'userinfo.html')
+
+def password(request):
+    return render(request, 'password.html')
+

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- comment_form.html -->
+<form method="post" action="{% url 'app:comments_create' pk=Posts.pk %}">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.content.label_tag }}
+        {{ form.content }}
+        {% if form.content.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.content.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">댓글 등록</button>
+</form>
+
+
+
+
+
+
+{% endblock %}
