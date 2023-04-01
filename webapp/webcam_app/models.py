@@ -1,10 +1,8 @@
 from django.db import models
-
 from django.contrib.auth import authenticate
-
 from account.models import User
 from django.db import models
-
+from django.core.validators import FileExtensionValidator
 
 class Counseling(models.Model):
     user =models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True) #상담자
@@ -12,7 +10,7 @@ class Counseling(models.Model):
     counsel_subject=models.CharField(max_length=50) # 상담주제 
     content=models.TextField() # 상담내용 
     realtime_true_false=models.BooleanField(default=False)
-    storage_data = models.FileField(upload_to="cam/", blank=True)  
+    storage_data = models.FileField(upload_to="cam/", blank=True,validators=[FileExtensionValidator(['mp4'])]) 
     download_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)
