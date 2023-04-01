@@ -1,0 +1,47 @@
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    position: relative; /* 하위 메뉴를 absolute 위치로 설정하기 위해 */
+    z-index: 999;
+  }
+  
+  .profile-photo .dropdown-toggle .nav-link{
+    display: block;
+    padding: 0.5rem 1rem;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    display: none; /* 기본적으로 숨김 */
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1; /* 하위 메뉴가 상위 요소를 가리지 않도록 */
+  }
+  
+  .nav-item:hover .dropdown {
+    display: block; /* 마우스 오버 시 하위 메뉴를 보여줌 */
+  }
+  
+  .dropdown li {
+    display: block;
+  }
+  
+  .dropdown li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .dropdown li a:hover {
+    background-color: #f7f7f7;
+  }
