@@ -2,40 +2,45 @@
 
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}"> 
 
-<div class="b-example-divider"></div>
-  <div class="container">
-    <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-      </a>
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="/#about" class="nav-link px-2 link-dark">About</a></li>
-        <li><a href="{% url 'app:demo' %}" class="nav-link px-2 link-dark">Demo</a></li>
-        <li><a href="{% url 'app:service' %}" class="nav-link px-2 link-dark">Service</a></li>
-        <li><a href="{% url 'app:qna' %}" class="nav-link px-2 link-dark">QnA</a></li>
-        <li><a href="/#contact_us" class="nav-link px-2 link-dark">Contact</a></li>
-      </ul>
-      <div class="d-flex col-md-3">
-        <ul class="navbar-nav">
-            {% if user.is_authenticated %}
-            {{ user.userid }}님
-            <li class="nav-item">
-                <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
-                    <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
-                    <ul class="dropdown">
-                        <li><a href="{% url 'account:profile' %}">Profile</a></li>
-                        <li><a href="{% url 'account:userinfo' %}">Settings</a></li>
-                        <li><a href="{% url 'account:logout' %}">Log out</a></li>
-                    </ul>
-            </li>
-        </ul>
+<header class="s-header">
+    <div class="row s-header__inner">
+        <div class="s-header__block">
+            <div class="s-header__logo"> <!--로고 위치 문제 일어나서 막아뒀습니다-->
+                <a class="logo" href="/">
+                    <!--<img src="{% static 'img/EmoAI-logo-white.png' %}" alt="Homepage">-->
+                </a>
+            </div>
 
-            {% else %}
-            <a class="btn btn-outline-primary me-2" href="{% url 'account:login' %}" role="button">Login</a>
-            <a class="btn btn-primary" href="{% url 'account:signup' %}" role="button">sign-up</a>
-            {% endif %}
-            <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
-      </div>
-    </nav>
-  </div>
+            <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+        </div> <!-- end s-header__block -->
+
+        <nav class="s-header__nav">
+            <ul class="s-header__menu-links">
+                <li class="current"><a href="/" class="smoothscroll">Home</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="{% url 'app:demo' %}">Demo</a></li>
+                <li><a href="{% url 'app:service' %}">Service</a></li>
+                <li><a href="/QnA/">QnA</a></li>
+                <li><a href="/#contact_us">Contact</a></li>
+            </ul> <!-- s-header__menu-links -->
+            <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    {{ user.userid }}님
+                    <li class="nav-item">
+                        <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                            <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
+                            <ul class="dropdown">
+                                <li><a href="{% url 'account:profile' %}">Profile</a></li>
+                                <li><a href="{% url 'account:userinfo' %}">Settings</a></li>
+                                <li><a href="{% url 'account:logout' %}">Log out</a></li>
+                            </ul>
+                    </li>
+        
+                    {% else %}
+                    <button class="hoverbutton" type="button" onclick="location.href='{% url 'account:login' %}'"> Login </button>
+                    <button class="hoverbutton2" type="button" onclick="location.href='{% url 'account:signup' %}'"> Sign-up</button>
+                    {% endif %}
+                    <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
+            </ul>
+    </div> <!-- "row s-header__inner" -->
+</header>
