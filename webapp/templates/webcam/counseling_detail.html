@@ -1,49 +1,110 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
-
-
-
-
 {% block content %}
 
-
+<a href="{% url 'webcam:counseling_list' %}">상담목록 바로가기</a>
 <h1> Counseling Detail </h1>
-<p>pk확인용:{{ counseling.pk }}</p>
+  <div class="container">
+      <h3>{{ counseling.customername }}님의 감정분석내역</h3>
+      <br>
+      <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row" width="100px">상담사</th>
+                <td>{{ counseling.user.userid }}</td>
+                <td></td>
+            </tr>
+            <tr>
+              <th scope="row" width="100px">상담일시</th>
+              <td>{{ counseling.created_at }}</td>
+              <td>최근상담일: {{ counseling.updated_at }}</td>
+            </tr>
+            <tr>
+                <th scope="row" width="100px">상담제목</th>
+                <td>{{ counseling.counsel_subject }}</td>
+                {% if counseling.realtime_true_false %}
+                <td>실시간 여부: Yes</td>
+                {% else %}
+                <td>실시간 여부: No</td>
+                {% endif %}
+            </tr>
+        </tbody>
+      </table>
+      <table>
+          <tbody>
+            <tr>
+              <th scope="row" width="100px">상담내용</th>
+              <td>{{ counseling.content }}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div> 
+  <div class="container text-center">
+    <a href="{% url 'webcam:counseling_edit' counseling.pk %}">
+        <button onclick="return confirm('정말로 수정하시겠습니까?')">수정</button>
+      </a>
+      <a href="{% url 'webcam:counseling_delete' counseling.pk %}">
+        <button onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+    </a>
+    <hr>
+  </div>
 
-<p>상담사:{{ counseling.user.userid }}</p>
-<p>상담자:{{ counseling.customername }}</p>
-{% if counseling.realtime_true_false %}
-<p>실시간 여부:YES</p>
-{% else %}
-<p>실시간 여부:No</p>
-{% endif %}
-<p>상담 일시:{{ counseling.created_at }}</p>
-<p>상담 주제:{{ counseling.counsel_subject }}</p>
-<p>상담 내용:{{ counseling.content }}</p>
-<p>내용 변경일:{{ counseling.updated_at }}</p>
-<p>저장소:{{ counseling.storage_data }}</p>
-
-<hr>
-
-
-<p> detect pk확인용: {{detectedemotion.pk}}</p>
-<p>pk와 customername: {{detectedemotion}}</p>
-<p>anger : {{detectedemotion.anger}}</p>
-<p>anxiety : {{detectedemotion.anxiety}}</p>
-<p>embarrassed : {{detectedemotion.embarrassed}}</p>
-<p>hurt : {{detectedemotion.hurt}}</p>
-<p>neutral : {{detectedemotion.neutral}}</p>
-<p>pleasure : {{detectedemotion.pleasure}}</p>
-<p>sad : {{detectedemotion.sad}}</p>
-
-<a href="{% url 'webcam:counseling_edit' counseling.pk %}">
-    <button onclick="return confirm('정말로 수정하시겠습니까?')">수정</button>
-  </a>
-  <a href="{% url 'webcam:counseling_delete' counseling.pk %}">
-    <button onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-</a>
-
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-4 table-responsive">
+        <table class="table table-warning">
+            <thead>
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">감정</th>
+                <th scope="col">수치</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td width="col-6">anger</td>
+                <td>{{detectedemotion.anger}}</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td width="col-6">anxiety</td>
+                <td>{{detectedemotion.anxiety}}</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td width="col-6">embarrassed</td>
+                <td>{{detectedemotion.embarrassed}}</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td width="col-6">hurt</td>
+                <td>{{detectedemotion.hurt}}</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td width="col-6">neutral</td>
+                <td>{{detectedemotion.neutral}}</td>
+              </tr>
+              <tr>
+                <th scope="row">6</th>
+                <td width="col-6">pleasure</td>
+                <td>{{detectedemotion.pleasure}}</td>
+              </tr>
+              <tr>
+                <th scope="row">7</th>
+                <td width="col-6">sad</td>
+                <td>{{detectedemotion.sad}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <div class="col-8">
+        {{detectedemotion}}
+        여기에 차트 넣어요
+      </div>
+    </div>
+  </div>
+  <br>
 
 {% endblock %}

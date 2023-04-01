@@ -1,38 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
-
-
 {% block content %}
-
-
-
-
-<h1>Counseling List</h1>
-
-
- 
-{% for counseling in counseling_list %}
-    <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">
-        <p>상담사:{{counseling.user.userid}} 상담자: {{counseling.customername}} 상담주제: {{counseling.counsel_subject}} </p>
-        <p> 상담내용: {{counseling.content}} </p>
-
-    </a>
-<hr>
-
-
-
+<main>
+    <h1>Counseling List</h1>
+    <div class="container">
+    <a href="{% url 'webcam:index' %}">메인으로</a>
+    <hr>
+    </div>  
+    
+    {% for counseling in counseling_list %}
+    <div class="container">
+            <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">상담분석 바로가기</a>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row" width="100px">상담사</th>
+                        <td>{{counseling.user.userid}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" width="100px">상담자</th>
+                        <td>{{counseling.customername}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" width="100px">상담주제</th>
+                        <td>{{counseling.counsel_subject}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" width="100px">상담내용</th>
+                        <td>{{counseling.content}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        <hr>
+    </div>   
 {% empty %}
-    <p>No counseling sessions available.</p>
+        <p>No counseling sessions available.</p>
 {% endfor %}
-
-
-
-
-
-
-
+</main>
 
 
 
