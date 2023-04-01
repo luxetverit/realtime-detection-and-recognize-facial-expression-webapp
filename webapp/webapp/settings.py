@@ -27,7 +27,7 @@ SECRET_KEY = DEV_SECRET['SECRET_KEY']
 DEBUG = True
 
 ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245', '127.0.0.1']
-
+CSRF_TRUSTED_ORIGINS = ['https://emo-ai.com', 'https://www.emo-ai.com']
 # Application definition
 
 INSTALLED_APPS = [
@@ -141,7 +141,18 @@ STATICFILES_DIRS = [
     STATIC_DIR,
     ]
 
+
 STATIC_ROOT = os.path.join(BASE_DIR,'_static')
+
+
+
+
+#MEDIA 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

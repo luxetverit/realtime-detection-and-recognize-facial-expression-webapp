@@ -5,7 +5,6 @@ import numpy as np
 from pathlib import Path
 import json
 from django.http import StreamingHttpResponse
-from django.views.decorators import gzip
 import base64
 from collections import Counter
 from asgiref.sync import async_to_sync
@@ -14,7 +13,8 @@ from .models import Counseling, DetectedEmotions
 from channels.db import database_sync_to_async
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.files import File
+from asgiref.sync import sync_to_async
 
 @database_sync_to_async
 def get_counseling_object_or_404(pk):
@@ -36,7 +36,7 @@ def set_detectdedemotions(detected_emotions,feelcount):
         detected_emotions.pleasure=feelcount['pleasure']
         detected_emotions.sad=feelcount['sad']
         detected_emotions.save(update_fields=['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'])
-    else: print('hello')
+    else: print('error')
    
         
 
@@ -46,6 +46,7 @@ def set_detectdedemotions(detected_emotions,feelcount):
 BASE_DIR = Path(__file__).resolve().parent
 CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
 # 색상 랜덤하게 뽑아서 적용 다 다르게 
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 
 colors = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
@@ -70,7 +71,10 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.stopped = True
         self.is_streaming = False
         self.video_capture.release()
-
+        self.out.release()
+        with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
+             await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
+        await sync_to_async(self.counseling.save)()
     
     async def connect(self):
         self.pk = self.scope['url_route']['kwargs']['counseling_id']
@@ -78,15 +82,18 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.task=''
         self.counseling = await get_counseling_object_or_404(self.pk)
         self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
-        # print(detected_emotions)
         await self.accept()
         self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+        if self.fps==0:
+            self.fps=10
         self.is_streaming = False
+        self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
+        self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
         self.stopped = False
-
+        self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
     async def disconnect(self,close_code):
             self.is_streaming = False
             self.stopped = True
@@ -97,8 +104,6 @@ class VideoConsumer(AsyncWebsocketConsumer):
     async def stream_video(self):
         feelings=[]
         
-        # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        # out = cv2.VideoWriter('output.mp4', fourcc, 30, (self.frame_width, self.frame_height))
         while self.is_streaming and not self.stopped  :
             ret, frame = self.video_capture.read()
             if not ret:
@@ -154,7 +159,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
                                 round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
 
                 # output 저장
-                # out.write(frame)
+                self.out.write(frame)
         
                 feelings.append(detection['class_name'])
             # Encode the frame as a JPEG image and send it to the client
@@ -171,7 +176,6 @@ class VideoConsumer(AsyncWebsocketConsumer):
             }))
             self.feelcount=feelcount
             await asyncio.sleep(0.05)
-
 
 
 

@@ -12,7 +12,7 @@ from .forms import CounselingForm,CounselingEditForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-
+from .videotake import videocheck
 def index(request):
     return render(request, 'webcam/camindex.html')
 
@@ -54,13 +54,24 @@ def counseling_add(request):
         if form.is_valid():
             counseling = form.save(commit=False)
             counseling.user  = request.user
+            
+            if request.FILES :
+                file = request.FILES['storage_data']
+                file_name = file.name
+                with open('media/cam'+file_name, 'wb+') as f:
+                    for chunk in file.chunks():
+                        f.write(chunk)
+                counseling.storage_data = file_name
             counseling.save()
 
             if request.POST.get('realtime_true_false') == 'on':
                 return redirect('webcam:realtime', pk=counseling.pk)
-            else:
-                messages.success(request, '상담 세션 추가 완료.')
-                return redirect('webcam:counseling_list')
+            else :
+                # request.FILES['storage_data']:
+                # video_path=counseling.storage_data.path
+                # print(video_path)
+                # messages.success(request, '상담 세션 추가 완료.')
+                return redirect('webcam:counseling_detail', pk=counseling.pk) 
     else:
         form = CounselingForm()
     return render(request, 'webcam/counseling_form.html', {'form': form})
@@ -131,26 +142,6 @@ def socket(request, pk):
 
 
 
-
-
-
-# def counseling_list(request):
-#     userid = request.GET.get('username')
-
-#     counselings = Counseling.objects.all()
-
-#     if userid:
-#         counselings = counselings.filter(userid=userid)
-
-
-
-#     return render(request, 'webcam/counseling_list.html', {'counselings': counselings})
-
-
-
-# def counseling_detail(request, pk):
-#     counseling = get_object_or_404(Counseling, pk=pk)
-#     return render(request, 'counseling/counseling_detail.html', {'counseling': counseling})
 
 
 

@@ -1,19 +1,16 @@
 from django.db import models
-
 from django.contrib.auth import authenticate
-
 from account.models import User
 from django.db import models
-
+from django.core.validators import FileExtensionValidator
 
 class Counseling(models.Model):
     user =models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True) #상담자
     customername =models.CharField(max_length=20) # 상담받는 고객
     counsel_subject=models.CharField(max_length=50) # 상담주제 
     content=models.TextField() # 상담내용 
-
     realtime_true_false=models.BooleanField(default=False)
-    storage_data = models.FileField(upload_to="cam/", blank=True)  
+    storage_data = models.FileField(upload_to="cam/", blank=True,validators=[FileExtensionValidator(['mp4'])]) 
     download_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)
@@ -22,7 +19,7 @@ class Counseling(models.Model):
     
     
     def __str__(self): #상담자 
-        return '비워둠'+'의고객'+self.customername+'pk'+str(self.pk)
+        return self.user.userid+'의고객'+self.customername+'pk'+str(self.pk)
     
 
     
@@ -36,7 +33,7 @@ class Counseling(models.Model):
     
     class Meta:
         db_table = 'counseling'
-        
+        ordering = ['-pk']
     
 class Videos(models.Model):
     userid = models.ForeignKey(User, models.DO_NOTHING, db_column='userid', to_field='userid')
@@ -63,7 +60,7 @@ class DetectedEmotions(models.Model):
     
     
     def __str__(self):
-        return 'pk:'+str(self.pk)+'와'+self.counseling.customername
+        return 'pk:'+str(self.pk)+'의 '+self.counseling.customername+'의 감정'
 
     class Meta:
         db_table = 'detected_emotions'
