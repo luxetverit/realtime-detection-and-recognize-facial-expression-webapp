@@ -23,24 +23,28 @@
                 <li><a href="/qna/">QnA</a></li>
                 <li><a href="/#contact_us">Contact</a></li>
             </ul> <!-- s-header__menu-links -->
-            <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                    {{ user.userid }}님
-                    <li class="nav-item">
-                        <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
-                            <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
-                            <ul class="dropdown">
-                                <li><a href="{% url 'account:profile' %}">Profile</a></li>
-                                <li><a href="{% url 'account:userinfo' %}">Settings</a></li>
-                                <li><a href="{% url 'account:logout' %}">Log out</a></li>
-                            </ul>
-                    </li>
-        
-                    {% else %}
-                    <button class="hoverbutton" type="button" onclick="location.href='{% url 'account:login' %}'"> Login </button>
-                    <button class="hoverbutton2" type="button" onclick="location.href='{% url 'account:signup' %}'"> Sign-up</button>
-                    {% endif %}
-                    <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
+            <div class="row row-y-center">
+            
+                {% if user.is_authenticated %}
+                {{ user.userid }}님
+               
+                <div class="col nav-item">
+                    <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                        <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
+                        <ul class="dropdown">
+                            <li><a href="{% url 'account:profile' %}">Profile</a></li>
+                            <li><a href="{% url 'account:userinfo' %}">Settings</a></li>
+                            <li><a href="{% url 'account:logout' %}">Logout</a></li>
+                        </ul>
+                </div>
+            </div>
+            {% else %}
+            <div>
+                <button class="hoverbutton" type="button" onclick="location.href='{% url 'account:login' %}'"> Login </button>
+                <button class="hoverbutton2" type="button" onclick="location.href='{% url 'account:signup' %}'"> Sign-up</button>
+            {% endif %}
+            <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
             </ul>
+        </nav>
     </div> <!-- "row s-header__inner" -->
 </header>

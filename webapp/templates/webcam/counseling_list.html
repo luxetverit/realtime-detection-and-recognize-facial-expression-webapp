@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main>
     <h1>Counseling List</h1>
     <div class="container">
     <a href="{% url 'webcam:index' %}">메인으로</a>
@@ -36,7 +35,7 @@
 {% empty %}
         <p>No counseling sessions available.</p>
 {% endfor %}
-</main>
+
 
 
 

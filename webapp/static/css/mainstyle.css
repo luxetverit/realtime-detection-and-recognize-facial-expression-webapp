@@ -1418,7 +1418,7 @@ ul,
 ol,
 dl,
 form,
-img,
+/* img, */
 .video-container,
 .ss-custom-select {
     margin-bottom : var(--vspace-1);
