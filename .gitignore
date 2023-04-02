@@ -22,7 +22,7 @@ migrations/
 # db_settings.py
 
 
-# _static/
+_static/
 
 # jetbrains igonre
 
