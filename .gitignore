@@ -19,7 +19,7 @@ migrations/
 ./migrations
 .vs/*
 ./.idea
-db_settings.py
+# db_settings.py
 _static/
 
 # jetbrains igonre
