@@ -1,107 +1,82 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <body>
-        <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-7">
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
-                                    <div class="card-body py-5">
-                                        <form method="POST" action="" > {% csrf_token %}
-                                            <div class="d-flex justify-content-between">
-                                                <div class="col form-floating">
-                                                    <!-- required is a required field -->
-                                                    <input name="userid" class="form-control d-grid" id="inputUserId" type="text" placeholder="Enter your ID" required/>
-                                                    <label for="inputUserId">Userid</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-floating has-success">
-                                                <input name="password" class="form-control is-valid" id="inputValid" type="password" placeholder="Create a password" required/>
-                                                <label for="inputValid">Password</label>
-                                                <div class="valid-feedback"></div>
-                                            </div>
-                                            <div class="form-floating mb-3 mb-md-0 has-danger">
-                                                <input name="password2" class="form-control is-invalid" id="confirm-password" type="password" placeholder="Confirm password" required/>
-                                                <label for="confirm-password">Confirm Password</label>
-                                            </div>
-                                            <div class="col form-floating">
-                                                <input name="username" class="form-control" id="inputUserName" type="username" placeholder="Enter your name" required/>
-                                                <label for="inputUserName">Username</label>
-                                            </div>
-                                            <div class="form-floating">
-                                                <input name="email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" required/>
-                                                <label for="inputEmail">Email address</label>
-                                            </div>
-                                            <div class="mt-4 mb-0">
-                                                <button class="btn btn-primary btn-block" >Create Account</button>
-                                            </div>
-                                        </form>
+<section class="section-header">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                            <div class="card-body py-5">
+                                <form method="POST" action="" > {% csrf_token %}
+                                    <div class="d-flex justify-content-between">
+                                        <div class="col form-floating">
+                                            <!-- required is a required field -->
+                                            <input name="userid" class="form-control d-grid" id="inputUserId" type="text" placeholder="Enter your ID" required/>
+                                            <label for="inputUserId">Userid</label>
+                                        </div>
                                     </div>
-                                    <div class="card-footer text-center py-2">
-                                        <div class="small"><a href="{% url 'account:login' %}">Have an account? Go to login</a></div>
+                                    <div class="form-floating has-success">
+                                        <input name="password" class="form-control is-valid" id="inputValid" type="password" placeholder="Create a password" required/>
+                                        <label for="inputValid">Password</label>
+                                        <div class="valid-feedback"></div>
                                     </div>
-                                </div>
-                                <div class="form-floating has-success">
-                                    <input name="password" class="form-control is-valid" id="inputValid" type="password" placeholder="Create a password" required/>
-                                    <label for="inputValid">Password</label>
-                                    <div class="valid-feedback"></div>
-                                </div>
-                                <div class="form-floating mb-3 mb-md-0 has-danger">
-                                    <input name="password2" class="form-control is-invalid" id="confirm-password" type="password" placeholder="Confirm password" required/>
-                                    <label for="confirm-password">Confirm Password</label>
-                                </div>
-                                <div class="col form-floating">
-                                    <input name="username" class="form-control" id="inputUserName" type="username" placeholder="Enter your name" required/>
-                                    <label for="inputUserName">Username</label>
-                                </div>
-                                <div class="form-floating">
-                                    <input name="email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" required/>
-                                    <label for="inputEmail">Email address</label>
-                                </div>
-                                <div class="mt-4 mb-0">
-                                    <button class="btn btn-primary btn-block" >Create Account</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center py-2">
-                            <div class="small"><a href="{% url 'account:login' %}">Have an account? Go to login</a></div>
+                                    <div class="form-floating mb-3 mb-md-0 has-danger">
+                                        <input name="password2" class="form-control is-invalid" id="confirm-password" type="password" placeholder="Confirm password" required/>
+                                        <label for="confirm-password">Confirm Password</label>
+                                    </div>
+                                    <div class="col form-floating">
+                                        <input name="username" class="form-control" id="inputUserName" type="username" placeholder="Enter your name" required/>
+                                        <label for="inputUserName">Username</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input name="email" class="form-control" id="inputEmail" type="email" placeholder="name@example.com" required/>
+                                        <label for="inputEmail">Email address</label>
+                                    </div>
+                                    <div class="mt-4 mb-0">
+                                        <button class="btn btn-primary btn-block" >Create Account</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-2">
+                                <div class="small"><a href="{% url 'account:login' %}">Have an account? Go to login</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-            const password = document.getElementById("inputValid");
-            const confirmPassword = document.getElementById("confirm-password");
-            const form = document.querySelector("form");
+    </div>
+</section>
+<script>
+    const password = document.getElementById("inputValid");
+    const confirmPassword = document.getElementById("confirm-password");
+    const form = document.querySelector("form");
 
-            function validatePassword() {
-            const errorMessages = confirmPassword.parentNode.querySelectorAll(".invalid-feedback");
-            errorMessages.forEach(message => message.remove());
+    function validatePassword() {
+    const errorMessages = confirmPassword.parentNode.querySelectorAll(".invalid-feedback");
+    errorMessages.forEach(message => message.remove());
 
-            if (password.value !== confirmPassword.value) {
-                confirmPassword.style.borderColor = "";
-                const errorMessage = document.createElement("div");
-                errorMessage.classList.add("invalid-feedback");
-                errorMessage.innerText = "Passwords do not match";
-                confirmPassword.parentNode.appendChild(errorMessage);
-                confirmPassword.setCustomValidity("invalid");
-            } else {
-                confirmPassword.style.borderColor = "green";
-                confirmPassword.setCustomValidity("");
-                confirmPassword.parentNode.classList.add("was-validated");
-                confirmPassword.parentNode.classList.add("has-success"); // Add the has-success class if passwords match
-                confirmPassword.classList.add("is-valid"); // Also add the is-valid class
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.style.borderColor = "";
+        const errorMessage = document.createElement("div");
+        errorMessage.classList.add("invalid-feedback");
+        errorMessage.innerText = "Passwords do not match";
+        confirmPassword.parentNode.appendChild(errorMessage);
+        confirmPassword.setCustomValidity("invalid");
+    } else {
+        confirmPassword.style.borderColor = "green";
+        confirmPassword.setCustomValidity("");
+        confirmPassword.parentNode.classList.add("was-validated");
+        confirmPassword.parentNode.classList.add("has-success"); // Add the has-success class if passwords match
+        confirmPassword.classList.add("is-valid"); // Also add the is-valid class
 
-            }
-        }
-        password.addEventListener("change", validatePassword);
-        confirmPassword.addEventListener("keyup", validatePassword);
-        
-        </script>
-    </body>
+    }
+}
+password.addEventListener("change", validatePassword);
+confirmPassword.addEventListener("keyup", validatePassword);
+
+</script>
 {% endblock %}

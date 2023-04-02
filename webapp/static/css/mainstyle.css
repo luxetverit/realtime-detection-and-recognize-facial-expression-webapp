@@ -1522,6 +1522,7 @@ fieldset {
     padding : 0;
 }
 
+input[type="username"],
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -2244,6 +2245,21 @@ td:last-child {
     opacity    : 1;
     visibility : visible;
 }
+
+
+.s-header {
+    --header-height  : 80px;
+    --logo-width     : 60px;
+    z-index          : 100;
+    background-color : black;
+    height           : var(--header-height);
+    width            : 100%;
+    position         : absolute;
+    top              : var(--vspace-0_5);
+    left             : 0;
+    --logo-top       : calc(var(--header-height) / 2 - var(--logo-width) / 2);
+}
+
 
 .s-header__inner {
     max-width   : 1400px;
