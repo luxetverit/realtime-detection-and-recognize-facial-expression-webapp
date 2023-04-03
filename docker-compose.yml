@@ -14,7 +14,7 @@ services:
         build:
             context: ./webapp
             dockerfile: Dockerfile
-        command: uvicorn webapp.asgi:application
+        command: gunicorn --bind 0.0.0.0:8000 webapp.asgi -w 4 -k uvicorn.workers.UvicornWorker
         volumes:
             - ./webapp:/code
         expose:
