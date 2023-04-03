@@ -17,9 +17,6 @@ import webcam_app.routing
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webapp.settings")
 
-import django
-django.setup()
-
 django_asgi_app = get_asgi_application()
 
 application = ProtocolTypeRouter({

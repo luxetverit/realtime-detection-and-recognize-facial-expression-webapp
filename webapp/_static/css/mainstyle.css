@@ -394,7 +394,6 @@ sup {
 
 img {
     border-style : none;
-    display: inline-block;
 }
 
 button,
@@ -2213,8 +2212,8 @@ td:last-child {
     background-color : black;
     height           : var(--header-height);
     width            : 100%;
-    position         : sticky;
-    top              : 0;
+    position         : absolute;
+    top              : var(--vspace-0_5);
     left             : 0;
     --logo-top       : calc(var(--header-height) / 2 - var(--logo-width) / 2);
 }
@@ -2247,7 +2246,7 @@ td:last-child {
     visibility : visible;
 }
 
-/* 
+
 .s-header {
     --header-height  : 80px;
     --logo-width     : 60px;
@@ -2259,7 +2258,7 @@ td:last-child {
     top              : var(--vspace-0_5);
     left             : 0;
     --logo-top       : calc(var(--header-height) / 2 - var(--logo-width) / 2);
-} */
+}
 
 
 .s-header__inner {
@@ -2433,7 +2432,7 @@ td:last-child {
     }
 }
 
-/* @media screen and (max-width: 800px) {
+@media screen and (max-width: 800px) {
     .s-header {
         --logo-width : 36px;
         top          : var(--vspace-0_25);
@@ -2517,7 +2516,7 @@ td:last-child {
         transition       : all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
         transition-delay : .4s;
     }
-} */
+}
 
 @media screen and (max-width: 500px) {
     .s-header.sticky {
@@ -2647,10 +2646,6 @@ td:last-child {
 @media screen and (max-width: 1000px) {
     .s-intro__content-title br {
         display : none;
-    }
-
-    .row.row-y-center {
-        display: none;
     }
 
     .s-intro__scroll-down {
