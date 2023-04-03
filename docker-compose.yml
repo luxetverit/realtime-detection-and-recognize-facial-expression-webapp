@@ -14,7 +14,7 @@ services:
         build:
             context: ./webapp
             dockerfile: Dockerfile
-        command: uvicorn webapp.asgi:application --host 0.0.0.0 -port 8000
+        command: uvicorn webapp.asgi:application --bind 0.0.0.0:8000
         volumes:
             - ./webapp:/code
         expose:
