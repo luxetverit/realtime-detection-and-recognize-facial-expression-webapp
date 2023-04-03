@@ -17,11 +17,11 @@ services:
         command: daphne -b 0.0.0.0 -p 8000 webapp.asgi:application
         volumes:
             - ./webapp:/code
-            - ./etc/daphne.service:/etc/systemd/system/daphne.service
-            - ./etc/daphne.service:/etc/systemd/system/daphne.service
+            - ./etc/docker.socket:/etc/systemd/system/docker.socket
+            - ./etc/docker.service:/etc/systemd/system/docker.service
+            # - ./etc/daphne.service:/etc/systemd/system/daphne.service
+            # - ./etc/daphne.service:/etc/systemd/system/daphne.service
 
 
         expose:
             - '8000'
-            # - ./etc/docker.socket:/etc/systemd/system/docker.socket
-            # - ./etc/docker.service:/etc/systemd/system/docker.service
