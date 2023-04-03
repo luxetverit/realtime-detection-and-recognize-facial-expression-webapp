@@ -74,8 +74,7 @@ let socket;
 
 function createWebSocket(counselingId) {
   let socketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-  let socketUrl = socketProtocol + window.location.host + ':8001/ws/video/' + counselingId + '/';
-  console(socketUrl)
+  let socketUrl = socketProtocol + window.location.host + '/ws/video/' + counselingId + '/';
   socket = new WebSocket(socketUrl);
 
   socket.onopen = function(event) {
