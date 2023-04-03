@@ -19,8 +19,8 @@ services:
             - ./webapp:/code
             - ./etc/docker.socket:/etc/systemd/system/docker.socket
             - ./etc/docker.service:/etc/systemd/system/docker.service
-            # - ./etc/daphne.service:/etc/systemd/system/daphne.service
-            # - ./etc/daphne.service:/etc/systemd/system/daphne.service
+            - ./etc/daphne.socket:/etc/systemd/system/daphne.socket
+            - ./etc/daphne.service:/etc/systemd/system/daphne.service
 
 
         expose:
