@@ -159,7 +159,7 @@ function createWebSocket(counselingId) {
   let socketUrl = socketProtocol + window.location.host + '/ws/video/' + counselingId + '/';
   socket = new WebSocket(socketUrl);
   console.log("This is socket:name")
-  console.log(soket);
+  console.log(socket);
   socket.onopen = function(event) {
     console.log('WebSocket opened:', event);
   };

@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = DEV_SECRET['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://emo-ai.com', 'https://www.emo-ai.com']
