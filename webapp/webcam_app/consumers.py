@@ -16,6 +16,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from asgiref.sync import sync_to_async
 
+
+
+
+
+
 @database_sync_to_async
 def get_counseling_object_or_404(pk):
     return get_object_or_404(Counseling, pk=pk)
@@ -63,7 +68,6 @@ model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 
 
-# @csrf_exempt
 class VideoConsumer(AsyncWebsocketConsumer):
     
 
@@ -71,7 +75,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.stopped = True
         self.is_streaming = False
         self.video_capture.release()
-        self.out.release()
+        # self.out.release()
         with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
              await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
         await sync_to_async(self.counseling.save)()
@@ -93,7 +97,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
         self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
         self.stopped = False
-        self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
+        # self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
     async def disconnect(self,close_code):
             self.is_streaming = False
             self.stopped = True
@@ -159,7 +163,7 @@ class VideoConsumer(AsyncWebsocketConsumer):
                                 round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
 
                 # output 저장
-                self.out.write(frame)
+                # self.out.write(frame)
         
                 feelings.append(detection['class_name'])
             # Encode the frame as a JPEG image and send it to the client

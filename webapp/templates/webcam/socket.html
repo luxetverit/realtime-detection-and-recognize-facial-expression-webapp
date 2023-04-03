@@ -207,10 +207,10 @@ function createWebSocket(counselingId) {
 startBtn.addEventListener('click', () => {
   if (!socket || socket.readyState === WebSocket.CLOSED) {
     console.log("start_btn_on")
-    console.log()
     createWebSocket(counselingId);
     setTimeout(() => {
       socket.send('start');
+      console.log('start');
     }, 1000);
   }
   else{
@@ -225,6 +225,7 @@ stopBtn.addEventListener('click', () => {
   if (socket && socket.readyState === WebSocket.OPEN) {
     console.log("stop_btn_on")
     socket.send('stop');
+    console.log('stop');
     socket.close(1000);
   
   }
