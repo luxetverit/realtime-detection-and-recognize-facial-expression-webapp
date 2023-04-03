@@ -14,7 +14,7 @@ services:
         build:
             context: ./webapp
             dockerfile: Dockerfile
-        command: daphne -b 0.0.0.0 -p 8001 webapp.asgi:application
+        command: daphne -b 0.0.0.0 -p 8000 webapp.asgi:application
         volumes:
             - ./webapp:/code
         expose:
