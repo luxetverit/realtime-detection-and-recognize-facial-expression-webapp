@@ -67,7 +67,7 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 
-
+# @csrf_exempt
 class VideoConsumer(AsyncWebsocketConsumer):
     
 
@@ -76,8 +76,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
         self.is_streaming = False
         self.video_capture.release()
         # self.out.release()
-        with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
-             await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
+        # with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
+        #      await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
         await sync_to_async(self.counseling.save)()
     
     async def connect(self):
