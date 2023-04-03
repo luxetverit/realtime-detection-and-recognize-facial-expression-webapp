@@ -1,4 +1,4 @@
-FROM python:3.9.16
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 ENV PYTHONUNBUFFERED 1
 
@@ -14,6 +14,7 @@ ADD requirements.txt /code/
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-CMD ["bash", "-c", "python manage.py collectstatic"]
+
+CMD ["uvicorn", "webapp.asgi:application", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
 #EXPOSE 8000
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
