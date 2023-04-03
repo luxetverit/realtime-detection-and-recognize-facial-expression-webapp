@@ -1,17 +1,16 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}"> 
-
 <header class="s-header">
     <div class="row s-header__inner">
         <div class="s-header__block">
-            <div class="s-header__logo"> <!--로고 위치 문제 일어나서 막아뒀습니다-->
+            <div class="s-header__logo">
                 <a class="logo" href="/">
-                    <!--<img src="{% static 'img/EmoAI-logo-white.png' %}" alt="Homepage">-->
+                    <img src="{% static 'img/EmoAI-logo-white.png' %}" alt="Homepage">
                 </a>
             </div>
-
             <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+                
         </div> <!-- end s-header__block -->
 
         <nav class="s-header__nav">
@@ -24,10 +23,8 @@
                 <li><a href="/#contact_us">Contact</a></li>
             </ul> <!-- s-header__menu-links -->
             <div class="row row-y-center">
-            
                 {% if user.is_authenticated %}
                 {{ user.userid }}님
-               
                 <div class="col nav-item">
                     <a class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
                         <img src="{% static 'img/avatar.png' %}" width="40" height="40" alt="Circle Image" class="rounded-circle img-fluid"></a>
@@ -38,13 +35,10 @@
                         </ul>
                 </div>
             </div>
-            {% else %}
-            <div>
+                {% else %}
                 <button class="hoverbutton" type="button" onclick="location.href='{% url 'account:login' %}'"> Login </button>
                 <button class="hoverbutton2" type="button" onclick="location.href='{% url 'account:signup' %}'"> Sign-up</button>
-            {% endif %}
-            <!-- button 색상 변경 style="background-color: grey" 옵션 추가-->
-            </ul>
+                {% endif %}
         </nav>
     </div> <!-- "row s-header__inner" -->
 </header>
