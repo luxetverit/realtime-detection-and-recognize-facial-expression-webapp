@@ -1,12 +1,19 @@
+
 .emotion-chart {
+    float: right;
     display: flex;
     justify-content: flex-end;
     width: 40vw; height: 30vw;
+    position: absolute;
+    top: 13vw;
+    right: 15vw;
 }
 
 
 .emotion-table{
-    display: flex;
-    justify-content: flex-end;
+    float: right;
     width: 40vw; height: 30vw;
+    position: absolute;
+    top: 35vw;
+    right: 15vw;
 }
