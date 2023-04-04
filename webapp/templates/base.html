@@ -16,8 +16,7 @@
             rel="stylesheet"
         />
         <!-- 동적 웹페이지 js (스크롤/메일...)-->
-        <script src="{% static 'js/plugins.js' %}"></script>
-        <script src="{% static 'js/main.js' %}"></script>
+
         <!-- Bootstrap JS -->
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <link
@@ -30,7 +29,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>Emo-AI</title>
     </head>
-    <body>
+        <body id="top">
+
         {% include 'navbar.html' %} 
 
         {% block content %} 
@@ -40,7 +40,9 @@
         {% include 'footer.html' %}
 
         <!-- 자바스크립트 Start -->
-        {% comment %} {% block script %} {% endblock %} {% endcomment %}
+        {% block script %} {% endblock %}
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
         <!-- 자바스크립트 End -->
     </body>
 </html>

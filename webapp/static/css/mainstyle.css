@@ -656,6 +656,7 @@ textarea {
 
 .row.row-y-center {
     align-items : center;
+    flex-wrap: nowrap;
 }
 
 .row.row-stretch {
@@ -734,6 +735,18 @@ textarea {
         flex  : none;
         width : 33.33333%;
     }
+}
+
+/* --------------------------------------------------------------------
+ * ## small screen devices 
+ * -------------------------------------------------------------------- */
+@media screen and (max-width: 1100px) {
+    .row.row-y-center button {
+    font-display: center;
+    padding : 0 1.8rem;
+    width: var(--vspace-0_75);
+    }
+
 }
 
 /* --------------------------------------------------------------------
@@ -2206,7 +2219,7 @@ td:last-child {
  *
  *
  * ------------------------------------------------------------------- */
-.s-header {
+/* .s-header {
     --header-height  : 80px;
     --logo-width     : 60px;
     z-index          : 100;
@@ -2217,7 +2230,7 @@ td:last-child {
     top              : 0;
     left             : 0;
     --logo-top       : calc(var(--header-height) / 2 - var(--logo-width) / 2);
-}
+} */
 
 .s-header.offset {
     transform           : translateY(-100%);
@@ -2247,7 +2260,7 @@ td:last-child {
     visibility : visible;
 }
 
-/* 
+
 .s-header {
     --header-height  : 80px;
     --logo-width     : 60px;
@@ -2255,17 +2268,18 @@ td:last-child {
     background-color : black;
     height           : var(--header-height);
     width            : 100%;
-    position         : absolute;
-    top              : var(--vspace-0_5);
+    position         : sticky;
+    top              : 0;
     left             : 0;
     --logo-top       : calc(var(--header-height) / 2 - var(--logo-width) / 2);
-} */
+}
 
 
 .s-header__inner {
     max-width   : 1400px;
     height      : var(--header-height);
     align-items : center;
+    flex-wrap: nowrap;
     padding     : 0 var(--gutter);
 }
 
@@ -2433,7 +2447,7 @@ td:last-child {
     }
 }
 
-/* @media screen and (max-width: 800px) {
+@media screen and (max-width: 800px) {
     .s-header {
         --logo-width : 36px;
         top          : var(--vspace-0_25);
@@ -2517,7 +2531,7 @@ td:last-child {
         transition       : all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
         transition-delay : .4s;
     }
-} */
+}
 
 @media screen and (max-width: 500px) {
     .s-header.sticky {
@@ -2647,10 +2661,6 @@ td:last-child {
 @media screen and (max-width: 1000px) {
     .s-intro__content-title br {
         display : none;
-    }
-
-    .row.row-y-center {
-        display: none;
     }
 
     .s-intro__scroll-down {
@@ -2851,8 +2861,8 @@ td:last-child {
 .s-footer__contact-btn {
     --color-btn-primary       : var(--color-gray-19);
     --color-btn-primary-hover : var(--color-1);
-    padding-top               : calc(var(--vspace-0_75) + var(--vspace-0_75));
-    padding-bottom            : var(--vspace-0_5);
+    padding-top               : calc(var(--vspace-1_25) + var(--vspace-1_25));
+    padding-bottom            : var(--vspace-0_75);
 }
 
 .s-footer__contact-btn .btn {
@@ -2865,17 +2875,18 @@ td:last-child {
  * ------------------------------------------------------------------- */
 .s-footer__subscribe {
     --input-height : 7.2rem; /* subscribe 버튼*/
-    --btn-width    : 180px;
+    --btn-width    : 180px; /* e-mail address 가로 길이*/
 }
 
 .s-footer__subscribe h6 {
-    margin-bottom : var(--vspace-0_75);
+    margin-bottom : var(--vspace); /* subscribe 상자 위치*/
 }
 
-.s-footer__subscribe form {
+.s-footer__subscribe form { /* footer 사이와의 거리*/
     display       : flex;
     flex-flow     : row wrap;
-    margin-bottom : 0;
+    margin-top    : 0;
+    margin-bottom : 100px;
 }
 
 .s-footer__subscribe input[type="email"],
