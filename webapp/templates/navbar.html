@@ -15,14 +15,14 @@
 
         <nav class="s-header__nav">
             <ul class="s-header__menu-links">
-                <li class="current"><a href="/" class="smoothscroll">Home</a></li>
+                <li class="current"><a href="/" >Home</a></li>
                 <li><a href="/#about">About</a></li>
                 <li><a href="{% url 'app:demo' %}">Demo</a></li>
                 <li><a href="{% url 'webcam:index' %}">Service</a></li>
                 <li><a href="/qna/">QnA</a></li>
                 <li><a href="/#contact_us">Contact</a></li>
             </ul> <!-- s-header__menu-links -->
-            <div class="row row-y-center">
+            <div class="row row-y-center" style="color: white;">
                 {% if user.is_authenticated %}
                 {{ user.userid }}님
                 <div class="col nav-item">
