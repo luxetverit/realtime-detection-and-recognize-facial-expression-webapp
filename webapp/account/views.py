@@ -63,15 +63,15 @@ def index(request):
         return redirect('articles:index')
 
 
-@login_required
+@login_required(login_url='account:login')
 def profile(request):
     return render(request, 'profile.html')
 
-@login_required
+@login_required(login_url='account:login')
 def userinfo(request):
     return render(request, 'userinfo.html')
 
-@login_required
+@login_required(login_url='account:login')
 def password(request):
     return render(request, 'password.html')
 
