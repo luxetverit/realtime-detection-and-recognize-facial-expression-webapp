@@ -81,23 +81,26 @@ class VideoConsumer(AsyncWebsocketConsumer):
         await sync_to_async(self.counseling.save)()
     
     async def connect(self):
-        self.pk = self.scope['url_route']['kwargs']['counseling_id']
-        self.feelcount=False
-        self.task=''
-        self.counseling = await get_counseling_object_or_404(self.pk)
-        self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
-        await self.accept()
-        self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-        self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
-        self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
-        if self.fps==0:
-            self.fps=10
-        self.is_streaming = False
-        self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
-        self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
-        self.stopped = False
-        # self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
+        try:
+            self.pk = self.scope['url_route']['kwargs']['counseling_id']
+            self.feelcount=False
+            self.task=''
+            self.counseling = await get_counseling_object_or_404(self.pk)
+            self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
+            await self.accept()
+            self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+            self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+            self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+            if self.fps==0:
+                self.fps=10
+            self.is_streaming = False
+            self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
+            self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
+            self.stopped = False
+            # self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
+        except Exception as e:    # 모든 예외의 에러 메시지를 출력할 때는 Exception을 사용
+            print('예외가 발생했습니다.', e)
     async def disconnect(self,close_code):
             self.is_streaming = False
             self.stopped = True
