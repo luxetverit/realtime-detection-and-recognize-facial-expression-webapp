@@ -454,6 +454,60 @@
     }; // end ssMoveTo
 
 
+    /* masonry
+    * ------------------------------------------------------ */
+    const ssMasonry = function() {
+
+        const containerBricks = document.querySelector('.bricks-wrapper');
+        if (!containerBricks) return;
+
+        imagesLoaded(containerBricks, function() {
+
+            const msnry = new Masonry(containerBricks, {
+                itemSelector: '.entry',
+                columnWidth: '.grid-sizer',
+                percentPosition: true,
+                resize: true
+            });
+
+        });
+
+    }; // end ssMasonry
+
+
+   /* swiper
+    * ------------------------------------------------------ */ 
+    const ssSwiper = function() {
+
+        const testimonialsSwiper = new Swiper('.s-testimonials__slider', {
+
+            slidesPerView: 1,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                // when window width is > 400px
+                401: {
+                    slidesPerView: 1,
+                    spaceBetween: 20
+                },
+                // when window width is > 800px
+                801: {
+                    slidesPerView: 2,
+                    spaceBetween: 50
+                },
+                // when window width is > 1180px
+                1181: {
+                    slidesPerView: 2,
+                    spaceBetween: 100
+                }
+            }
+        });
+
+    }; // end ssSwiper
+
+
    /* Initialize
     * ------------------------------------------------------ */
     (function ssInit() {
