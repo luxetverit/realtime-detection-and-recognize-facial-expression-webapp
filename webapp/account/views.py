@@ -26,13 +26,13 @@ def login_view(request):
         else:
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {'message': '아이디 혹은 비밀번호가 틀렸습니다.'})
-  
     
 # 로그아웃
 def logout_view(request):
     logout(request)
     return redirect('/')
   
+
 # 회원가입  
 def signup(request):
     # 주소를 입력해서 들어오는 경우
@@ -45,13 +45,10 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        if request.POST['password'] != request.POST['password2']:
-            return render(request, 'signup.html')
-
         user = User()
         user.new_user(userid, username, email, password)
-        
-        return render(request, 'login.html')
+
+        return redirect('account:login')
 
 
 @login_required
@@ -66,13 +63,15 @@ def index(request):
         return redirect('articles:index')
 
 
-
+@login_required
 def profile(request):
     return render(request, 'profile.html')
 
+@login_required
 def userinfo(request):
     return render(request, 'userinfo.html')
 
+@login_required
 def password(request):
     return render(request, 'password.html')
 
