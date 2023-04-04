@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from asgiref.sync import sync_to_async
-
+import os
 
 
 
@@ -67,9 +67,32 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 
+def cameracheck(video_capture) :
+    if video_capture.isOpened():
+        return True
+    else: 
+        return False
+
+
+def cam_return():
+        video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_DSHOW)
+        if cameracheck(video_capture) : #True False
+            return video_capture
+        
+        
+        else: 
+            video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_V4L2)
+            return video_capture
+   
+
+
+
+
+
 # @csrf_exempt
 class VideoConsumer(AsyncWebsocketConsumer):
-    
+        
+        
 
     async def stop_streaming(self):
         self.stopped = True
@@ -88,7 +111,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
             self.counseling = await get_counseling_object_or_404(self.pk)
             self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
             await self.accept()
-            self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+            self.video_capture = cam_return()
+            self.camopen=cameracheck(self.video_capture)                                      
             self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
             self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
             self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
@@ -98,9 +122,12 @@ class VideoConsumer(AsyncWebsocketConsumer):
             self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
             self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
             self.stopped = False
+            # os.system('ls /dev/video*')
             # self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
         except Exception as e:    # 모든 예외의 에러 메시지를 출력할 때는 Exception을 사용
-            print('예외가 발생했습니다.', e)
+            os.system('ls /dev/video*')
+            print(f'예외가 발생했습니다. 카메라 이슈 :{self.camopen}', e)
+            
     async def disconnect(self,close_code):
             self.is_streaming = False
             self.stopped = True
