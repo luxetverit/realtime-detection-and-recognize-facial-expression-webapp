@@ -13,13 +13,10 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .videotake import videocheck
+
+
 def index(request):
     return render(request, 'webcam/camindex.html')
-
-
-
-
-
 
 
 class CounselingListView(LoginRequiredMixin,generic.ListView):
@@ -29,7 +26,6 @@ class CounselingListView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return Counseling.objects.filter(user=self.request.user)
-    
     
 
 class CounselingDetailView(LoginRequiredMixin,generic.DetailView):
@@ -45,7 +41,6 @@ class CounselingDetailView(LoginRequiredMixin,generic.DetailView):
             context["detectedemotion"] = None
         return context 
         
-
 
 @login_required(login_url='account:login')   
 def counseling_add(request):
@@ -107,10 +102,6 @@ def counseling_delete(request, pk):
         counseling.delete()
         messages.success(request, '상담 세션 제거 완료.')
     return redirect('webcam:counseling_list')
-
-
-
-
 
 
 @login_required(login_url='account:login')

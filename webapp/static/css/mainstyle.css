@@ -1551,6 +1551,7 @@ select {
     --input-vpadding    : calc(((var(--input-height) - var(--input-line-height)) / 2) - 1px);
     display             : block;
     height              : var(--input-height);
+    width               : 100%;
     padding             : var(--input-vpadding) calc(2.4rem - 1px);
     border              : 0;
     outline             : 0;

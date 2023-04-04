@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h1>Counseling List</h1>
+
     <div class="container">
-    <a href="{% url 'webcam:index' %}">메인으로</a>
-    <hr>
+        <a href="{% url 'webcam:index' %}">메인으로</a>
     </div>  
-    
+
+    <h1>Counseling List</h1>
     {% for counseling in counseling_list %}
+
     <div class="container">
             <a href="{% url 'webcam:counseling_detail' pk=counseling.pk %}">상담분석 바로가기</a>
             <table class="table">
@@ -32,12 +33,9 @@
             </table>
         <hr>
     </div>   
+    
 {% empty %}
         <p>No counseling sessions available.</p>
 {% endfor %}
-
-
-
-
 
 {% endblock %}
