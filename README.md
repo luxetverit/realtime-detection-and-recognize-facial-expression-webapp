@@ -27,10 +27,10 @@
 - img_resize_labeling/facedata.yaml for training yolo
   
 ### 기술스택
-  - front : Django.js (정제경, 주한솔)  
+  - front : Django, javascript (정제경, 주한솔)  
   - backend : Django (이재영, 전현준)  
-  - machine learning : python, pytorch, yolov8, opencv-dnn (남정우, 최세현)  
-  - architecture : aws ec2, aws elb, aws rds, aws acm, aws route53, mysql, docker, ubuntu
+  - machine learning : python, pytorch, yolov8 (남정우, 최세현)  
+  - architecture : aws ec2, aws elb, aws rds, aws acm, aws route53, nginx, daphne, mysql, docker
 
 # 팀원
 - 남정우, 이재영, 정제경, 전현준, 주한솔, 최세현
