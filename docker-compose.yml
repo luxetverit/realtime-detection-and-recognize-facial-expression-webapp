@@ -9,6 +9,8 @@ services:
             - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             - web
+        networks:
+            - net
 
     web:
         build:
@@ -19,3 +21,8 @@ services:
             - ./webapp:/code
         expose:
             - '8000'
+        networks:
+            - net
+networks:
+    net:
+        driver: bridge
