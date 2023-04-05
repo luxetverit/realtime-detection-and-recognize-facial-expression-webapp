@@ -101,7 +101,8 @@ class ImageConsumer(AsyncWebsocketConsumer):
             img_binary = base64.b64decode(img_data.split(',')[1])
             img_buffer = np.frombuffer(img_binary, dtype=np.uint8)
             img = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
-            await self.stream_video(img)
+            task= asyncio.create_task(self.stream_video(img))
+            await task
         elif data['message'] =='stop' :
             await set_detectdedemotions(self.detected_emotions,self.feelcount)
             await self.close()
@@ -152,11 +153,11 @@ class ImageConsumer(AsyncWebsocketConsumer):
             
         resized=cv2.resize(frame,dsize=(480, 320),interpolation=cv2.INTER_AREA)
             
-        _, buffer = await asyncio.get_event_loop().run_in_executor(None, cv2.imencode, '.jpg', resized)
+        success, image = cv2.imencode('.jpg', resized)
         feelcount=Counter(feelings)
         
-        
-        image_bytes = base64.b64encode(buffer).decode('utf-8')
+        # _, buffer = await asyncio.get_event_loop().run_in_executor(None, cv2.imencode, '.jpg', resized)
+        image_bytes = base64.b64encode(image).decode('utf-8')
         send_data = {'image': image_bytes, 'feelings': feelcount}
         
         
