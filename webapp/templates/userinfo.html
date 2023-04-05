@@ -3,10 +3,7 @@
     <div class="container py-5">
         <div class="row">
             <div class="col">
-                <nav
-                    aria-label="breadcrumb"
-                    class="bg-light rounded-3 p-3 mb-4"
-                >
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
@@ -17,7 +14,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row py-5">
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center">
@@ -39,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 pt-">
+            <div class="col-lg-8">
                 <form>
                     <div>
                         <h3>
@@ -47,7 +44,7 @@
                             수정
                         </h3>
                     </div>
-
+                    <fieldset disabled>
                     <div class="row g-3 align-items-center">
                         <div class="col-md-2">
                             <label for="inputPassword6" class="col-form-label"
@@ -55,23 +52,27 @@
                             >
                         </div>
                         <div class="col-md-6">
-                            <input
+                            <input 
                                 type="text"
                                 id="inputPassword6"
                                 class="form-control"
                                 aria-describedby="passwordHelpInline"
+                                placeholder="{{ user.username }}"
                             />
                         </div>
-                        <div class="col-md-3 d-flex justify-content-center">
+                        <!-- <div class="col-md-3 d-flex justify-content-center">
                             <a
                                 class="d-inline btn btn-light"
                                 href="#"
                                 role="button"
                                 >변경</a
                             >
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="row g-3 align-items-center">
+                    </fieldset>
+
+                    <!-- 연락처 -->
+                    <!-- <div class="row g-3 align-items-center">
                         <div class="col-md-2">
                             <label for="inputPassword6" class="col-form-label"
                                 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;연락처</label
@@ -93,9 +94,9 @@
                                 >변경</a
                             >
                         </div>
-                    </div>
+                    </div> -->
 
-                    <!-- <fieldset disabled> 고민중-->
+                    <fieldset disabled>
                     <div class="row g-3 align-items-center">
                         <div class="col-md-2">
                             <label for="inputPassword6" class="col-form-label"
@@ -108,18 +109,20 @@
                                 id="inputPassword6"
                                 class="form-control"
                                 aria-describedby="passwordHelpInline"
+                                placeholder="{{ user.email }}"
                             />
                         </div>
-                        <div class="col-md-3 d-flex justify-content-center">
+                        <!-- <div class="col-md-3 d-flex justify-content-center">
                             <a
                                 class="d-inline btn btn-light"
                                 href="#"
                                 role="button"
                                 >변경</a
                             >
-                        </div>
+                        </div> -->
                     </div>
-                    <!-- </fieldset> -->
+                    </fieldset>
+                    
                     <div class="row g-3 align-items-center">
                         <div class="col-md-2">
                             <label for="inputPassword6" class="col-form-label"
@@ -132,6 +135,7 @@
                                 id="inputPassword6"
                                 class="form-control"
                                 aria-describedby="passwordHelpInline"
+                                placeholder="● ● ● ● ● ● ●"
                             />
                         </div>
                         <div class="col-md-3 d-flex justify-content-center">
@@ -143,14 +147,17 @@
                             >
                         </div>
                     </div>
-                    <div style="margin-right: 100px">
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                            style="float: right"
-                        >
-                            Submit
-                        </button>
+
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-3">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                style="float: right"
+                            >
+                                Submit
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -159,3 +166,36 @@
 </section>
 
 {% endblock %}
+
+<!-- modal -->
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
