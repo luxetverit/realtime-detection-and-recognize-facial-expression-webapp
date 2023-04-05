@@ -20,7 +20,77 @@ import os
 
 
 
-class XX(AsyncWebsocketConsumer):
+
+@database_sync_to_async
+def get_counseling_object_or_404(pk):
+    return get_object_or_404(Counseling, pk=pk)
+
+@database_sync_to_async
+def get_detectdedemotions_object_or_404(pk):
+    return get_object_or_404(DetectedEmotions, pk=pk)
+
+@database_sync_to_async
+def set_detectdedemotions(detected_emotions,feelcount):
+    if feelcount :
+        print('onepiece')
+        detected_emotions.anger=feelcount['anger']
+        detected_emotions.anxiety=feelcount['anxiety']
+        detected_emotions.embarrassed=feelcount['embarrassed']
+        detected_emotions.hurt=feelcount['hurt']
+        detected_emotions.neutral=feelcount['neutral']
+        detected_emotions.pleasure=feelcount['pleasure']
+        detected_emotions.sad=feelcount['sad']
+        detected_emotions.save(update_fields=['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'])
+    else: print('error')
+   
+        
+
+
+
+
+BASE_DIR = Path(__file__).resolve().parent
+CLASSES = ['anger','anxiety','embarrassed','hurt','neutral','pleasure','sad']
+# 색상 랜덤하게 뽑아서 적용 다 다르게 
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+
+colors = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+
+
+def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
+    label = f'{CLASSES[class_id]} ({confidence:.2f})'
+    color = colors[class_id]
+    cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
+    cv2.putText(img, label, (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+    
+
+# 모델 불러오기 
+model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
+
+
+def cameracheck(video_capture) :
+    if video_capture.isOpened():
+        return True
+    else: 
+        return False
+
+
+def cam_return():
+        video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_DSHOW)
+        if cameracheck(video_capture) : #True False
+            return video_capture
+        
+        
+        else: 
+            video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_V4L2)
+            return video_capture
+   
+
+
+
+
+
+# @csrf_exempt
+class VideoConsumer(AsyncWebsocketConsumer):
         
         
 
@@ -67,11 +137,6 @@ class XX(AsyncWebsocketConsumer):
             
     async def stream_video(self):
         feelings=[]
-        
-        
-        
-        
-        
         
         while self.is_streaming and not self.stopped  :
             ret, frame = self.video_capture.read()
@@ -148,8 +213,8 @@ class XX(AsyncWebsocketConsumer):
 
 
 
-    async def receive(self, data):
-        message = data
+    async def receive(self, text_data):
+        message = text_data
         if message == 'start':
             self.is_streaming = True
             self.stopped = False
@@ -160,3 +225,5 @@ class XX(AsyncWebsocketConsumer):
                 print("task cancel")
             await self.stop_streaming()
             await set_detectdedemotions(self.detected_emotions,self.feelcount)
+            
+            

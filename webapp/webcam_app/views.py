@@ -111,7 +111,7 @@ def socket(request, pk):
         'counseling': counseling,
         'detected_emotions': detected_emotions,
     }
-    return render(request, 'webcam/socket.html', context)
+    return render(request, 'webcam/test.html', context)
 
 
 
