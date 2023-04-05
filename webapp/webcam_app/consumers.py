@@ -225,3 +225,8 @@ class VideoConsumer(AsyncWebsocketConsumer):
                 print("task cancel")
             await self.stop_streaming()
             await set_detectdedemotions(self.detected_emotions,self.feelcount)
+            
+            
+            
+
+
