@@ -256,7 +256,7 @@
                 startWebcam()
                 setTimeout(() => {
                     socket.send(JSON.stringify(data));
-                    sendInterval = setInterval(sendFrameToServer,200);
+                    sendInterval = setInterval(sendFrameToServer,100);
                     }, 800);
 
 
@@ -267,7 +267,7 @@
                 startWebcam();
                 setTimeout(() => {
                     socket.send(JSON.stringify(data));
-                    sendInterval = setInterval(sendFrameToServer, 200)
+                    sendInterval = setInterval(sendFrameToServer, 100)
                     }, 500);
 
 
