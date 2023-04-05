@@ -150,8 +150,12 @@ class ImageConsumer(AsyncWebsocketConsumer):
 
             feelings.append(detection['class_name'])
             
-        _, buffer = await asyncio.get_event_loop().run_in_executor(None, cv2.imencode, '.jpg', frame)
+        resized=cv2.resize(frame,dsize=(480, 320),interpolation=cv2.INTER_AREA)
+            
+        _, buffer = await asyncio.get_event_loop().run_in_executor(None, cv2.imencode, '.jpg', resized)
         feelcount=Counter(feelings)
+        
+        
         image_bytes = base64.b64encode(buffer).decode('utf-8')
         send_data = {'image': image_bytes, 'feelings': feelcount}
         
