@@ -15,6 +15,11 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from asgiref.sync import sync_to_async
+import os
+import concurrent.futures
+
+
+
 
 @database_sync_to_async
 def get_counseling_object_or_404(pk):
@@ -62,132 +67,108 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
 model = cv2.dnn.readNet(str(BASE_DIR)+"/best.onnx")
 
 
+def cameracheck(video_capture) :
+    if video_capture.isOpened():
+        return True
+    else: 
+        return False
 
-# @csrf_exempt
-class VideoConsumer(AsyncWebsocketConsumer):
-    
 
-    async def stop_streaming(self):
-        self.stopped = True
-        self.is_streaming = False
-        self.video_capture.release()
-        self.out.release()
-        with open(f"media/cam/{self.counseling.pk}.mp4", 'rb') as f:
-             await sync_to_async(self.counseling.storage_data.save)(f'{self.counseling.pk}.mp4', File(f))
-        await sync_to_async(self.counseling.save)()
-    
+def cam_return():
+        video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_DSHOW)
+        if cameracheck(video_capture) : #True False
+            return video_capture
+        else: 
+            video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_V4L2)
+            return video_capture
+
+feelings=[]
+class ImageConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.pk = self.scope['url_route']['kwargs']['counseling_id']
-        self.feelcount=False
-        self.task=''
+        self.feelcount=''
         self.counseling = await get_counseling_object_or_404(self.pk)
         self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
         await self.accept()
-        self.video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-        self.frame_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
-        self.frame_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
-        if self.fps==0:
-            self.fps=10
-        self.is_streaming = False
-        self.filepath_to=str(BASE_DIR)+f'/{self.counseling.pk}.mp4'
-        self.mediapaht=f"media/cam/{self.counseling.pk}.mp4"
-        self.stopped = False
-        self.out=cv2.VideoWriter(self.mediapaht, fourcc, self.fps, (self.frame_width, self.frame_height))
-    async def disconnect(self,close_code):
-            self.is_streaming = False
-            self.stopped = True
-        
-    
-  
-            
-    async def stream_video(self):
-        feelings=[]
-        
-        while self.is_streaming and not self.stopped  :
-            ret, frame = self.video_capture.read()
-            if not ret:
-                break
-            [height, width, _] = frame.shape
-            length = max((height, width))
-            image = np.zeros((length, length, 3), np.uint8)
-            image[0:height, 0:width] = frame
-            scale = length / 640
-            
-        #  Yolov8 모델은 전치해줘야 하나봄 
-            blob = cv2.dnn.blobFromImage(image, scalefactor=1 / 255, size=(640, 640))
-            model.setInput(blob)
-            outputs = model.forward()
-            outputs = np.array([cv2.transpose(outputs[0])])
-            rows = outputs.shape[1]
-            
-            boxes = []
-            scores = []
-            class_ids = []
-            
-            
-        # 한장의 사진에 각 x,y, confidence 받음 
 
-            for i in range(rows):
-                classes_scores = outputs[0][i][4:]
-                (minScore, maxScore, minClassLoc, (x, maxClassIndex)) = cv2.minMaxLoc(classes_scores)
-                if maxScore >= 0.25:
-                    box = [
-                        outputs[0][i][0] - (0.5 * outputs[0][i][2]), outputs[0][i][1] - (0.5 * outputs[0][i][3]),
-                        outputs[0][i][2], outputs[0][i][3]]
-                    boxes.append(box)
-                    scores.append(maxScore)
-                    class_ids.append(maxClassIndex)
+    async def disconnect(self, close_code):
+        raise StopConsumer()
 
-            result_boxes = cv2.dnn.NMSBoxes(boxes, scores, 0.25, 0.45, 0.5)
-            detections = []
-            for i in range(len(result_boxes)):
-                index = result_boxes[i]
-                box = boxes[index]
-                detection = {
-                    'class_id': class_ids[index],
-                    'class_name': CLASSES[class_ids[index]],
-                    'confidence': scores[index],
-                    'box': box,
-                    'scale': scale}
-                # ditections 내부에 dections 정보 다 포함되어 있음
-                
-                # detections.append(detection)
-                
-                #박스 작업 
-                draw_bounding_box(frame, class_ids[index], scores[index], round(box[0] * scale), round(box[1] * scale),
-                                round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
-
-                # output 저장
-                self.out.write(frame)
-        
-                feelings.append(detection['class_name'])
-            # Encode the frame as a JPEG image and send it to the client
-            success, image = cv2.imencode('.jpg', frame)
-            if not success:
-                break
-            feelcount=Counter(feelings)
+    async def receive(self, text_data=None, bytes_data=None):
+        data = json.loads(text_data)
+        if 'image' in data :
+            img_data = data['image']
+            img_binary = base64.b64decode(img_data.split(',')[1])
+            img_buffer = np.frombuffer(img_binary, dtype=np.uint8)
+            img = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
+            # task= asyncio.create_task(self.stream_video(img)) #비동기 1
+            # await task #비동기 1
             
-            image_bytes = image.tobytes()
-            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
-            await self.send(json.dumps({
-                'image':image_base64,
-                'feelings':feelcount
-            }))
-            self.feelcount=feelcount
-            await asyncio.sleep(0.05)
-
-
-
-    async def receive(self, text_data):
-        message = text_data
-        if message == 'start':
-            self.is_streaming = True
-            self.stopped = False
-            self.task=asyncio.create_task(self.stream_video())
-        elif message == 'stop':
-            if hasattr(self.task,'cancel') :
-                self.task.cancel()
-                print("task cancel")
-            await self.stop_streaming()
+            await self.stream_video(img) #비동기2
+        elif data['message'] =='stop' :
             await set_detectdedemotions(self.detected_emotions,self.feelcount)
+            await self.close()
+            
+            
+
+    async def stream_video(self,frame):
+        [height, width, _] = frame.shape
+        length = max((height, width))
+        image = np.zeros((length, length, 3), np.uint8)
+        image[0:height, 0:width] = frame
+        scale = length / 640
+        blob = cv2.dnn.blobFromImage(image, scalefactor=1 / 255, size=(640, 640))
+        model.setInput(blob)
+        outputs = await asyncio.get_event_loop().run_in_executor(None, model.forward)
+        outputs = np.array([cv2.transpose(outputs[0])])
+        rows = outputs.shape[1]
+        boxes = []
+        scores = []
+        class_ids = []
+    
+        for i in range(rows):
+            classes_scores = outputs[0][i][4:]
+            (minScore, maxScore, minClassLoc, (x, maxClassIndex)) = cv2.minMaxLoc(classes_scores)
+            if maxScore >= 0.25:
+                box = [
+                    outputs[0][i][0] - (0.5 * outputs[0][i][2]), outputs[0][i][1] - (0.5 * outputs[0][i][3]),
+                    outputs[0][i][2], outputs[0][i][3]]
+                boxes.append(box)
+                scores.append(maxScore)
+                class_ids.append(maxClassIndex)
+
+        result_boxes = cv2.dnn.NMSBoxes(boxes, scores, 0.25, 0.45, 0.5)
+        for i in range(len(result_boxes)):
+            index = result_boxes[i]
+            box = boxes[index]
+            detection = {
+                'class_id': class_ids[index],
+                'class_name': CLASSES[class_ids[index]],
+                'confidence': scores[index],
+                'box': box,
+                'scale': scale}
+
+            draw_bounding_box(frame, class_ids[index], scores[index], round(box[0] * scale), round(box[1] * scale),
+                            round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
+
+            feelings.append(detection['class_name'])
+            
+        resized=cv2.resize(frame,dsize=(480, 320),interpolation=cv2.INTER_AREA)
+            
+        # success, image = cv2.imencode('.jpg', resized) #비동기 1
+        
+        
+        feelcount=Counter(feelings)
+        
+        with concurrent.futures.ThreadPoolExecutor() as executor: #비동기 2
+            _, image = await asyncio.get_event_loop().run_in_executor(executor, cv2.imencode, '.jpg', resized)     
+       
+       
+        image_bytes = base64.b64encode(image).decode('utf-8')
+        send_data = {'image': image_bytes, 'feelings': feelcount}
+        
+        
+        self.feelcount=feelcount
+        await self.send(text_data=json.dumps(send_data))
+        
+        
