@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = DEV_SECRET['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['emo-ai.com', 'localhost', 'www.emo-ai.com','10.0.0.245', '127.0.0.1','13.124.49.231']
 CSRF_TRUSTED_ORIGINS = ['https://emo-ai.com', 'https://www.emo-ai.com','https://0.0.0.0:8000']
@@ -162,25 +162,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AWS_SES_REGION_NAME = AWS_SECRET['AWS_SES_REGION_NAME']
 # AWS_SES_REGION_ENDPOINT = AWS_SECRET['AWS_SES_REGION_ENDPOINT']
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = AWS_SECRET['AWS_SES_REGION_ENDPOINT']
-# EMAIL_HOST_USER = AWS_SECRET['AWS_ACCESS_KEY_ID']
-# EMAIL_HOST_PASSWORD = AWS_SECRET['AWS_SES_REGION_NAME']
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# email 백엔드
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# 메일을 보내는 호스트 서버
-EMAIL_HOST = 'smtp.gmail.com'
-# ENAIL_HOST에 정의된 SMTP 서버가 사용하는 포트 (587: TLS/STARTTLS용 포트)
-EMAIL_PORT = '587'
-#  발신할 이메일 주소 
-EMAIL_HOST_USER = 'luxetverit3@gmail.com'
-# 발신할 이메일 비밀번호 (2단계 인증일경우 앱 비밀번호)
-EMAIL_HOST_PASSWORD = 'srqmdazintxwgfot'
-# TLS 보안 방법 (SMPT 서버와 통신할 떄 TLS (secure) connection 을 사용할지 말지 여부)
+EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
+EMAIL_HOST_USER = 'AKIAY67IOZYVWY3THHOD'
+EMAIL_HOST_PASSWORD = 'BGU7+SaRupwNzKYk9hWxRczzUK35s00w8wN5PY4UBqDl'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# 사이트와 관련한 자동응답을 받을 이메일 주소
-DEFAULT_FROM_EMAIL = 'luxetverit3@gmail.com'
+DEFAULT_FROM_EMAIL = 'bluewin92@naver.com'
