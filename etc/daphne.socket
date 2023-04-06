@@ -1,0 +1,16 @@
+[Unit]
+Description=daphne daemon
+
+[Service]
+User=root
+WorkingDirectory=/code
+Environment="DJANGO_SETTINGS_MODULE=webapp.settings"
+
+ExecStart=/usr/bin/python3 /usr/local/bin/daphne -b 0.0.0.0 -p 8000 webapp.asgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-abort
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
