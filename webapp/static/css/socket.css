@@ -1,37 +1,40 @@
+
 /* 웹에서 오른쪽 정렬 */
 @media only screen and (min-width: 768px) {
-    .emotion-chart {
+    .emotion-table {
         float: right;
         display: flex;
         justify-content: flex-end;
-        width: 40vw; height: 30vw;
+        width: 30vw; height: 20vw; 
         position: absolute;
-        top: 13vw;
+        top: 10vw;
         right: 15vw;
     }
-}
+} 
   
 /* 모바일에서 아래 정렬 */
 @media only screen and (max-width: 767px) {
-    .emotion-chart {
+    .emotion-table {
         display: block;
         margin: auto;
     }
 }
 
-
+/* 아래 중앙 정렬 */
 @media only screen and (min-width: 768px) {
-    .emotion-table {
-        float: right;
-        width: 40vw; height: 30vw;
+    .emotion-chart {
+        float: center;
+        width: 70vw; height: 30vw;
         position: absolute;
-        top: 35vw;
-        right: 15vw;
+        bottom: 5vw;
+        margin: auto;
+        left: 0;
+        right: 0;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .emotion-table {
+    .emotion-chart {
         display: block;
         margin: auto;
     }

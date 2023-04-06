@@ -623,6 +623,15 @@ textarea {
     margin-right : calc(var(--gutter) * -1);
 }
 
+/* counseling detail 차트 반응형 */
+@media screen and (max-width: 767px) {
+    .col-4 {
+        display: block;
+        margin: auto;
+        flex: 100%;
+    }
+}
+
 /* column
  */
 .column {
