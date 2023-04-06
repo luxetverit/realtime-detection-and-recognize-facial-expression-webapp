@@ -2,109 +2,153 @@
 {% load static %}
 {% block content %}
 
-<a href="{% url 'webcam:counseling_list' %}">상담목록 바로가기</a>
-<h1> Counseling Detail </h1>
   <div class="container">
-      <h3>{{ counseling.customername }}님의 감정분석내역</h3>
-      <br>
-      <table class="table">
-        <tbody>
-            <tr>
-                <th scope="row" width="100px">상담사</th>
-                <td>{{ counseling.user.userid }}</td>
-                <td></td>
-            </tr>
-            <tr>
-              <th scope="row" width="100px">상담일시</th>
-              <td>{{ counseling.created_at }}</td>
-              <td>최근상담일: {{ counseling.updated_at }}</td>
-            </tr>
-            <tr>
-                <th scope="row" width="100px">상담제목</th>
-                <td>{{ counseling.counsel_subject }}</td>
-                {% if counseling.realtime_true_false %}
-                <td>실시간 여부: Yes</td>
-                {% else %}
-                <td>실시간 여부: No</td>
-                {% endif %}
-            </tr>
-        </tbody>
-      </table>
-      <table>
+    <a href="{% url 'webcam:counseling_list' %}">상담목록 바로가기</a>
+  </div>
+
+  <h1> Counseling Detail </h1>
+    <div class="container">
+        <h3>{{ counseling.customername }}님의 감정분석내역</h3>
+        <br>
+        <table class="table">
           <tbody>
-            <tr>
-              <th scope="row" width="100px">상담내용</th>
-              <td>{{ counseling.content }}</td>
-            </tr>
+              <tr>
+                  <th scope="row" width="100px">상담사</th>
+                  <td>{{ counseling.user.userid }}</td>
+                  <td></td>
+              </tr>
+              <tr>
+                <th scope="row" width="100px">상담일시</th>
+                <td>{{ counseling.created_at }}</td>
+                <td>최근상담일: {{ counseling.updated_at }}</td>
+              </tr>
+              <tr>
+                  <th scope="row" width="100px">상담제목</th>
+                  <td>{{ counseling.counsel_subject }}</td>
+                  {% if counseling.realtime_true_false %}
+                  <td>실시간 여부: Yes</td>
+                  {% else %}
+                  <td>실시간 여부: No</td>
+                  {% endif %}
+              </tr>
           </tbody>
         </table>
-  </div> 
-  <div class="container text-center">
-    <a href="{% url 'webcam:counseling_edit' counseling.pk %}">
+        <table>
+            <tbody>
+              <tr>
+                <th scope="row" width="100px">상담내용</th>
+                <td>{{ counseling.content }}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div> 
+    <div class="container text-center">
+      <a href="{% url 'webcam:counseling_edit' counseling.pk %}">
         <button onclick="return confirm('정말로 수정하시겠습니까?')">수정</button>
       </a>
       <a href="{% url 'webcam:counseling_delete' counseling.pk %}">
         <button onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-    </a>
-    <hr>
-  </div>
+      </a>
+      <hr>
+    </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-4 table-responsive">
-        <table class="table table-warning">
-            <thead>
-              <tr>
-                <th scope="col">No.</th>
-                <th scope="col">감정</th>
-                <th scope="col">수치</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td width="col-6">anger</td>
-                <td>{{detectedemotion.anger}}</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td width="col-6">anxiety</td>
-                <td>{{detectedemotion.anxiety}}</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td width="col-6">embarrassed</td>
-                <td>{{detectedemotion.embarrassed}}</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td width="col-6">hurt</td>
-                <td>{{detectedemotion.hurt}}</td>
-              </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td width="col-6">neutral</td>
-                <td>{{detectedemotion.neutral}}</td>
-              </tr>
-              <tr>
-                <th scope="row">6</th>
-                <td width="col-6">pleasure</td>
-                <td>{{detectedemotion.pleasure}}</td>
-              </tr>
-              <tr>
-                <th scope="row">7</th>
-                <td width="col-6">sad</td>
-                <td>{{detectedemotion.sad}}</td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-      <div class="col-8">
-        {{detectedemotion}}
-        여기에 차트 넣어요
+    <div class="container">
+      <div class="row">
+        <div class="col-4 table-responsive">
+          <table class="table table-warning">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">감정</th>
+                  <th scope="col">수치</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td width="col-6">anger</td>
+                  <td>{{detectedemotion.anger}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td width="col-6">anxiety</td>
+                  <td>{{detectedemotion.anxiety}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td width="col-6">embarrassed</td>
+                  <td>{{detectedemotion.embarrassed}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td width="col-6">hurt</td>
+                  <td>{{detectedemotion.hurt}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td width="col-6">neutral</td>
+                  <td>{{detectedemotion.neutral}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td width="col-6">pleasure</td>
+                  <td>{{detectedemotion.pleasure}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td width="col-6">sad</td>
+                  <td>{{detectedemotion.sad}}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="col-8">
+          <div>
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <br>
+    <br>
+
+
+    <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ['anger', 'anxiety', 'embarrassed', 'hurt', 'neutral', 'pleasure', 'sad'],
+              datasets: [{
+                  label: '감정분석',
+                  data: [{{detectedemotion.anger}}, {{detectedemotion.anxiety}}, {{detectedemotion.embarrassed}}, {{detectedemotion.hurt}}, {{detectedemotion.neutral}}, {{detectedemotion.pleasure}}, {{detectedemotion.sad}}],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    </script>
+
 
 {% endblock %}
