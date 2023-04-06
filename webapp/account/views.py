@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from django.contrib.auth import logout, login, authenticate, get_user_model
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.views import PasswordResetView
 # 로그인
 def login_view(request):
     # 주소를 입력해서 들어오는 경우
@@ -74,4 +74,11 @@ def userinfo(request):
 @login_required(login_url='account:login')
 def password(request):
     return render(request, 'password.html')
+
+
+
+class PasswordResetView(PasswordResetView):
+    from_email = 'emoai@emo-ai.com'
+    
+ 
 
