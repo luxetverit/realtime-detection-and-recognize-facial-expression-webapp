@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'chartjs', #pip install django-chartjs
     'account',
     'post_comment',
+    'django_ses'
 ]
 
 MIDDLEWARE = [
