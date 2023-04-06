@@ -7,15 +7,30 @@ services:
         volumes:
             - ./webapp:/code
             - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./config/nginx/mime.types:/etc/nginx/mime.types
         depends_on:
             - web
+        networks:
+            - net
 
     web:
         build:
             context: ./webapp
             dockerfile: Dockerfile
-        command: gunicorn webapp.wsgi:application --bind 0.0.0.0:8000
+        command: daphne -b 0.0.0.0 -p 8000 webapp.asgi:application
         volumes:
             - ./webapp:/code
+            - ./etc/docker.socket:/etc/systemd/system/docker.socket
+            - ./etc/docker.service:/etc/systemd/system/docker.service
+            - ./etc/daphne.socket:/etc/systemd/system/daphne.socket
+            - ./etc/daphne.service:/etc/systemd/system/daphne.service
+
+
+
         expose:
             - '8000'
+        networks:
+            - net
+networks:
+    net:
+        driver: bridge
