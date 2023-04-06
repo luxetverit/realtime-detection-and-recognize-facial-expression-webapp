@@ -948,7 +948,7 @@ h6,
 h1,
 .h1 {
     margin-top    : var(--vspace-2_5);
-    margin-bottom : var(--vspace-2_5);
+    margin-bottom : var(--vspace-1);
     text-align: center;
 }
 

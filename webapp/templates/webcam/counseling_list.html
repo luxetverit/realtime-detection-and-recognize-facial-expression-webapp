@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<section id="content" class="s-content">
     <div class="container">
         <a href="{% url 'webcam:index' %}">메인으로</a>
     </div>  
@@ -39,3 +39,4 @@
 {% endfor %}
 
 {% endblock %}
+</section>

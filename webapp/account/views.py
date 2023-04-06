@@ -51,18 +51,6 @@ def signup(request):
         return redirect('account:login')
 
 
-@login_required
-def index(request):
-    if request.user.is_superuser:
-        users = get_user_model().objects.all()
-        context = {
-            'users':users,
-        }
-        return render(request, 'accounts/index.html', context)
-    else:
-        return redirect('articles:index')
-
-
 @login_required(login_url='account:login')
 def profile(request):
     return render(request, 'profile.html')
