@@ -2120,11 +2120,6 @@ progress {
   border-color: #373b3e;
 }
 
-.table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     overflow-x: auto;
@@ -7671,9 +7666,9 @@ textarea.form-control-lg {
   text-align: right !important;
 }
 
-.text-center {
+/* .text-center {
   text-align: center !important;
-}
+} */
 
 .text-decoration-none {
   text-decoration: none !important;
@@ -11307,10 +11302,4 @@ html {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 15rem;
-}
-
-
-/* 만든 것 */
-div input {
-  width: 50px;
 }
