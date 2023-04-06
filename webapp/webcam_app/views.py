@@ -12,14 +12,10 @@ from .forms import CounselingForm,CounselingEditForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .videotake import videocheck
+
+
 def index(request):
     return render(request, 'webcam/camindex.html')
-
-
-
-
-
 
 
 class CounselingListView(LoginRequiredMixin,generic.ListView):
@@ -29,7 +25,6 @@ class CounselingListView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return Counseling.objects.filter(user=self.request.user)
-    
     
 
 class CounselingDetailView(LoginRequiredMixin,generic.DetailView):
@@ -45,7 +40,6 @@ class CounselingDetailView(LoginRequiredMixin,generic.DetailView):
             context["detectedemotion"] = None
         return context 
         
-
 
 @login_required(login_url='account:login')   
 def counseling_add(request):
@@ -109,10 +103,6 @@ def counseling_delete(request, pk):
     return redirect('webcam:counseling_list')
 
 
-
-
-
-
 @login_required(login_url='account:login')
 def socket(request, pk):
     counseling = get_object_or_404(Counseling, pk=pk)
@@ -121,7 +111,7 @@ def socket(request, pk):
         'counseling': counseling,
         'detected_emotions': detected_emotions,
     }
-    return render(request, 'webcam/socket.html', context)
+    return render(request, 'webcam/test.html', context)
 
 
 
