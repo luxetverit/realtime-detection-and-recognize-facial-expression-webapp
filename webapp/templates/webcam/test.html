@@ -1,92 +1,99 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<div class="container">
-    <h1>Realtime Detection</h1>
+{% extends 'base.html' %} 
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/socket.css' %}">
+
+{% block content %}
+<div class="container-fluid m-2">
+    <h3>Realtime Detection</h3>
     {% csrf_token %}
+    <!-- video, table을 하나의 div 안에 집어넣고 flex로 나란히 정렬 -->
+    <div class="row d-flex">
+        <div class="col detection p-2 flex-grow-1">
+            <video id="clientvideo" width="640px" height="480px" autoplay style="display: none;"></video>
+            <img
+            id="imagevideo"
+            width="480px"
+            height="320px"
+            src="{% static 'img/avatar.png' %}"
+            alt="Video streaming"
+            />
+            <!-- button들도 하나의 div 안에 집어넣고 m(margin), p(padding)으로 정렬 -->
+            <div class="d-flex justify-content-evenly m-4 p-4">
+                <button id="start-btn">Start</button> <!--for Start socket -->
+                <button id="stop-btn">Stop</button> <!--for stop socket -->
+                <button
+                    type="button"
+                    onclick="location.href='{% url 'webcam:index' %}';"
+                    id="to_main"
+                >
+                    메인으로</button>
 
-    <video
-        id="clientvideo"
-        width="640px"
-        height="480px"
-        autoplay
-        style="display: none"
-    ></video>
-    <img
-        id="imagevideo"
-        width="480px"
-        height="320px"
-        src="{% static 'img/avatar.png' %}"
-        alt="Video streaming"
-    />
-    <br />
-    <button id="start-btn">Start</button>
-    <!--for Start socket -->
-    <button id="stop-btn">Stop</button>
-    <!--for stop socket -->
-    <button
-        type="button"
-        onclick="location.href='{% url 'webcam:index' %}';"
-        id="to_main"
-    >
-        메인으로
-    </button>
+                <a
+                class="btn-outline-primary me-2"
+                href="{% url 'account:logout' %}"
+                role="button"
+                >Logout</a>
+            </div>
+        </div>
+        <!-- 테이블을 별도의 div안에 집어넣고 -->
+        <div class="col emotion-table m-4 p-2">
+            <!-- 위 div 사이즈에 크기를 맞추도록 responsive, h-100, 정렬은 중앙 정렬로 변경 -->
+            <table class="table table-responsive align-middle h-100">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Feelings</th>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>anger</td>
+                        <td id="anger">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>anxiety</td>
+                        <td id="anxiety">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>embarrassed</td>
+                        <td id="embarrassed">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>hurt</td>
+                        <td id="hurt">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>neutral</td>
+                        <td id="neutral">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>pleasure</td>
+                        <td id="pleasure">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>sad</td>
+                        <td id="sad">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <a
-        class="btn-outline-primary me-2"
-        href="{% url 'account:logout' %}"
-        role="button"
-        >Logout</a
-    >
-    <div style="width: 900px; height: 400px">
+    </div>
+
+    <div class="row emotion-chart">
         <canvas id="myChart"></canvas>
     </div>
-    <div style="width: 600px; height: 400px">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Feelings</th>
-                    <th scope="col">Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>anger</td>
-                    <td id="anger">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>anxiety</td>
-                    <td id="anxiety">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>embarrassed</td>
-                    <td id="embarrassed">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>hurt</td>
-                    <td id="hurt">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>neutral</td>
-                    <td id="neutral">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>pleasure</td>
-                    <td id="pleasure">0</td>
-                </tr>
-                <tr>
-                    <th scope="row">7</th>
-                    <td>sad</td>
-                    <td id="sad">0</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+</div>
+
     <script>
         const imagevideo = document.getElementById('imagevideo');
         const startBtn = document.getElementById('start-btn');
