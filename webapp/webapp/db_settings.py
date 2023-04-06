@@ -15,3 +15,13 @@ DEV_DATABASES = {
         }
     }
 }
+
+
+
+AWS_SECRET = {
+    'EMAIL_BACKEND': 'django_ses.SESBackend',
+    'AWS_SES_REGION_NAME': 'ap-northeast-2',
+    'AWS_SES_REGION_ENDPOINT': 'email-smtp.ap-northeast-2.amazonaws.com',
+    'AWS_ACCESS_KEY_ID':'AKIAY67IOZYVYQ3LZ2NP',
+    'AWS_SECRET_ACCESS_KEY': 'BDX8DSVMPeF2cFnnfPmLBLvFtKm6TAS3hfTMSE+TJUvw'
+}
