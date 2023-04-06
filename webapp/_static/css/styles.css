@@ -1965,7 +1965,6 @@ progress {
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
   --bs-table-hover-color: #212529;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-  width: 100%;
   margin-bottom: 1rem;
   color: #212529;
   vertical-align: top;
@@ -2109,7 +2108,7 @@ progress {
 }
 
 .table-dark {
-  --bs-table-bg: #212529;
+  /* --bs-table-bg: #212529; */
   --bs-table-striped-bg: #2c3034;
   --bs-table-striped-color: #fff;
   --bs-table-active-bg: #373b3e;
