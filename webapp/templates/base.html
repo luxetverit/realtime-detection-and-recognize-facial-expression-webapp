@@ -17,6 +17,7 @@
         <!-- 동적 웹페이지 js (스크롤/메일...)-->
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        
         <!-- Bootstrap JS -->
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <link
@@ -36,10 +37,14 @@
 
         {% endblock %} 
 
+
+
+    </body>
+    <footer>
         {% include 'footer.html' %}
+    </footer>
 
         <!-- 자바스크립트 Start -->
         {% block script %} {% endblock %}
         <!-- 자바스크립트 End -->
-    </body>
 </html>
