@@ -1,23 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- # site-content
-    ================================================== -->
+    <!-- # site-content ================================================== -->
     <section id="content" class="s-content">
-        <!-- intro
-        ----------------------------------------------- -->
+        <!-- intro ----------------------------------------------- -->
         <section id="intro" class="s-intro target-section">
-            <div class="s-intro__content"><!-- hero.jpg 들어감 -->
-                <!--<img class = "backimg" src="{% static 'img/hero-bg.jpg' %}"></img>-->
+            <div class="s-intro__bg">
+                <img src="{% static 'img/intro-bg.jpg' %}">
             </div>
-            <div class="s-intro__content-bg">
-                <!--<img src="{% static 'img/mainimg.jpg' %}">-->
-                <!--<img class = "introimg" src="{% static 'img/intro-bg.jpg' %}"></img>-->
-                <div class="s-intro__content-buttons">
-                    <a href="#" class="btn btn--stroke s-intro__content-btn smoothscroll">Get Start</a>
-            </div> <!-- intro.jpg들어감 -->
-
         </section> <!-- end s-intro -->
+
         <section id="about" class="s-about target-section">
             <div class="row section-header" data-num="01">
                 <h3 class="column lg-12 section-header__pretitle pretitle text-pretitle">Who We Are</h3>
@@ -77,7 +69,7 @@
                 </div>
                 <div class="list-block__text">
                     <p>
-                    고객의 다양한 요구에 부응하기 위해, 감정분석 결과를 시각화하고, 보고서로 제공하는 등의 부가 서비스를 제공
+                    고객의 다양한 요구에 부응하기 위해, 감정분석 결과를 시각화하고, 보고서로 제공하는 등의 부가 서비스를 제공합니다.
                     </p>
                 </div>
             </div> <!-- end list-block__item -->
@@ -167,14 +159,14 @@
                 <div class="column lg-6 stack-on-1100 section-header__secondary">
                     
                     <div class="contact-block">
-                        <h6>Where To Find Us</h6>
+                        <h2>Where To Find Us</h2>
                         <p>
                         서울시 서초구 효령로 335 <br>
                         </p>
                     </div>
     
                     <div class="contact-block">
-                        <h6>Contact Infos</h6>
+                        <h2>Contact Infos</h2>
                         <ul class="contact-list">
                             <li><a href="tel:000-000-0000">+000 000 0000</a></li>
                         </ul>
@@ -182,7 +174,6 @@
     
                 </div>
             </div> <!-- end section-header -->
-        </section>
 
         <div class="row list-block block-lg-one-half block-tab-whole block-stack-on-1000 s-footer__btns">
             <div class="column list-block__item">
@@ -204,6 +195,7 @@
                 </div>
             </div>
         </div> <!-- end s-footer__btns -->
+        </section>
 
         <div class="ss-go-top">
             <a class="smoothscroll" title="Back to Top" href="#top">
