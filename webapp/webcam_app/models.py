@@ -15,14 +15,9 @@ class Counseling(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)
     
-
-    
-    
     def __str__(self): #상담자 
         return self.user.userid+'의고객'+self.customername+'pk'+str(self.pk)
-    
 
-    
     def save(self, *args, **kwargs):
         # 첫 번째로 Counseling 모델을 저장합니다.
         super(Counseling, self).save(*args, **kwargs)
@@ -30,7 +25,6 @@ class Counseling(models.Model):
             detected_emotions = DetectedEmotions(counseling_id=self.pk)
             detected_emotions.save()
 
-    
     class Meta:
         db_table = 'counseling'
         ordering = ['-pk']
@@ -47,7 +41,6 @@ class Videos(models.Model):
         managed=False
         db_table = 'videos'
 
-    
 class DetectedEmotions(models.Model):
     counseling = models.OneToOneField(Counseling, on_delete=models.CASCADE, primary_key=True)
     anger = models.IntegerField(blank=True, null=True)
@@ -57,7 +50,6 @@ class DetectedEmotions(models.Model):
     neutral = models.IntegerField(blank=True, null=True)
     pleasure = models.IntegerField(blank=True, null=True)
     sad = models.IntegerField(blank=True, null=True)
-    
     
     def __str__(self):
         return 'pk:'+str(self.pk)+'의 '+self.counseling.customername+'의 감정'

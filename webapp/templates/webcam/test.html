@@ -3,132 +3,145 @@
     <h1>Realtime Detection</h1>
     {% csrf_token %}
 
-    <video id="clientvideo" width="640px" height="480px" autoplay style="display: none;"></video>
+    <video
+        id="clientvideo"
+        width="640px"
+        height="480px"
+        autoplay
+        style="display: none"
+    ></video>
     <img
-    id="imagevideo"
-    width="480px"
-    height="320px"
-    src="{% static 'img/avatar.png' %}"
-    alt="Video streaming"
+        id="imagevideo"
+        width="480px"
+        height="320px"
+        src="{% static 'img/avatar.png' %}"
+        alt="Video streaming"
     />
     <br />
-    <button id="start-btn">Start</button> <!--for Start socket -->
-    <button id="stop-btn">Stop</button> <!--for stop socket -->
+    <button id="start-btn">Start</button>
+    <!--for Start socket -->
+    <button id="stop-btn">Stop</button>
+    <!--for stop socket -->
     <button
         type="button"
         onclick="location.href='{% url 'webcam:index' %}';"
         id="to_main"
     >
         메인으로
-
-
     </button>
 
     <a
-    class="btn-outline-primary me-2"
-    href="{% url 'account:logout' %}"
-    role="button"
-    >Logout</a>
-<div style="width: 900px; height: 400px">
-    <canvas id="myChart"></canvas>
-</div>
-<div style="width: 600px; height: 400px">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Feelings</th>
-                <th scope="col">Count</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>anger</td>
-                <td id="anger">0</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>anxiety</td>
-                <td id="anxiety">0</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>embarrassed</td>
-                <td id="embarrassed">0</td>
-            </tr>
-            <tr>
-                <th scope="row">4</th>
-                <td>hurt</td>
-                <td id="hurt">0</td>
-            </tr>
-            <tr>
-                <th scope="row">5</th>
-                <td>neutral</td>
-                <td id="neutral">0</td>
-            </tr>
-            <tr>
-                <th scope="row">6</th>
-                <td>pleasure</td>
-                <td id="pleasure">0</td>
-            </tr>
-            <tr>
-                <th scope="row">7</th>
-                <td>sad</td>
-                <td id="sad">0</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        class="btn-outline-primary me-2"
+        href="{% url 'account:logout' %}"
+        role="button"
+        >Logout</a
+    >
+    <div style="width: 900px; height: 400px">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div style="width: 600px; height: 400px">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Feelings</th>
+                    <th scope="col">Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>anger</td>
+                    <td id="anger">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>anxiety</td>
+                    <td id="anxiety">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>embarrassed</td>
+                    <td id="embarrassed">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>hurt</td>
+                    <td id="hurt">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>neutral</td>
+                    <td id="neutral">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>pleasure</td>
+                    <td id="pleasure">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>sad</td>
+                    <td id="sad">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <script>
         const imagevideo = document.getElementById('imagevideo');
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
         const clientvideo = document.getElementById('clientvideo');
-        const anger= document.getElementById('anger')
-        const anxiety= document.getElementById('anxiety')
-        const embarrassed= document.getElementById('embarrassed')
-        const hurt= document.getElementById('hurt')
-        const neutral= document.getElementById('neutral')
-        const pleasure= document.getElementById('pleasure')
-        const sad= document.getElementById('sad')
+        const anger = document.getElementById('anger');
+        const anxiety = document.getElementById('anxiety');
+        const embarrassed = document.getElementById('embarrassed');
+        const hurt = document.getElementById('hurt');
+        const neutral = document.getElementById('neutral');
+        const pleasure = document.getElementById('pleasure');
+        const sad = document.getElementById('sad');
 
-        let chartdata=[]
-        var context = document
-        .getElementById('myChart')
-        .getContext('2d');
+        let chartdata = [];
+        var context = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(context, {
-        type: 'bar', // 차트의 형태
-        data: { // 차트에 들어갈 데이터
-            labels: [
-                //x 축
-                'anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'
-            ],
-            datasets: [
-                { //데이터
-                    label: '감정차트', //차트 제목
-                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-                    data:[0,0,0,0,0,0,0] ,
-                    backgroundColor: [
-                        //색상
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        //경계선 색상
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1 //경계선 굵기
-                }/* ,
+            type: 'bar', // 차트의 형태
+            data: {
+                // 차트에 들어갈 데이터
+                labels: [
+                    //x 축
+                    'anger',
+                    'anxiety',
+                    'embarrassed',
+                    'hurt',
+                    'neutral',
+                    'pleasure',
+                    'sad',
+                ],
+                datasets: [
+                    {
+                        //데이터
+                        label: '감정차트', //차트 제목
+                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            //색상
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                        ],
+                        borderColor: [
+                            //경계선 색상
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                        ],
+                        borderWidth: 1, //경계선 굵기
+                    } /* ,
                 {
                     label: 'test2',
                     fill: false,
@@ -137,27 +150,26 @@
                     ],
                     backgroundColor: 'rgb(157, 109, 12)',
                     borderColor: 'rgb(157, 109, 12)'
-                } */
-            ]
-        },
-        options: {
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                ]
-            }
-        }
-        }); 
-    
-    
+                } */,
+                ],
+            },
+            options: {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                        },
+                    ],
+                },
+            },
+        });
 
         function startWebcam() {
             if (navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
+                navigator.mediaDevices
+                    .getUserMedia({ video: true })
                     .then(function (stream) {
                         clientvideo.srcObject = stream;
                     })
@@ -170,18 +182,16 @@
         function stopWebcam() {
             let stream = clientvideo.srcObject;
             let tracks = stream.getTracks();
-        
-            tracks.forEach(function(track) {
+
+            tracks.forEach(function (track) {
                 track.stop();
             });
-        
+
             clientvideo.srcObject = null;
         }
 
-
-
-        function captureFrame(){
-            const canvas = document.createElement("canvas");
+        function captureFrame() {
+            const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = clientvideo.videoWidth;
             canvas.height = clientvideo.videoHeight;
@@ -190,122 +200,104 @@
             return imgData;
         }
 
-        function sendFrameToServer(){
+        function sendFrameToServer() {
             const imgData = captureFrame();
-            const data = {'image': imgData};
+            const data = { image: imgData };
             socket.send(JSON.stringify(data));
         }
 
-
-
-
         let socket;
         function createWebSocket(counselingId) {
-            let socketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-            let socketUrl = socketProtocol + window.location.host + '/ws/video/' + counselingId + '/';
+            let socketProtocol =
+                window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            let socketUrl =
+                socketProtocol +
+                window.location.host +
+                '/ws/video/' +
+                counselingId +
+                '/';
             socket = new WebSocket(socketUrl);
 
-            socket.onopen = function(event) {
+            socket.onopen = function (event) {
                 console.log('WebSocket opened:', event);
             };
 
-            socket.onclose = function(event) {
+            socket.onclose = function (event) {
                 console.log('WebSocket closed:', event);
                 if (!event.wasClean) {
-                setTimeout(createWebSocket(counselingId), 1000);
+                    setTimeout(createWebSocket(counselingId), 1000);
                 }
             };
-            
-            socket.onmessage = async function(event) {
-                console.log("something is comming");
+
+            socket.onmessage = async function (event) {
+                console.log('something is comming');
                 const data = JSON.parse(event.data);
                 const imageBase64 = data['image'];
                 const feelings = data['feelings'];
-                console.log(feelings)
-                anger.innerText= feelings['anger'];
-                anxiety.innerText= feelings['anxiety'];
-                embarrassed.innerText= feelings['embarrassed'];
-                hurt.innerText= feelings['hurt'];
-                neutral.innerText= feelings['neutral'];
-                pleasure.innerText= feelings['pleasure'];
-                sad.innerText= feelings['sad'];
+                console.log(feelings);
+                anger.innerText = feelings['anger'];
+                anxiety.innerText = feelings['anxiety'];
+                embarrassed.innerText = feelings['embarrassed'];
+                hurt.innerText = feelings['hurt'];
+                neutral.innerText = feelings['neutral'];
+                pleasure.innerText = feelings['pleasure'];
+                sad.innerText = feelings['sad'];
                 const chartdata = [
-                parseInt(feelings['anger']),
-                parseInt(feelings['anxiety']),
-                parseInt(feelings['embarrassed']),
-                parseInt(feelings['hurt']),
-                parseInt(feelings['neutral']),
-                parseInt(feelings['pleasure']),
-                parseInt(feelings['sad']),
-        
-            ];
+                    parseInt(feelings['anger']),
+                    parseInt(feelings['anxiety']),
+                    parseInt(feelings['embarrassed']),
+                    parseInt(feelings['hurt']),
+                    parseInt(feelings['neutral']),
+                    parseInt(feelings['pleasure']),
+                    parseInt(feelings['sad']),
+                ];
                 myChart.data.datasets[0].data = chartdata;
-                myChart.update();  
-    
-                imagevideo.src='data:image/jpeg;base64,'+imageBase64
-       
+                myChart.update();
 
+                imagevideo.src = 'data:image/jpeg;base64,' + imageBase64;
             };
-
-        };
+        }
         startBtn.addEventListener('click', () => {
-            const data= {'message':'start'}
+            const data = { message: 'start' };
             if (!socket || socket.readyState != WebSocket.OPEN) {
-                console.log("start_btn_on");
+                console.log('start_btn_on');
                 createWebSocket(counselingId);
-                startWebcam()
+                startWebcam();
                 setTimeout(() => {
                     socket.send(JSON.stringify(data));
-                    sendInterval = setInterval(sendFrameToServer,200);
-                    }, 800);
-
-
-
-        
+                    sendInterval = setInterval(sendFrameToServer, 200);
+                }, 800);
             }
             if (socket.readyState === WebSocket.OPEN) {
                 startWebcam();
                 setTimeout(() => {
                     socket.send(JSON.stringify(data));
-                    sendInterval = setInterval(sendFrameToServer, 200)
-                    }, 500);
-
-
+                    sendInterval = setInterval(sendFrameToServer, 200);
+                }, 500);
             }
-            
-            });
+        });
 
+        stopBtn.addEventListener('click', () => {
+            if (socket.readyState === WebSocket.OPEN) {
+                clearInterval(sendInterval);
+                stopWebcam();
+                const data = { message: 'stop' };
 
-            stopBtn.addEventListener('click', () => {
-                if (socket.readyState === WebSocket.OPEN) {
-                  clearInterval(sendInterval);
-                  stopWebcam();
-                  const data = {'message': 'stop'};
-                  
-                  setTimeout(() => {
+                setTimeout(() => {
                     socket.send(JSON.stringify(data));
                     socket.close(1000);
-                    }, 500);
-  
-                }
-              });
+                }, 500);
+            }
+        });
 
-
-   
-    
-        
-
-        
-
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             if (socket && socket.readyState === WebSocket.OPEN) {
                 socket.close(1000);
             }
-            };
+        };
 
         let counselingId = '{{ counseling.pk }}';
         console.log(counselingId);
-
-
     </script>
     {% endblock %}
+</div>

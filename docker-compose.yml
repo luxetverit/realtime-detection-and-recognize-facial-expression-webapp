@@ -12,7 +12,6 @@ services:
             - web
         networks:
             - net
-
     web:
         build:
             context: ./webapp
@@ -24,9 +23,6 @@ services:
             - ./etc/docker.service:/etc/systemd/system/docker.service
             - ./etc/daphne.socket:/etc/systemd/system/daphne.socket
             - ./etc/daphne.service:/etc/systemd/system/daphne.service
-
-
-
         expose:
             - '8000'
         networks:
