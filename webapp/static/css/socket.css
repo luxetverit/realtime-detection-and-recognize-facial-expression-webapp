@@ -1,19 +1,26 @@
-/* 웹에서 오른쪽 정렬 */
+
 @media only screen and (min-width: 768px) {
-    .emotion-chart {
+.detection {
+    width: 50vw;
+}
+}
+/* 웹에서 오른쪽 정렬 */
+/* @media only screen and (min-width: 768px) {
+    .emotion-table {
         float: right;
         display: flex;
         justify-content: flex-end;
-        width: 40vw; height: 30vw;
+        width: 40vw; height: 25vw; 
         position: absolute;
-        top: 13vw;
+        top: 15vw;
         right: 15vw;
+        font-size: 1vw;
     }
-}
+} */
   
 /* 모바일에서 아래 정렬 */
 @media only screen and (max-width: 767px) {
-    .emotion-chart {
+    .emotion-table {
         display: block;
         margin: auto;
     }
@@ -21,17 +28,19 @@
 
 
 @media only screen and (min-width: 768px) {
-    .emotion-table {
-        float: right;
-        width: 40vw; height: 30vw;
-        position: absolute;
-        top: 35vw;
-        right: 15vw;
+    .emotion-chart {
+        /* float: center; */
+        width: 80vw; height: 40vw;
+        /* position: absolute; */
+        bottom: 0;
+        margin: auto;
+        left: 0;
+        right: 0;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .emotion-table {
+    .emotion-chart {
         display: block;
         margin: auto;
     }
