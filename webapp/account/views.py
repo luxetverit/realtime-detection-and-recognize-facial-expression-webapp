@@ -8,6 +8,11 @@ from django.contrib.auth import logout, login, authenticate, get_user_model
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetView
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
+
 # 로그인
 def login_view(request):
     # 주소를 입력해서 들어오는 경우
@@ -65,8 +70,7 @@ def password(request):
 
 
 
-class PasswordResetView(PasswordResetView):
-    from_email = 'emoai@emo-ai.com'
+
     
  
 
