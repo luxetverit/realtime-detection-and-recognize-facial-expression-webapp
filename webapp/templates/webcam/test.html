@@ -1,0 +1,325 @@
+{% extends 'base.html' %} 
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/socket.css' %}">
+
+{% block content %}
+<div class="container-fluid m-2">
+    <h3>Realtime Detection</h3>
+    {% csrf_token %}
+    <!-- video, table을 하나의 div 안에 집어넣고 flex로 나란히 정렬 -->
+    <div class="row d-flex">
+        <div class="col detection p-2 flex-grow-1">
+            <video id="clientvideo" width="640px" height="480px" autoplay style="display: none;"></video>
+            <img
+            id="imagevideo"
+            width="480px"
+            height="320px"
+            src="{% static 'img/avatar.png' %}"
+            alt="Video streaming"
+            />
+            <!-- button들도 하나의 div 안에 집어넣고 m(margin), p(padding)으로 정렬 -->
+            <div class="d-flex justify-content-evenly m-4 p-4">
+                <button id="start-btn">Start</button> <!--for Start socket -->
+                <button id="stop-btn">Stop</button> <!--for stop socket -->
+                <button
+                    type="button"
+                    onclick="location.href='{% url 'webcam:index' %}';"
+                    id="to_main"
+                >
+                    메인으로</button>
+
+                <a
+                class="btn-outline-primary me-2"
+                href="{% url 'account:logout' %}"
+                role="button"
+                >Logout</a>
+            </div>
+        </div>
+        <!-- 테이블을 별도의 div안에 집어넣고 -->
+        <div class="col emotion-table m-4 p-2">
+            <!-- 위 div 사이즈에 크기를 맞추도록 responsive, h-100, 정렬은 중앙 정렬로 변경 -->
+            <table class="table table-responsive align-middle h-100">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Feelings</th>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>anger</td>
+                        <td id="anger">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>anxiety</td>
+                        <td id="anxiety">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>embarrassed</td>
+                        <td id="embarrassed">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>hurt</td>
+                        <td id="hurt">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>neutral</td>
+                        <td id="neutral">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>pleasure</td>
+                        <td id="pleasure">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>sad</td>
+                        <td id="sad">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="row emotion-chart">
+        <canvas id="myChart"></canvas>
+    </div>
+
+</div>
+
+    <script>
+        const imagevideo = document.getElementById('imagevideo');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const clientvideo = document.getElementById('clientvideo');
+        const anger= document.getElementById('anger')
+        const anxiety= document.getElementById('anxiety')
+        const embarrassed= document.getElementById('embarrassed')
+        const hurt= document.getElementById('hurt')
+        const neutral= document.getElementById('neutral')
+        const pleasure= document.getElementById('pleasure')
+        const sad= document.getElementById('sad')
+
+        let chartdata=[]
+        var context = document
+        .getElementById('myChart')
+        .getContext('2d');
+        var myChart = new Chart(context, {
+        type: 'bar', // 차트의 형태
+        data: { // 차트에 들어갈 데이터
+            labels: [
+                //x 축
+                'anger','anxiety','embarrassed','hurt','neutral','pleasure','sad'
+            ],
+            datasets: [
+                { //데이터
+                    label: '감정차트', //차트 제목
+                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                    data:[0,0,0,0,0,0,0] ,
+                    backgroundColor: [
+                        //색상
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        //경계선 색상
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1 //경계선 굵기
+                }/* ,
+                {
+                    label: 'test2',
+                    fill: false,
+                    data: [
+                        8, 34, 12, 24
+                    ],
+                    backgroundColor: 'rgb(157, 109, 12)',
+                    borderColor: 'rgb(157, 109, 12)'
+                } */
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
+        }); 
+    
+    
+
+        function startWebcam() {
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        clientvideo.srcObject = stream;
+                    })
+                    .catch(function (error) {
+                        console.log('webcam error: ', error);
+                    });
+            }
+        }
+
+        function stopWebcam() {
+            let stream = clientvideo.srcObject;
+            let tracks = stream.getTracks();
+        
+            tracks.forEach(function(track) {
+                track.stop();
+            });
+        
+            clientvideo.srcObject = null;
+        }
+
+
+
+        function captureFrame(){
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext('2d');
+            canvas.width = clientvideo.videoWidth;
+            canvas.height = clientvideo.videoHeight;
+            context.drawImage(clientvideo, 0, 0, canvas.width, canvas.height);
+            const imgData = canvas.toDataURL('image/jpeg');
+            return imgData;
+        }
+
+        function sendFrameToServer(){
+            const imgData = captureFrame();
+            const data = {'image': imgData};
+            socket.send(JSON.stringify(data));
+        }
+
+
+
+
+        let socket;
+        function createWebSocket(counselingId) {
+            let socketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            let socketUrl = socketProtocol + window.location.host + '/ws/video/' + counselingId + '/';
+            socket = new WebSocket(socketUrl);
+
+            socket.onopen = function(event) {
+                console.log('WebSocket opened:', event);
+            };
+
+            socket.onclose = function(event) {
+                console.log('WebSocket closed:', event);
+                if (!event.wasClean) {
+                setTimeout(createWebSocket(counselingId), 1000);
+                }
+            };
+            
+            socket.onmessage = async function(event) {
+                console.log("something is comming");
+                const data = JSON.parse(event.data);
+                const imageBase64 = data['image'];
+                const feelings = data['feelings'];
+                console.log(feelings)
+                anger.innerText= feelings['anger'];
+                anxiety.innerText= feelings['anxiety'];
+                embarrassed.innerText= feelings['embarrassed'];
+                hurt.innerText= feelings['hurt'];
+                neutral.innerText= feelings['neutral'];
+                pleasure.innerText= feelings['pleasure'];
+                sad.innerText= feelings['sad'];
+                const chartdata = [
+                parseInt(feelings['anger']),
+                parseInt(feelings['anxiety']),
+                parseInt(feelings['embarrassed']),
+                parseInt(feelings['hurt']),
+                parseInt(feelings['neutral']),
+                parseInt(feelings['pleasure']),
+                parseInt(feelings['sad']),
+        
+            ];
+                myChart.data.datasets[0].data = chartdata;
+                myChart.update();  
+    
+                imagevideo.src='data:image/jpeg;base64,'+imageBase64
+       
+
+            };
+
+        };
+        startBtn.addEventListener('click', () => {
+            const data= {'message':'start'}
+            if (!socket || socket.readyState != WebSocket.OPEN) {
+                console.log("start_btn_on");
+                createWebSocket(counselingId);
+                startWebcam()
+                setTimeout(() => {
+                    socket.send(JSON.stringify(data));
+                    sendInterval = setInterval(sendFrameToServer,200);
+                    }, 800);
+
+
+
+        
+            }
+            if (socket.readyState === WebSocket.OPEN) {
+                startWebcam();
+                setTimeout(() => {
+                    socket.send(JSON.stringify(data));
+                    sendInterval = setInterval(sendFrameToServer, 200)
+                    }, 500);
+
+
+            }
+            
+            });
+
+
+            stopBtn.addEventListener('click', () => {
+                if (socket.readyState === WebSocket.OPEN) {
+                  clearInterval(sendInterval);
+                  stopWebcam();
+                  const data = {'message': 'stop'};
+                  
+                  setTimeout(() => {
+                    socket.send(JSON.stringify(data));
+                    socket.close(1000);
+                    }, 500);
+  
+                }
+              });
+
+
+   
+    
+        
+
+        
+
+        window.onbeforeunload = function() {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.close(1000);
+            }
+            };
+
+        let counselingId = '{{ counseling.pk }}';
+        console.log(counselingId);
+
+
+    </script>
+    {% endblock %}
