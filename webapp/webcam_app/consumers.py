@@ -82,13 +82,15 @@ def cam_return():
             video_capture=cv2.VideoCapture(cv2.CAP_ANY,cv2.CAP_V4L2)
             return video_capture
 
-feelings=[]
 class ImageConsumer(AsyncWebsocketConsumer):
+    
+    
     async def connect(self):
         self.pk = self.scope['url_route']['kwargs']['counseling_id']
         self.feelcount=''
         self.counseling = await get_counseling_object_or_404(self.pk)
         self.detected_emotions = await get_detectdedemotions_object_or_404(self.pk)
+        self.feelings=[]
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -151,14 +153,14 @@ class ImageConsumer(AsyncWebsocketConsumer):
             draw_bounding_box(frame, class_ids[index], scores[index], round(box[0] * scale), round(box[1] * scale),
                             round((box[0] + box[2]) * scale), round((box[1] + box[3]) * scale))
 
-            feelings.append(detection['class_name'])
+            self.feelings.append(detection['class_name'])
             
         resized=cv2.resize(frame,dsize=(480, 320),interpolation=cv2.INTER_AREA)
             
         # success, image = cv2.imencode('.jpg', resized) #비동기 1
         
         
-        feelcount=Counter(feelings)
+        feelcount=Counter(self.feelings)
         
         with concurrent.futures.ThreadPoolExecutor() as executor: #비동기 2
             _, image = await asyncio.get_event_loop().run_in_executor(executor, cv2.imencode, '.jpg', resized)     
