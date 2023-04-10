@@ -1,3 +1,5 @@
+# README 작성좀
+
 # 🍃 realtime-detection-and-recognize-facial-expression
 
 ###   🗓️ 기간 : 23.03.13~23.04.07
