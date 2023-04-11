@@ -237,7 +237,6 @@
             };
 
             socket.onmessage = async function (event) {
-                console.log('something is comming');
                 const data = JSON.parse(event.data);
                 const imageBase64 = data['image'];
                 const feelings = data['feelings'];
@@ -289,10 +288,11 @@
                 clearInterval(sendInterval);
                 stopWebcam();
                 const data = { message: 'stop' };
+                socket.send(JSON.stringify(data));
+                socket.close(1000);
 
                 setTimeout(() => {
-                    socket.send(JSON.stringify(data));
-                    socket.close(1000);
+
                 }, 500);
             }
         });
@@ -304,7 +304,6 @@
         };
 
         let counselingId = '{{ counseling.pk }}';
-        console.log(counselingId);
     </script>
     {% endblock %}
 </div>
