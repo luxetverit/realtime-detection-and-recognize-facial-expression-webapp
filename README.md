@@ -29,7 +29,7 @@
 ### 기술스택
   - front & backend : Django, bootstrap, css, html, javascript (이재영, 전현준, 정제경, 주한솔)  
   - machine learning : python, pytorch, yolo-v8, opencv (남정우, 최세현)  
-  - architecture : aws ec2, aws alb, aws rds, aws acm, aws route53, nginx, daphne, mysql, docker
+  - architecture : aws ec2, aws alb, aws rds, aws acm, aws route53, nginx, daphne, mysql, docker (남정우)
 
 # 팀원
 - 남정우, 이재영, 정제경, 전현준, 주한솔, 최세현
