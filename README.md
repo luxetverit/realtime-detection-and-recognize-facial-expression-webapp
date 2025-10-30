@@ -20,7 +20,6 @@
   - 실시간 서비스를 위한 모델 최적화
   - RESTful API 설계
   - 확장가능한 설계
-  - 
   
 ### Dataset Google Drive
 - https://drive.google.com/drive/folders/1heKfk2ZYwuIufBKBLUPeWKkb6RhMJmGi?usp=share_link
